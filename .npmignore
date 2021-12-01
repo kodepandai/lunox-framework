@@ -1,0 +1,10 @@
+node_modules/
+src/
+.chglog/
+.eslintignore
+.eslintrc.cjs
+.prettierignore
+global.d.ts
+pnpm-lock.yaml
+rollup.config.ts
+tsconfig.json

@@ -1,0 +1,66 @@
+{
+  "name": "lunox",
+  "version": "0.0.1",
+  "description": "Laravel-Flavoured NodeJs framework",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "files": [
+    "dist/*",
+    "helpers.d.ts"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && NODE_ENV='production' rollup -c",
+    "dev": "rollup -cw & nodemon -q -w dist --es-module-specifier-resolution=node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "prettier --check --plugin-search-dir=. . && eslint .",
+    "prettier": "prettier --write --plugin-search-dir=. .",
+    "format": "npm run prettier && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kodepintar/laranode.git"
+  },
+  "keywords": [
+    "laravel",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kodepintar/laranode/issues"
+  },
+  "homepage": "https://github.com/kodepintar/laranode#readme",
+  "dependencies": {
+    "@slynova/flydrive": "^1.0.3",
+    "@slynova/flydrive-s3": "^1.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "formidable": "^2.0.1",
+    "node-input-validator": "^5.0.0-beta.3",
+    "polka": "^1.0.0-next.22",
+    "sirv": "^1.0.18"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
+    "@types/cors": "^2.8.12",
+    "@types/formidable": "^2.0.0",
+    "@types/node": "^16.11.7",
+    "@types/polka": "^0.5.3",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "eslint": "^8.2.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.4.1",
+    "rollup": "^2.60.1",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-multi-input": "^1.3.1",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-svelte": "^7.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "svelte": "^3.44.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.2",
+    "vite": "^2.6.14"
+  },
+  "type": "module"
+}
