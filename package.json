@@ -1,6 +1,6 @@
 {
   "name": "lunox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Laravel-Flavoured NodeJs framework",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
