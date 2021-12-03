@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.0.3"></a>
+## [v0.0.3] - 2021-12-03
+### Bug Fixes
+- **view:** fix vite entry server and ssr render
+
+
 <a name="v0.0.2"></a>
 ## [v0.0.2] - 2021-12-01
 ### Bug Fixes
@@ -14,5 +20,6 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.0.3...HEAD
+[v0.0.3]: https://github.com/kodepintar/lunox-framework/compare/v0.0.2...v0.0.3
 [v0.0.2]: https://github.com/kodepintar/lunox-framework/compare/v0.0.1...v0.0.2
