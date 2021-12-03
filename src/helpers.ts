@@ -30,13 +30,26 @@ global.view = async (_path, data: ObjectOf<any> = {}) => {
     const vite = app<ViteDevServer>("vite");
     template = fs.readFileSync(base_path("../index.html"), "utf-8");
     template = await vite.transformIndexHtml(url, template);
-    render = (await vite.ssrLoadModule("lunox/dist/entry-server")).render;
+    render = (await vite.ssrLoadModule(base_path("entry-server"))).render;
   } else {
     template = fs.readFileSync(base_path("client/index.html"), "utf-8");
-    render = (await import("./entry-server")).render;
+    render = (await import(base_path("server/entry-server"))).render;
   }
   const context = { view: _path, ...data };
-  const appHtml = await render(url, context);
+  let rendered = false;
+  let appHtml;
+  while (!rendered) {
+    try {
+      appHtml = await render(_path, context);
+      rendered = true;
+    } catch (error) {
+      if(error instanceof Error && error.message == "Cannot read property 'default' of null"){
+        // I don't know, just rerender and it will be fine
+      } else {
+        throw error;
+      }
+    }
+  }
   const html = template
     .replace("<!--app-html-->", appHtml.html)
     .replace("<!--app-head-->", appHtml.head)

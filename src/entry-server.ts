@@ -1,12 +1,11 @@
-export const render = async (url: any, props: any) => {
-  let View;
-  if (process.env.NODE_ENV == "production") {
-    View = (await import(base_path("/server/app/resources/view/" + props.view)))
-      .default;
-  } else {
-    View = (
-      await import(base_path(`../app/resources/view/${props.view}.svelte`))
-    ).default;
-  }
-  return View.render(props);
+export const makeRender = (modules:any, viewPath:string)=>async (url: any, props: any) => {
+  let View:any = null;
+  await Promise.all(
+    Object.keys(modules).map(async (m) => {
+      if (m == `${viewPath}/${url}.svelte`) {
+        View = (await modules[m]()).default;
+      }
+    })
+  );
+  return await View.render(props);
 };
