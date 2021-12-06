@@ -1,10 +1,16 @@
 import { program } from "commander";
 import { blue, greenBright, blueBright, green, yellowBright } from "colorette";
-import { bundleTs, buildServer, buildClient, watch, serve } from "./commands/build";
+import {
+  bundleTs,
+  buildServer,
+  buildClient,
+  watch,
+  serve,
+} from "./commands/build";
 import { tryCommand, runCommand } from "./commands/runner";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const VERSION = greenBright((require("../package.json").version));
+const VERSION = greenBright(require("../package.json").version);
 program.version(blue("Lunox Framework ") + "version " + VERSION);
 program.alias("artisan");
 program.description("Laravel-Flavoured NodeJs framework");
@@ -38,15 +44,20 @@ program
     });
   });
 
-program.command("serve")
+program
+  .command("serve")
   .description("serve lunox application for production")
-  .action(async ()=>{
+  .action(async () => {
     try {
       console.log(blueBright("serving application..."));
       await serve();
     } catch (error) {
-      if((error as unknown as string).includes("ENOENT")){
-        console.log(yellowBright("Oops, cannot serving application. Are you forget to build your application?"));
+      if ((error as unknown as string).includes("ENOENT")) {
+        console.log(
+          yellowBright(
+            "Oops, cannot serving application. Are you forget to build your application?"
+          )
+        );
       }
     }
   });

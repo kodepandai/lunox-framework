@@ -1,6 +1,6 @@
 import { greenBright, red, yellowBright } from "colorette";
 import { spawn } from "child_process";
-const runCommand = (command: string, watch=false) => {
+const runCommand = (command: string, watch = false) => {
   const child = spawn(command, {
     shell: true,
   });
@@ -12,14 +12,14 @@ const runCommand = (command: string, watch=false) => {
     child.stderr.setEncoding("utf-8");
     child.stdout.setEncoding("utf-8");
     child.stdout.on("data", (data) => {
-      if(watch){
+      if (watch) {
         console.log(greenBright(data));
       }
       stdout += data;
     });
 
     child.stderr.on("data", (data) => {
-      if(watch){
+      if (watch) {
         console.log(yellowBright(data));
       }
       stderr += data;
@@ -48,4 +48,4 @@ const tryCommand = async (name: string, run: () => Promise<void>) => {
   }
 };
 
-export { runCommand, tryCommand};
+export { runCommand, tryCommand };

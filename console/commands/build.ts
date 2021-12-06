@@ -12,9 +12,14 @@ const buildClient = () =>
 
 const watch = () =>
   runCommand(
-    "rollup -cw & nodemon -q -w dist --es-module-specifier-resolution=node dist/index.js", true
+    "rollup -cw & nodemon -q -w dist --es-module-specifier-resolution=node dist/index.js",
+    true
   );
 
-const serve = ()=> runCommand("NODE_ENV=production node --es-module-specifier-resolution=node dist/index.js", true);
+const serve = () =>
+  runCommand(
+    "NODE_ENV=production node --es-module-specifier-resolution=node dist/index.js",
+    true
+  );
 
 export { bundleTs, buildServer, buildClient, watch, serve };

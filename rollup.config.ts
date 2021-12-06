@@ -17,7 +17,11 @@ export default [
       dir: "dist",
       format: "esm",
     },
-    plugins: [multi(), ts({ declaration: true, rootDir: "src" }), production && terser()],
+    plugins: [
+      multi(),
+      ts({ declaration: true, rootDir: "src" }),
+      production && terser(),
+    ],
     external: [
       "path",
       "url",
@@ -42,7 +46,7 @@ export default [
     },
     plugins: [
       json(),
-      ts({outDir: "bin", declaration: false, rootDir: "console"}),
+      ts({ outDir: "bin", declaration: false, rootDir: "console" }),
       production && terser(),
     ],
     external: ["commander", "colorette", "child_process"],
