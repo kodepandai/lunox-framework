@@ -43,7 +43,10 @@ global.view = async (_path, data: ObjectOf<any> = {}) => {
       appHtml = await render(_path, context);
       rendered = true;
     } catch (error) {
-      if(error instanceof Error && error.message == "Cannot read property 'default' of null"){
+      if (
+        error instanceof Error &&
+        error.message == "Cannot read property 'default' of null"
+      ) {
         // I don't know, just rerender and it will be fine
       } else {
         throw error;

@@ -1,6 +1,7 @@
 import multi from "rollup-plugin-multi-input";
 import { terser } from "rollup-plugin-terser";
 import ts from "@rollup/plugin-typescript";
+import json from "@rollup/plugin-json";
 
 const production = process.env.NODE_ENV == "production";
 export default [
@@ -16,7 +17,7 @@ export default [
       dir: "dist",
       format: "esm",
     },
-    plugins: [multi(), ts({ declaration: true }), production && terser()],
+    plugins: [multi(), ts({ declaration: true, rootDir: "src" }), production && terser()],
     external: [
       "path",
       "url",
@@ -32,5 +33,18 @@ export default [
       "@slynova/flydrive-s3",
       "formidable",
     ],
+  },
+  {
+    input: "console/lunox.ts",
+    output: {
+      file: "bin/lunox.cjs",
+      format: "cjs",
+    },
+    plugins: [
+      json(),
+      ts({outDir: "bin", declaration: false, rootDir: "console"}),
+      production && terser(),
+    ],
+    external: ["commander", "colorette", "child_process"],
   },
 ];
