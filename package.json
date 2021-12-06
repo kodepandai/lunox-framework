@@ -27,9 +27,17 @@
   },
   "keywords": [
     "laravel",
-    "nodejs"
+    "nodejs",
+    "lunox",
+    "polka",
+    "svelte",
+    "mvc"
   ],
-  "author": "",
+  "author": {
+    "name": "Akhmad Salafudin",
+    "email": "axmad386@gmail.com",
+    "url": "https://github.com/axmad386"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kodepintar/lunox-framework/issues"
