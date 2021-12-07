@@ -83,6 +83,10 @@ class DatabaseManager {
   public async table(table: string) {
     return this.db(table);
   }
+
+  public getDriver(){
+    return this.driver;
+  }
 }
 
 export default DatabaseManager;

@@ -12,7 +12,6 @@ import { tryCommand, runCommand } from "./commands/runner";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const VERSION = greenBright(require("../package.json").version);
 program.version(blue("Lunox Framework ") + "version " + VERSION);
-program.alias("artisan");
 program.description("Laravel-Flavoured NodeJs framework");
 program.showHelpAfterError(true);
 

@@ -8,3 +8,4 @@ export * from "./Support";
 export * from "./Support/Facades";
 export * from "./Validation";
 export * from "./Database";
+export * from "./Console";

@@ -18,8 +18,9 @@ export default [
       format: "esm",
     },
     plugins: [
+      json(),
       multi(),
-      ts({ declaration: true, rootDir: "src" }),
+      ts({ declaration: true, rootDir: "src"}),
       production && terser(),
     ],
     external: [
@@ -36,6 +37,11 @@ export default [
       "@slynova/flydrive",
       "@slynova/flydrive-s3",
       "formidable",
+      "commander",
+      "colorette",
+      "process",
+      "child_process",
+      "knex"
     ],
   },
   {

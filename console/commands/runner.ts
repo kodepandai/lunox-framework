@@ -1,5 +1,6 @@
-import { greenBright, red, yellowBright } from "colorette";
+import { bold, greenBright, red, yellowBright } from "colorette";
 import { spawn } from "child_process";
+
 const runCommand = (command: string, watch = false) => {
   const child = spawn(command, {
     shell: true,
@@ -44,7 +45,7 @@ const tryCommand = async (name: string, run: () => Promise<void>) => {
   try {
     await run();
   } catch (error) {
-    console.log(red(name + " failed"));
+    console.log(bold(yellowBright(name + " failed")));
   }
 };
 
