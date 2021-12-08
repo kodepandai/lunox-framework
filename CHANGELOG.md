@@ -2,6 +2,18 @@
 ## [Unreleased]
 
 
+<a name="v0.2.0"></a>
+## [v0.2.0] - 2021-12-08
+### Features
+- **database:** database manager and artisan migrate command ([#1](https://github.com/kodepintar/lunox-framework/issues/1))
+
+
+<a name="v0.1.0"></a>
+## [v0.1.0] - 2021-12-06
+### Features
+- **console:** add lunox cli as artisan command
+
+
 <a name="v0.0.3"></a>
 ## [v0.0.3] - 2021-12-03
 ### Bug Fixes
@@ -20,6 +32,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.2.0...HEAD
+[v0.2.0]: https://github.com/kodepintar/lunox-framework/compare/v0.1.0...v0.2.0
+[v0.1.0]: https://github.com/kodepintar/lunox-framework/compare/v0.0.3...v0.1.0
 [v0.0.3]: https://github.com/kodepintar/lunox-framework/compare/v0.0.2...v0.0.3
 [v0.0.2]: https://github.com/kodepintar/lunox-framework/compare/v0.0.1...v0.0.2
