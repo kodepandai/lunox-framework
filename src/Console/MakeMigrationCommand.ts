@@ -1,3 +1,4 @@
+import DB from "../Support/Facades/DB";
 import Command from "./Command";
 
 class MakeMigrationCommand extends Command {
@@ -8,8 +9,8 @@ class MakeMigrationCommand extends Command {
 
   public async handle(){
     this.info("making migration...");
-    console.log(this.options());
-    // this.shellExec(`knex migrate:make ${this.args} `)
+    await DB.getDb().migrate.make(this.argument("migration_name"));
+    this.comment(`created migration file ${this.argument("migration_name")}`);
     return this.SUCCESS;
   }
 }

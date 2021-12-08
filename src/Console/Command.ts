@@ -91,7 +91,7 @@ class Command {
       child.stdout.setEncoding("utf-8");
       child.stdout.on("data", (data) => {
         if (watch) {
-          this.info(data);
+          this.line(data);
         }
         stdout += data;
       });
@@ -105,7 +105,11 @@ class Command {
   
       child.on("close", (code) => {
         if (code === 0) {
-          this.info(stdout);
+          const messages = stdout.split("\n"); 
+          if(messages[messages.length-1]==""){
+            messages.pop();
+          }
+          this.line(messages.join("\n"));
           ok();
         } else {
           this.error(stderr);

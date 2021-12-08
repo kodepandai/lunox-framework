@@ -15,6 +15,10 @@ import { blue } from "colorette";
 import { exit } from "process";
 import MakeMigrationCommand from "./MakeMigrationCommand";
 import type { ObjectOf } from "src";
+import RunMigrationCommand from "./RunMigrationCommand";
+import RollbackMigrationCommand from "./RollbackMigrationCommand";
+import ResetMigrationCommand from "./ResetMigrationCommand";
+import RefreshMigrationCommand from "./RefreshMigrationCommand";
 
 class Kernel {
 
@@ -55,7 +59,11 @@ class Kernel {
    */
   protected async builtinCommands(){
     const commands = [
-      MakeMigrationCommand
+      MakeMigrationCommand,
+      RunMigrationCommand,
+      RollbackMigrationCommand,
+      ResetMigrationCommand,
+      RefreshMigrationCommand
     ];
     await Promise.all(commands.map(c=>{
       const commandInstance = new c();
@@ -99,7 +107,7 @@ class Kernel {
 
         const argKeys = args.filter(a=>!a.startsWith("--")).map(a=>a.replace("?", ""));
         const inputArgs = _program.args.reduce((p,c,i)=>{
-          p[argKeys[i]] = c;
+          p[argKeys[i].split(" : ")[0]] = c;
           return p;
         },{} as ObjectOf<string>);
         

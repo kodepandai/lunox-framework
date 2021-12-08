@@ -1,13 +1,14 @@
 import type { ObjectOf } from "../Types";
-import type Repository from "src/Config/Repository";
-import type { Configuration } from "src/Contracts/Database";
+import type Repository from "../Config/Repository";
+import type { Configuration } from "../Contracts/Database";
 import type Application from "../Foundation/Application";
+import type { Knex } from "knex";
 
 class DatabaseManager {
   protected app: Application;
   protected config: ObjectOf<any> = {};
   protected driver: any;
-  protected db: any;
+  protected db!: Knex;
 
   constructor(app: Application) {
     this.app = app;
@@ -43,7 +44,7 @@ class DatabaseManager {
    */
   public async bootDriver() {
     const client = this.getDefaultConnection();
-    if (this.isUsingKnex(client)) {
+    if (this.isUsingKnex()) {
       this.driver = (await import("knex")).default;
     } else {
       // TODO: implement mongodb based driver
@@ -70,18 +71,30 @@ class DatabaseManager {
         password: config.password,
         database: config.database,
       },
+      migrations: {
+        tableName: "migrations",
+        directory: "database/migrations",
+        stub: "stub/migration"
+      }
     });
   }
 
   /**
    * check is connection using knexjs
    */
-  private isUsingKnex(name: string) {
-    return ["mysql", "sqlite", "pgsql"].includes(name);
+  public isUsingKnex() {
+    const connections = this.app
+      .make<Repository>("config")
+      .get("database.connections");
+    return Object.keys(connections).some(a=>["mysql", "sqlite", "pgsql"].includes(a));
   }
 
-  public async table(table: string) {
-    return this.db(table);
+  public table(table: string){
+    return this.db.table(table);
+  }
+
+  public getDb(): Knex{
+    return this.db;
   }
 
   public getDriver(){
