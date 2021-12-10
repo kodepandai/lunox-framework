@@ -77,6 +77,12 @@ class DatabaseManager {
         stub: "stub/migration"
       }
     });
+    try {
+      const {Model} = (await import("objection")).default;
+      Model.knex(this.db);
+    } catch (error) {
+      // 
+    }
   }
 
   /**

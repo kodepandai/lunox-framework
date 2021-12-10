@@ -8,6 +8,7 @@ specifiers:
   '@types/cors': ^2.8.12
   '@types/formidable': ^2.0.0
   '@types/node': ^16.11.7
+  '@types/pluralize': ^0.0.29
   '@types/polka': ^0.5.3
   '@typescript-eslint/eslint-plugin': ^5.3.1
   '@typescript-eslint/parser': ^5.3.1
@@ -21,6 +22,7 @@ specifiers:
   node-input-validator: ^5.0.0-beta.3
   nodemon: ^2.0.15
   objection: ^3.0.0
+  pluralize: ^8.0.0
   polka: ^1.0.0-next.22
   prettier: ^2.4.1
   rollup: ^2.60.1
@@ -38,6 +40,7 @@ dependencies:
   dotenv: 10.0.0
   formidable: 2.0.1
   node-input-validator: 5.0.0-rc9
+  pluralize: 8.0.0
   polka: 1.0.0-next.22
   sirv: 1.0.18
 
@@ -48,6 +51,7 @@ devDependencies:
   '@types/cors': 2.8.12
   '@types/formidable': 2.0.0
   '@types/node': 16.11.11
+  '@types/pluralize': 0.0.29
   '@types/polka': 0.5.3
   '@typescript-eslint/eslint-plugin': 5.5.0_2a935f58a3cc0b0f42856ccf18d8367f
   '@typescript-eslint/parser': 5.5.0_eslint@8.3.0+typescript@4.5.2
@@ -270,6 +274,10 @@ packages:
 
   /@types/node/16.11.11:
     resolution: {integrity: sha512-KB0sixD67CeecHC33MYn+eYARkqTheIRNuu97y2XMjR7Wu3XibO1vaY6VBV6O/a89SPI81cEUIYT87UqUWlZNw==}
+    dev: true
+
+  /@types/pluralize/0.0.29:
+    resolution: {integrity: sha512-BYOID+l2Aco2nBik+iYS4SZX0Lf20KPILP5RGmM1IgzdwNdTs0eebiFriOPcej1sX9mLnSoiNte5zcFxssgpGA==}
     dev: true
 
   /@types/polka/0.5.3:
@@ -1881,6 +1889,11 @@ packages:
   /pify/4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
+    dev: false
+
+  /pluralize/8.0.0:
+    resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
+    engines: {node: '>=4'}
     dev: false
 
   /polka/1.0.0-next.22:

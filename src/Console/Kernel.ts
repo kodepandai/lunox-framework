@@ -14,7 +14,7 @@ import {Command as CommanderCommand} from "commander";
 import { blue } from "colorette";
 import { exit } from "process";
 import MakeMigrationCommand from "./MakeMigrationCommand";
-import type { ObjectOf } from "src";
+import type { ObjectOf } from "../Types";
 import RunMigrationCommand from "./RunMigrationCommand";
 import RollbackMigrationCommand from "./RollbackMigrationCommand";
 import ResetMigrationCommand from "./ResetMigrationCommand";
