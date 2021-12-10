@@ -70,18 +70,13 @@ class DatabaseManager {
         user: config.username,
         password: config.password,
         database: config.database,
-      },
-      migrations: {
-        tableName: "migrations",
-        directory: "database/migrations",
-        stub: "stub/migration"
       }
     });
     try {
-      const {Model} = (await import("objection")).default;
+      const { Model } = (await import("objection")).default;
       Model.knex(this.db);
     } catch (error) {
-      // 
+      //
     }
   }
 
@@ -92,18 +87,20 @@ class DatabaseManager {
     const connections = this.app
       .make<Repository>("config")
       .get("database.connections");
-    return Object.keys(connections).some(a=>["mysql", "sqlite", "pgsql"].includes(a));
+    return Object.keys(connections).some((a) =>
+      ["mysql", "sqlite", "pgsql"].includes(a)
+    );
   }
 
-  public table(table: string){
+  public table(table: string) {
     return this.db.table(table);
   }
 
-  public getDb(): Knex{
+  public getDb(): Knex {
     return this.db;
   }
 
-  public getDriver(){
+  public getDriver() {
     return this.driver;
   }
 }
