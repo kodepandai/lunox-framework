@@ -1,3 +1,4 @@
 import DB from "../Support/Facades/DB";
 import DatabaseServiceProvider from "./DatabaseServiceProvider";
-export { DatabaseServiceProvider, DB };
+import Seeder from "./Seeder";
+export { DatabaseServiceProvider, DB, Seeder };

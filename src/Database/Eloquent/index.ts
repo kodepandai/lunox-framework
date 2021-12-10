@@ -1,3 +1,3 @@
 import Model from "./Model";
 
-export {Model};
+export { Model };

@@ -20,7 +20,7 @@ export default [
     plugins: [
       json(),
       multi(),
-      ts({ declaration: true, rootDir: "src"}),
+      ts({ declaration: true, rootDir: "src" }),
       production && terser(),
     ],
     external: [
@@ -41,7 +41,7 @@ export default [
       "colorette",
       "process",
       "child_process",
-      "knex"
+      "knex",
     ],
   },
   {

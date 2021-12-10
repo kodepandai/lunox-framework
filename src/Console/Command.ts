@@ -3,74 +3,77 @@ import { bgRed, cyanBright, whiteBright, yellow } from "colorette";
 import type { ObjectOf } from "../Types";
 
 class Command {
-
-  SUCCESS:0 = 0;
-  FAILURE:1 = 1;
-  INVALID:2 = 2;
+  SUCCESS: 0 = 0;
+  FAILURE: 1 = 1;
+  INVALID: 2 = 2;
 
   protected signature = "";
   protected description = "";
 
   protected args: ObjectOf<string> = {};
-  protected opts: ObjectOf<any> ={};
+  protected opts: ObjectOf<any> = {};
 
-  public async handle(): Promise<0|1|2> {
+  public async handle(): Promise<0 | 1 | 2> {
     return this.SUCCESS;
   }
 
-  public getSignature(){
+  public getSignature() {
     return this.signature;
   }
-  public getDescription(){
+  public getDescription() {
     return this.description;
   }
 
-  public setArguments(args: ObjectOf<string>){
+  public setArguments(args: ObjectOf<string>) {
     this.args = args;
   }
 
-  public setOptions(opts: ObjectOf<any>){
+  public setOptions(opts: ObjectOf<any>) {
     this.opts = opts;
   }
 
-  public arguments(){
+  public arguments() {
     return this.args;
   }
 
-  public argument(key: string){
+  public argument(key: string) {
     return this.args[key];
   }
 
-  public options(){
+  public options() {
     return this.opts;
   }
 
-  public option(key:string){
+  public option(key: string) {
     return this.opts[key];
   }
 
-  protected info(message:string){
+  protected info(message: string) {
     console.log(cyanBright(message));
   }
 
-  protected line(message: string){
+  protected line(message: string) {
     console.log(message);
   }
 
-  protected error(message: string){
+  protected error(message: string) {
     console.log(bgRed(whiteBright(message)));
   }
-  protected newLine(line = 1){
-    for (let index = 0; index <line; index++) {
+  protected newLine(line = 1) {
+    for (let index = 0; index < line; index++) {
       console.log("");
     }
   }
 
-  protected comment(message: string){
+  protected comment(message: string) {
     console.log(yellow(message));
   }
 
-  public async tryCommand(name: string, run: () => Promise<void>, onError: (error:string)=>void) {
+  public async tryCommand(
+    name: string,
+    run: () => Promise<void>,
+    onError: (error: string) => void
+  ) {
     try {
       await run();
     } catch (error) {
@@ -82,10 +85,10 @@ class Command {
     const child = spawn(command, {
       shell: true,
     });
-  
+
     let stdout = "";
     let stderr = "";
-  
+
     return new Promise<void>((ok, fail) => {
       child.stderr.setEncoding("utf-8");
       child.stdout.setEncoding("utf-8");
@@ -95,18 +98,18 @@ class Command {
         }
         stdout += data;
       });
-  
+
       child.stderr.on("data", (data) => {
         if (watch) {
           this.comment(data);
         }
         stderr += data;
       });
-  
+
       child.on("close", (code) => {
         if (code === 0) {
-          const messages = stdout.split("\n"); 
-          if(messages[messages.length-1]==""){
+          const messages = stdout.split("\n");
+          if (messages[messages.length - 1] == "") {
             messages.pop();
           }
           this.line(messages.join("\n"));
@@ -116,11 +119,10 @@ class Command {
           fail(stderr);
         }
       });
-  
+
       child.on("error", fail);
     });
   }
-
 }
 
 export default Command;

@@ -70,7 +70,7 @@ class DatabaseManager {
         user: config.username,
         password: config.password,
         database: config.database,
-      }
+      },
     });
     try {
       const { Model } = (await import("objection")).default;
