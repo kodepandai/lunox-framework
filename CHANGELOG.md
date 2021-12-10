@@ -2,6 +2,15 @@
 ## [Unreleased]
 
 
+<a name="v0.4.0"></a>
+## [v0.4.0] - 2021-12-10
+### Bug Fixes
+- **cli:** run command in parallel
+
+### Features
+- **database:** add seeder class and artisan command
+
+
 <a name="v0.3.0"></a>
 ## [v0.3.0] - 2021-12-10
 ### Features
@@ -38,7 +47,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.4.0...HEAD
+[v0.4.0]: https://github.com/kodepintar/lunox-framework/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/kodepintar/lunox-framework/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/kodepintar/lunox-framework/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/kodepintar/lunox-framework/compare/v0.0.3...v0.1.0
