@@ -10,11 +10,10 @@ const buildServer = () =>
 const buildClient = () =>
   runCommand("NODE_ENV=production vite build --outDir dist/client");
 
-const watch = () =>
-  runCommand(
-    "rollup -cw & nodemon -q -w dist --es-module-specifier-resolution=node dist/index.js",
-    true
-  );
+const watch = () =>Promise.all([
+  runCommand("rollup -cw", true),
+  runCommand("nodemon -q -w dist --es-module-specifier-resolution=node dist/index.js", true)
+]);
 
 const serve = () =>
   runCommand(
