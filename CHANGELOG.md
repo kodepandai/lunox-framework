@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.3.0"></a>
+## [v0.3.0] - 2021-12-10
+### Features
+- **database:** add Model as wrapper for objection ORM
+
+
 <a name="v0.2.0"></a>
 ## [v0.2.0] - 2021-12-08
 ### Features
@@ -32,7 +38,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.3.0...HEAD
+[v0.3.0]: https://github.com/kodepintar/lunox-framework/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/kodepintar/lunox-framework/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/kodepintar/lunox-framework/compare/v0.0.3...v0.1.0
 [v0.0.3]: https://github.com/kodepintar/lunox-framework/compare/v0.0.2...v0.0.3
