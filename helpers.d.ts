@@ -1,11 +1,11 @@
 /// <reference types="svelte" />
 /// <reference types="vite/client" />
-import type { ObjectOf } from "dist/Types";
-import type Repository from "dist/Config/Repository";
-import type Application from "dist/Foundation/Application";
-import type Env from "dist/Support/Env";
-import type Request from "dist/Http/Request";
-import type Response from "dist/Http/Response";
+import type { ObjectOf } from "./dist/Types";
+import type Repository from "./dist/Config/Repository";
+import type Application from "./dist/Foundation/Application";
+import type Env from "./dist/Support/Env";
+import type Request from "./dist/Http/Request";
+import type Response from "./dist/Http/Response";
 
 declare class HttpRequest extends Request {}
 
