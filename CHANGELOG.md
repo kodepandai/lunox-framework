@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.4.1"></a>
+## [v0.4.1] - 2021-12-13
+### Bug Fixes
+- **helpers:** fix path for import types or interfaces
+
+
 <a name="v0.4.0"></a>
 ## [v0.4.0] - 2021-12-10
 ### Bug Fixes
@@ -47,7 +53,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.4.1...HEAD
+[v0.4.1]: https://github.com/kodepintar/lunox-framework/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/kodepintar/lunox-framework/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/kodepintar/lunox-framework/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/kodepintar/lunox-framework/compare/v0.1.0...v0.2.0
