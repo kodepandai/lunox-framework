@@ -42,7 +42,7 @@ class Kernel {
     const server = polka({
       onError: (err, req, res) => {
         this.reportException(err);
-        const response = this.renderException(this.app.make("request"), err);
+        const response = this.renderException((req as any)._httpRequest, err);
         return this.send(
           res,
           response.getStatus(),
@@ -76,8 +76,7 @@ class Kernel {
             // create Http\Request on first middleware
             // and inject it to rest of middleware
             const request = new HttpRequest(req);
-            this.app.instance("request", request);
-
+            (req as any)._httpRequest = request;
             if (req.method.toLowerCase() == "get") return next();
 
             const form = formidable({ multiples: true });
@@ -91,6 +90,7 @@ class Kernel {
                 return prev;
               }, {} as ObjectOf<any>);
               request.merge({ ...fields, ...request.files });
+              (req as any)._httpRequest = request;
               next();
             });
           },
@@ -98,7 +98,7 @@ class Kernel {
           ...routeMiddlewares,
           async (req, res) => {
             const response = await route.action(
-              this.app.make("request"),
+              (req as any)._httpRequest,
               ...Object.values(req.params)
             );
             if (response instanceof HttpResponse) {
@@ -146,9 +146,9 @@ class Kernel {
     if (!handle) throw new Error("cannot resolve middleware " + middleware);
     return (_req: Request, res: Response, next: NextHandler) => {
       try {
-        return handle(this.app.make("request"), (req: HttpRequest) => {
+        return handle((_req as any)._httpRequest, (req: HttpRequest) => {
           // update instance of request from middleware next function
-          this.app.instance("request", req);
+          (_req as any)._httpRequest = req;
           return next();
         });
       } catch (error) {
