@@ -4,5 +4,5 @@ import Route from "./Route";
 import Storage from "./Storage";
 import useFacade from "./useFacade";
 import Validator from "./Validator";
-
-export { Facade, Response, Route, Storage, useFacade, Validator };
+import View from "./View";
+export { Facade, Response, Route, Storage, useFacade, Validator, View };
