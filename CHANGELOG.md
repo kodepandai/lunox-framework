@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.5.0"></a>
+## [v0.5.0] - 2021-12-16
+### Features
+- **view:** added view factory, facades and service provider
+
+
 <a name="v0.4.2"></a>
 ## [v0.4.2] - 2021-12-15
 ### Bug Fixes
@@ -59,7 +65,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.5.0...HEAD
+[v0.5.0]: https://github.com/kodepintar/lunox-framework/compare/v0.4.2...v0.5.0
 [v0.4.2]: https://github.com/kodepintar/lunox-framework/compare/v0.4.1...v0.4.2
 [v0.4.1]: https://github.com/kodepintar/lunox-framework/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/kodepintar/lunox-framework/compare/v0.3.0...v0.4.0
