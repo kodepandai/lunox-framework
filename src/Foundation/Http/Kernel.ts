@@ -19,6 +19,7 @@ import HandleException from "../Bootstrap/HandleException";
 import type { Handler } from "../../Contracts/Exception/Handler";
 import formidable from "formidable";
 import UploadedFile from "../../Http/UploadedFile";
+import ViewFactory from "../../View/Factory";
 
 class Kernel {
   protected app: Application;
@@ -97,10 +98,15 @@ class Kernel {
           ...globalMiddlewares,
           ...routeMiddlewares,
           async (req, res) => {
-            const response = await route.action(
+            let response = await route.action(
               (req as any)._httpRequest,
               ...Object.values(req.params)
             );
+
+            if(response instanceof ViewFactory){
+              response = await response.render((req as any)._httpRequest);
+            }
+            
             if (response instanceof HttpResponse) {
               return this.send(
                 res,
@@ -109,6 +115,7 @@ class Kernel {
                 response.getHeaders()
               );
             }
+           
             if (["object", "string", "number"].includes(typeof response)) {
               res.end(JSON.stringify(response));
             }

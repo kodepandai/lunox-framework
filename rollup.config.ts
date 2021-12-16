@@ -42,6 +42,8 @@ export default [
       "process",
       "child_process",
       "knex",
+      "objection",
+      "pluralize"
     ],
   },
   {

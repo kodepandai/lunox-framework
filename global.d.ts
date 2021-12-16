@@ -4,10 +4,8 @@ import type { ObjectOf } from "src/Types";
 import type Repository from "src/Config/Repository";
 import type Application from "src/Foundation/Application";
 import type Env from "src/Support/Env";
-import type Request from "src/Http/Request";
 import type Response from "src/Http/Response";
-
-declare class HttpRequest extends Request {}
+import type ViewFactory from "src/View/Factory";
 
 declare global {
   interface Window {
@@ -22,6 +20,5 @@ declare global {
   var config = <T = any>(key?: string, defaultValue?: T) => T;
   var env: Env["get"];
   var get_current_dir: (importMetaUrl: string) => string;
-  var view: (path: string, data?: ObjectOf<any>) => Promise<Response>;
-  var request: () => HttpRequest;
+  var view: ViewFactory['make']
 }
