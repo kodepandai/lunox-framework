@@ -6,8 +6,7 @@ class ViewServiceProvider extends ServiceProvider {
     this.app.singleton("view", () => new Factory(this.app));
   }
 
-  async boot() {
-  }
+  async boot() {}
 }
 
 export default ViewServiceProvider;

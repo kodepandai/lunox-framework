@@ -103,10 +103,10 @@ class Kernel {
               ...Object.values(req.params)
             );
 
-            if(response instanceof ViewFactory){
+            if (response instanceof ViewFactory) {
               response = await response.render((req as any)._httpRequest);
             }
-            
+
             if (response instanceof HttpResponse) {
               return this.send(
                 res,
@@ -115,7 +115,7 @@ class Kernel {
                 response.getHeaders()
               );
             }
-           
+
             if (["object", "string", "number"].includes(typeof response)) {
               res.end(JSON.stringify(response));
             }

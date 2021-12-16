@@ -11,17 +11,17 @@ class Factory {
   protected path!: string;
   protected data: ObjectOf<any> = {};
 
-  constructor(app: Application){
+  constructor(app: Application) {
     this.app = app;
   }
-  
-  public async make(_path:string, data: ObjectOf<any> = {}): Promise<Factory>{
+
+  public async make(_path: string, data: ObjectOf<any> = {}): Promise<Factory> {
     this.path = _path.split(".").join(path.sep);
     this.data = data;
     return this;
   }
 
-  public async render(req: Request){
+  public async render(req: Request) {
     const isProd = env("NODE_ENV") == "production";
     const url = req.getOriginalRequest().originalUrl;
     let template = "";

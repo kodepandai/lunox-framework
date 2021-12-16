@@ -20,5 +20,5 @@ declare global {
   var config = <T = any>(key?: string, defaultValue?: T) => T;
   var env: Env["get"];
   var get_current_dir: (importMetaUrl: string) => string;
-  var view: ViewFactory['make']
+  var view: ViewFactory["make"];
 }

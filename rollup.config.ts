@@ -43,7 +43,7 @@ export default [
       "child_process",
       "knex",
       "objection",
-      "pluralize"
+      "pluralize",
     ],
   },
   {
