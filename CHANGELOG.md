@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.4.2"></a>
+## [v0.4.2] - 2021-12-15
+### Bug Fixes
+- **request:** request removed from container to avoid conflict with other request
+
+
 <a name="v0.4.1"></a>
 ## [v0.4.1] - 2021-12-13
 ### Bug Fixes
@@ -53,7 +59,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.4.2...HEAD
+[v0.4.2]: https://github.com/kodepintar/lunox-framework/compare/v0.4.1...v0.4.2
 [v0.4.1]: https://github.com/kodepintar/lunox-framework/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/kodepintar/lunox-framework/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/kodepintar/lunox-framework/compare/v0.2.0...v0.3.0
