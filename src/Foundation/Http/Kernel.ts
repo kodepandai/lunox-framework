@@ -24,6 +24,7 @@ import ViewFactory from "../../View/Factory";
 class Kernel {
   protected app: Application;
   protected middleware: Middleware[] = [];
+  protected middlewareGroups: ObjectOf<Middleware[]> = {};
   protected routeMiddleware: ObjectOf<Middleware> = {};
 
   protected bootstrappers: Class<Bootstrapper>[] = [
@@ -59,43 +60,54 @@ class Kernel {
     this.app.instance("server", server);
 
     await this.app.bootstrapWith(this.bootstrappers);
+
+    server.use((req, res, next) => {
+      // create Http\Request on first middleware
+      // and inject it to rest of middleware
+      const request = new HttpRequest(req);
+      (req as any)._httpRequest = request;
+      if (req.method.toLowerCase() == "get") return next();
+
+      const form = formidable({ multiples: true });
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          throw err;
+        }
+
+        request.files = Object.keys(files).reduce((prev, key) => {
+          prev[key] = new UploadedFile(files[key]);
+          return prev;
+        }, {} as ObjectOf<any>);
+        request.merge({ ...fields, ...request.files });
+        (req as any)._httpRequest = request;
+        next();
+      });
+    });
+
+    // run global middlewares
+    const globalMiddlewares = this.middleware.map((middleware) =>
+      this.handleMiddleware(middleware)
+    );
+    server.use(...globalMiddlewares);
+
     const port = env("PORT") || 8000;
+
     const routes = Route.getRoutes();
     await Promise.all(
       routes.map((route) => {
-        // run middlewares
-        const routeMiddlewares = route.middleware.map((middleware) =>
-          this.handleMiddleware(middleware)
-        );
-        const globalMiddlewares = this.middleware.map((middleware) =>
-          this.handleMiddleware(middleware)
-        );
+        // run route middlewares
+        const routeMiddlewares = route.middleware.reduce((collect, middleware) =>{
+          // if route has middleware group, append it to routeMiddlewares
+          if(typeof middleware == "string" && this.middlewareGroups[middleware]){
+            collect = [...collect, ...this.middlewareGroups[middleware].map(m=>this.handleMiddleware(m))];
+          } else {
+            collect = [...collect, this.handleMiddleware(middleware)];
+          }
+          return collect;
+        }, [] as any[]);
 
         server[route.method](
           path.join(route.uri),
-          (req, res, next) => {
-            // create Http\Request on first middleware
-            // and inject it to rest of middleware
-            const request = new HttpRequest(req);
-            (req as any)._httpRequest = request;
-            if (req.method.toLowerCase() == "get") return next();
-
-            const form = formidable({ multiples: true });
-            form.parse(req, (err, fields, files) => {
-              if (err) {
-                throw err;
-              }
-
-              request.files = Object.keys(files).reduce((prev, key) => {
-                prev[key] = new UploadedFile(files[key]);
-                return prev;
-              }, {} as ObjectOf<any>);
-              request.merge({ ...fields, ...request.files });
-              (req as any)._httpRequest = request;
-              next();
-            });
-          },
-          ...globalMiddlewares,
           ...routeMiddlewares,
           async (req, res) => {
             let response = await route.action(
@@ -153,9 +165,12 @@ class Kernel {
     if (!handle) throw new Error("cannot resolve middleware " + middleware);
     return (_req: Request, res: Response, next: NextHandler) => {
       try {
-        return handle((_req as any)._httpRequest, (req: HttpRequest) => {
+        return handle((_req as any)._httpRequest, (req: HttpRequest, nativeMiddleware) => {
           // update instance of request from middleware next function
           (_req as any)._httpRequest = req;
+          if(nativeMiddleware){
+            return nativeMiddleware(_req, res, next);
+          }
           return next();
         });
       } catch (error) {
