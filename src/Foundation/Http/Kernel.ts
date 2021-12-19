@@ -64,7 +64,7 @@ class Kernel {
     server.use((req, res, next) => {
       // create Http\Request on first middleware
       // and inject it to rest of middleware
-      const request = new HttpRequest(req);
+      const request = new HttpRequest(this.app, req);
       (req as any)._httpRequest = request;
       if (req.method.toLowerCase() == "get") return next();
 
@@ -96,15 +96,26 @@ class Kernel {
     await Promise.all(
       routes.map((route) => {
         // run route middlewares
-        const routeMiddlewares = route.middleware.reduce((collect, middleware) =>{
-          // if route has middleware group, append it to routeMiddlewares
-          if(typeof middleware == "string" && this.middlewareGroups[middleware]){
-            collect = [...collect, ...this.middlewareGroups[middleware].map(m=>this.handleMiddleware(m))];
-          } else {
-            collect = [...collect, this.handleMiddleware(middleware)];
-          }
-          return collect;
-        }, [] as any[]);
+        const routeMiddlewares = route.middleware.reduce(
+          (collect, middleware) => {
+            // if route has middleware group, append it to routeMiddlewares
+            if (
+              typeof middleware == "string" &&
+              this.middlewareGroups[middleware]
+            ) {
+              collect = [
+                ...collect,
+                ...this.middlewareGroups[middleware].map((m) =>
+                  this.handleMiddleware(m)
+                ),
+              ];
+            } else {
+              collect = [...collect, this.handleMiddleware(middleware)];
+            }
+            return collect;
+          },
+          [] as any[]
+        );
 
         server[route.method](
           path.join(route.uri),
@@ -165,14 +176,17 @@ class Kernel {
     if (!handle) throw new Error("cannot resolve middleware " + middleware);
     return (_req: Request, res: Response, next: NextHandler) => {
       try {
-        return handle((_req as any)._httpRequest, (req: HttpRequest, nativeMiddleware) => {
-          // update instance of request from middleware next function
-          (_req as any)._httpRequest = req;
-          if(nativeMiddleware){
-            return nativeMiddleware(_req, res, next);
+        return handle(
+          (_req as any)._httpRequest,
+          (req: HttpRequest, nativeMiddleware) => {
+            // update instance of request from middleware next function
+            (_req as any)._httpRequest = req;
+            if (nativeMiddleware) {
+              return nativeMiddleware(_req, res, next);
+            }
+            return next();
           }
-          return next();
-        });
+        );
       } catch (error) {
         if (error instanceof Error) {
           return next(error);

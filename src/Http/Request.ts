@@ -1,15 +1,24 @@
+import type Application from "../Foundation/Application";
 import type { Request as ServerRequest } from "polka";
+import SessionManager from "../Session/SessionManager";
 import type { ObjectOf } from "../Types";
 import type UploadedFile from "./UploadedFile";
 
+interface ExtendedRequest extends ServerRequest {
+  session?: any;
+}
 class Request {
+  protected app: Application;
   public files: ObjectOf<UploadedFile> = {};
 
-  protected req: ServerRequest;
+  protected req: ExtendedRequest;
 
   protected data: ObjectOf<any>;
 
-  constructor(req: ServerRequest) {
+  protected sessionManager: SessionManager | null = null;
+
+  constructor(app: Application, req: ExtendedRequest) {
+    this.app = app;
     this.req = req;
     const query = typeof req.query == "object" ? req.query : {};
     this.data = { ...query, ...req.body };
@@ -42,6 +51,14 @@ class Request {
 
   public instance() {
     return this;
+  }
+
+  public session() {
+    if (this.sessionManager == null) {
+      this.sessionManager = new SessionManager(this.app);
+      this.sessionManager.setSession(this.req.session || {});
+    }
+    return this.sessionManager;
   }
 }
 
