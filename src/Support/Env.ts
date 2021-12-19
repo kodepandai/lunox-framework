@@ -5,7 +5,7 @@ class Env {
     config();
   }
 
-  get(key: string, defaultValue: string | boolean | null = null) {
+  get(key: string, defaultValue: string | boolean | null | number = null): any {
     switch (process.env[key]?.toLowerCase()) {
       case undefined:
         return defaultValue;
