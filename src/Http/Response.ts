@@ -10,14 +10,29 @@ class Response {
     this.headers = headers;
   }
 
-  getOriginal() {
+  public getOriginal() {
     return this.original;
   }
-  getStatus() {
+
+  public getStatus() {
     return this.status;
   }
-  getHeaders() {
+
+  public getHeaders() {
     return this.headers;
+  }
+
+  public setOriginal(data: any) {
+    this.original = data;
+    return this;
+  }
+
+  public setHeader(key: string, value: string) {
+    this.headers = {
+      ...this.headers,
+      [key]: value,
+    };
+    return this;
   }
 }
 

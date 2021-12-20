@@ -20,6 +20,7 @@ import type { Handler } from "../../Contracts/Exception/Handler";
 import formidable from "formidable";
 import UploadedFile from "../../Http/UploadedFile";
 import ViewFactory from "../../View/Factory";
+import RedirectResponse from "../../Http/RedirectResponse";
 
 class Kernel {
   protected app: Application;
@@ -121,16 +122,23 @@ class Kernel {
           path.join(route.uri),
           ...routeMiddlewares,
           async (req, res) => {
+            const httpRequest = (req as any)._httpRequest as HttpRequest;
             let response = await route.action(
-              (req as any)._httpRequest,
+              httpRequest,
               ...Object.values(req.params)
             );
 
             if (response instanceof ViewFactory) {
-              response = await response.render((req as any)._httpRequest);
+              response = await response.render(httpRequest);
             }
 
+            if (response instanceof RedirectResponse) {
+              response.setRequest(httpRequest);
+            }
             if (response instanceof HttpResponse) {
+              // make sure all session is saved
+              await httpRequest.session().save();
+
               return this.send(
                 res,
                 response.getStatus(),

@@ -44,6 +44,7 @@ export default [
       "knex",
       "objection",
       "pluralize",
+      "express-session",
     ],
   },
   {

@@ -26,6 +26,8 @@ class Factory {
     const url = req.getOriginalRequest().originalUrl;
     let template = "";
     let render: any = null;
+    const session = (key: string) => req.session().get(key);
+    const old = (key: string) => req.session().old(key);
     if (!isProd) {
       const vite = this.app.make<ViteDevServer>("vite");
       template = fs.readFileSync(base_path("../index.html"), "utf-8");
@@ -35,7 +37,7 @@ class Factory {
       template = fs.readFileSync(base_path("client/index.html"), "utf-8");
       render = (await import(base_path("server/entry-server"))).render;
     }
-    const context = { view: this.path, ...this.data };
+    const context = { ...this.data, session, old };
     let rendered = false;
     let appHtml;
     while (!rendered) {
@@ -58,7 +60,12 @@ class Factory {
       .replace("<!--app-head-->", appHtml.head)
       .replace("/*style*/", appHtml.css.code)
       .replace("$$view", this.path)
-      .replace("$$data", JSON.stringify(this.data));
+      .replace("$$data", JSON.stringify(this.data))
+      .replace("$$old", JSON.stringify(req.session().get("__old") || {}))
+      .replace("$$session", JSON.stringify(req.session().all(true) || {}));
+    req.session().forget("__old");
+    req.session().forget("__session");
+
     return Response.make(html, 200, {
       "Content-Type": "text/html",
     });

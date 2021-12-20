@@ -1,6 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import type Repository from "./Config/Repository";
+import RedirectResponse from "./Http/RedirectResponse";
 import View from "./Support/Facades/View";
 
 global.get_current_dir = (importMetaUrl: string) => {
@@ -15,3 +16,6 @@ global.config = <T = any>(key = "", defaultValue: T) =>
 global.storage_path = (_path: string) => app().storagePath(_path);
 
 global.view = View.make;
+
+global.redirect = (url: string) => new RedirectResponse(url);
+global.back = () => new RedirectResponse("__back");

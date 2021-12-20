@@ -6,10 +6,13 @@ import type Application from "./dist/Foundation/Application";
 import type Env from "./dist/Support/Env";
 import type Response from "./dist/Http/Response";
 import type ViewFactory from "./dist/View/Factory";
+import type RedirectResponse from "./dist/Http/RedirectResponse";
 declare global {
   interface Window {
     _view: string;
-    _data: ObjectOf<any>;
+    _data: ObjectOf<any> | string;
+    _old: ObjectOf<any> | string;
+    _session: ObjectOf<any> | string;
   }
   var app: <T extends string | null | any = null>(
     abstract: T | string | null = null
@@ -20,4 +23,6 @@ declare global {
   var env: Env["get"];
   var get_current_dir: (importMetaUrl: string) => string;
   var view: ViewFactory["make"];
+  var redirect: (url: string) => RedirectResponse;
+  var back: () => RedirectResponse;
 }

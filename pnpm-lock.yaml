@@ -43,7 +43,7 @@ dependencies:
   dotenv: 10.0.0
   express-session: 1.17.2
   formidable: 2.0.1
-  node-input-validator: 5.0.0-rc9
+  node-input-validator: 5.0.0-beta.3
   pluralize: 8.0.0
   polka: 1.0.0-next.22
   sirv: 1.0.18
@@ -267,13 +267,6 @@ packages:
     dependencies:
       defer-to-connect: 1.1.3
     dev: true
-
-  /@tokenizer/token/0.1.1:
-    resolution:
-      {
-        integrity: sha512-XO6INPbZCxdprl+9qa/AAbFFOMzzwqYxpjPgLICrMD6C2FCw6qfJOPcBk6JqqPLSaZ/Qx87qn4rpPmPMwaAK6w==,
-      }
-    dev: false
 
   /@tokenizer/token/0.3.0:
     resolution:
@@ -1687,17 +1680,16 @@ packages:
       flat-cache: 3.0.4
     dev: true
 
-  /file-type/14.7.1:
+  /file-type/16.5.3:
     resolution:
       {
-        integrity: sha512-sXAMgFk67fQLcetXustxfKX+PZgHIUFn96Xld9uH8aXPdX3xOp0/jg9OdouVTvQrf7mrn+wAa4jN/y9fUOOiRA==,
+        integrity: sha512-uVsl7iFhHSOY4bEONLlTK47iAHtNsFHWP5YE4xJfZ4rnX7S1Q3wce09XgqSC7E/xh8Ncv/be1lNoyprlUH/x6A==,
       }
-    engines: { node: ">=8" }
+    engines: { node: ">=10" }
     dependencies:
-      readable-web-to-node-stream: 2.0.0
+      readable-web-to-node-stream: 3.0.2
       strtok3: 6.2.4
-      token-types: 2.1.1
-      typedarray-to-buffer: 3.1.5
+      token-types: 4.1.1
     dev: false
 
   /fill-range/7.0.1:
@@ -2026,7 +2018,6 @@ packages:
       {
         integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==,
       }
-    dev: true
 
   /ini/1.3.8:
     resolution:
@@ -2148,6 +2139,7 @@ packages:
 
   /is-typedarray/1.0.0:
     resolution: { integrity: sha1-5HnICFjfDBsR3dppQPlgEfzaSpo= }
+    dev: true
 
   /is-yarn-global/0.3.0:
     resolution:
@@ -2508,17 +2500,16 @@ packages:
       }
     dev: false
 
-  /node-input-validator/5.0.0-rc9:
+  /node-input-validator/5.0.0-beta.3:
     resolution:
       {
-        integrity: sha512-rFjKXE1pHTfcA1oP0fugNelDp/Hj4mjgCC/SonE9R09EDFdmVIO5x1t+YNHf0iclnYkqp1ix20dolgjlgUTuUA==,
+        integrity: sha512-XIhg8w56GbxlNql3c8HrsnYotBkWGTheg5kHT7hq2QmION2ssrYctV/rYKxhSVitqN8OpOZ6R80IhxKKkUu0qQ==,
       }
     engines: { node: ">=10.12" }
     dependencies:
-      file-type: 14.7.1
+      file-type: 16.5.3
       mime-types: 2.1.34
       read-chunk: 3.2.0
-      validator: 13.7.0
     dev: false
 
   /nodemon/2.0.15:
@@ -2911,11 +2902,26 @@ packages:
       util-deprecate: 1.0.2
     dev: true
 
-  /readable-web-to-node-stream/2.0.0:
+  /readable-stream/3.6.0:
     resolution:
       {
-        integrity: sha512-+oZJurc4hXpaaqsN68GoZGQAQIA3qr09Or4fqEsargABnbe5Aau8hFn6ISVleT3cpY/0n/8drn7huyyEvTbghA==,
+        integrity: sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==,
       }
+    engines: { node: ">= 6" }
+    dependencies:
+      inherits: 2.0.4
+      string_decoder: 1.1.1
+      util-deprecate: 1.0.2
+    dev: false
+
+  /readable-web-to-node-stream/3.0.2:
+    resolution:
+      {
+        integrity: sha512-ePeK6cc1EcKLEhJFt/AebMCLL+GgSKhuygrZ/GLaKZYEecIgIECf4UaUuaByiGtzckwR4ain9VzUh95T1exYGw==,
+      }
+    engines: { node: ">=8" }
+    dependencies:
+      readable-stream: 3.6.0
     dev: false
 
   /readdirp/3.6.0:
@@ -3090,7 +3096,6 @@ packages:
       {
         integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==,
       }
-    dev: true
 
   /safe-buffer/5.2.1:
     resolution:
@@ -3273,7 +3278,6 @@ packages:
       }
     dependencies:
       safe-buffer: 5.1.2
-    dev: true
 
   /strip-ansi/6.0.1:
     resolution:
@@ -3385,14 +3389,14 @@ packages:
       is-number: 7.0.0
     dev: true
 
-  /token-types/2.1.1:
+  /token-types/4.1.1:
     resolution:
       {
-        integrity: sha512-wnQcqlreS6VjthyHO3Y/kpK/emflxDBNhlNUPfh7wE39KnuDdOituXomIbyI79vBtF0Ninpkh72mcuRHo+RG3Q==,
+        integrity: sha512-hD+QyuUAyI2spzsI0B7gf/jJ2ggR4RjkAo37j3StuePhApJUwcWDjnHDOFdIWYSwNR28H14hpwm4EI+V1Ted1w==,
       }
-    engines: { node: ">=0.1.98" }
+    engines: { node: ">=10" }
     dependencies:
-      "@tokenizer/token": 0.1.1
+      "@tokenizer/token": 0.3.0
       ieee754: 1.2.1
     dev: false
 
@@ -3476,6 +3480,7 @@ packages:
       }
     dependencies:
       is-typedarray: 1.0.0
+    dev: true
 
   /typescript/4.5.2:
     resolution:
@@ -3577,7 +3582,6 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: { integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8= }
-    dev: true
 
   /uuid/3.3.2:
     resolution:
@@ -3594,14 +3598,6 @@ packages:
         integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==,
       }
     dev: true
-
-  /validator/13.7.0:
-    resolution:
-      {
-        integrity: sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==,
-      }
-    engines: { node: ">= 0.10" }
-    dev: false
 
   /vite/2.6.14:
     resolution:
