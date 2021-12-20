@@ -2,6 +2,13 @@
 ## [Unreleased]
 
 
+<a name="v0.6.0"></a>
+## [v0.6.0] - 2021-12-21
+### Features
+- **response:** added redirect response with flashed session
+- **session:** added session manager, middleware and service provider ([#2](https://github.com/kodepintar/lunox-framework/issues/2))
+
+
 <a name="v0.5.1"></a>
 ## [v0.5.1] - 2021-12-16
 ### Bug Fixes
@@ -71,7 +78,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.6.0...HEAD
+[v0.6.0]: https://github.com/kodepintar/lunox-framework/compare/v0.5.1...v0.6.0
 [v0.5.1]: https://github.com/kodepintar/lunox-framework/compare/v0.5.0...v0.5.1
 [v0.5.0]: https://github.com/kodepintar/lunox-framework/compare/v0.4.2...v0.5.0
 [v0.4.2]: https://github.com/kodepintar/lunox-framework/compare/v0.4.1...v0.4.2
