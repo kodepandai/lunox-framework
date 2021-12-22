@@ -26,8 +26,20 @@ class Factory {
     const url = req.getOriginalRequest().originalUrl;
     let template = "";
     let render: any = null;
-    const session = (key: string) => req.session().get(key);
-    const old = (key: string) => req.session().old(key);
+    const fetchedSession: ObjectOf<any> = {
+      session: {},
+      old: {},
+    };
+    const session = (key: string) => {
+      const value = req.session().get(key);
+      fetchedSession.session[key] = value;
+      return value;
+    };
+    const old = (key: string) => {
+      const value = req.session().old(key);
+      fetchedSession.old[key] = value;
+      return value;
+    };
     if (!isProd) {
       const vite = this.app.make<ViteDevServer>("vite");
       template = fs.readFileSync(base_path("../index.html"), "utf-8");
@@ -61,8 +73,8 @@ class Factory {
       .replace("/*style*/", appHtml.css.code)
       .replace("$$view", this.path)
       .replace("$$data", JSON.stringify(this.data))
-      .replace("$$old", JSON.stringify(req.session().get("__old") || {}))
-      .replace("$$session", JSON.stringify(req.session().all(true) || {}));
+      .replace("$$old", JSON.stringify(fetchedSession.old))
+      .replace("$$session", JSON.stringify(fetchedSession.session));
     req.session().forget("__old");
     req.session().forget("__session");
 

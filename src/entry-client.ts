@@ -13,17 +13,12 @@ const makeView = async (modules: any, viewPath: string) => {
             ...(window._data as ObjectOf<any>),
             session: (key: string) => {
               if (typeof window != "undefined") {
-                const keys = key.split(".");
-                return keys.reduce(
-                  (prev, x) => prev?.[x],
-                  window._session as any
-                );
+                return (window._session as any)[key];
               }
             },
             old: (key: string) => {
               if (typeof window != "undefined") {
-                const keys = key.split(".");
-                return keys.reduce((prev, x) => prev?.[x], window._old as any);
+                return (window._old as any)[key];
               }
             },
           },
