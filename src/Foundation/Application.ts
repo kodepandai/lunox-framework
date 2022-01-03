@@ -15,10 +15,11 @@ class Application extends Container {
     super();
     /* exported app */
     global.app = <T extends string | null | any = null>(
-      abstract: T | null = null
+      abstract: T | null = null,
+      params = {}
     ) => {
       if (abstract && typeof abstract == "string") {
-        return this.make<T>(abstract);
+        return this.make<T>(abstract, params);
       }
       return this as any;
     };

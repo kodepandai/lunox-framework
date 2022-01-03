@@ -7,6 +7,7 @@ const production = process.env.NODE_ENV == "production";
 export default [
   {
     input: [
+      "src/global.d.ts",
       "src/**/index.ts",
       "src/helpers.ts",
       "src/entry-server.ts",
@@ -19,8 +20,8 @@ export default [
     },
     plugins: [
       json(),
-      multi(),
       ts({ declaration: true, rootDir: "src" }),
+      multi(),
       production && terser(),
     ],
     external: [
