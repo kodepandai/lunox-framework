@@ -2,6 +2,15 @@
 ## [Unreleased]
 
 
+<a name="v0.6.1"></a>
+## [v0.6.1] - 2022-01-03
+### Bug Fixes
+- **helpers:** fix global function
+
+### Performance Improvements
+- **view:** set window._session and window._old only from called session
+
+
 <a name="v0.6.0"></a>
 ## [v0.6.0] - 2021-12-21
 ### Features
@@ -78,7 +87,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.6.1...HEAD
+[v0.6.1]: https://github.com/kodepintar/lunox-framework/compare/v0.6.0...v0.6.1
 [v0.6.0]: https://github.com/kodepintar/lunox-framework/compare/v0.5.1...v0.6.0
 [v0.5.1]: https://github.com/kodepintar/lunox-framework/compare/v0.5.0...v0.5.1
 [v0.5.0]: https://github.com/kodepintar/lunox-framework/compare/v0.4.2...v0.5.0
