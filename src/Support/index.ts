@@ -1,3 +1,4 @@
 import ServiceProvider from "./ServiceProvider";
+import { type Trait, Traitable } from "./Traitable";
 
-export { ServiceProvider };
+export { ServiceProvider, Trait, Traitable };
