@@ -75,8 +75,8 @@ class Factory {
       .replace("$$data", JSON.stringify(this.data))
       .replace("$$old", JSON.stringify(fetchedSession.old))
       .replace("$$session", JSON.stringify(fetchedSession.session));
-    req.session().forget("__old");
-    req.session().forget("__session");
+    req.session().remove("__old");
+    req.session().remove("__session");
 
     return Response.make(html, 200, {
       "Content-Type": "text/html",

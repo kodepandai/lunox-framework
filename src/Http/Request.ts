@@ -1,12 +1,12 @@
 import type Application from "../Foundation/Application";
-import type { Request as ServerRequest } from "polka";
-import SessionManager from "../Session/SessionManager";
 import type { ObjectOf } from "../Types";
 import type UploadedFile from "./UploadedFile";
+import type { ExtendedRequest } from "../Contracts/Request";
+import SessionManager from "../Session/SessionManager";
+import type {AuthManager} from "../Auth/AuthManager";
+import AuthManagerClass from "../Auth/AuthManager";
+import type { StatefulGuard } from "../Contracts/Auth/StatefulGuard";
 
-interface ExtendedRequest extends ServerRequest {
-  session?: any;
-}
 class Request {
   protected app: Application;
   public files: ObjectOf<UploadedFile> = {};
@@ -15,7 +15,9 @@ class Request {
 
   protected data: ObjectOf<any>;
 
-  protected sessionManager: SessionManager | null = null;
+  protected sessionManager?: SessionManager;
+
+  protected authManager?: AuthManager & StatefulGuard;
 
   constructor(app: Application, req: ExtendedRequest) {
     this.app = app;
@@ -54,11 +56,17 @@ class Request {
   }
 
   public session() {
-    if (this.sessionManager == null) {
-      this.sessionManager = new SessionManager(this.app);
-      this.sessionManager.setSession(this.req.session || {});
+    if(this.sessionManager){
+      return this.sessionManager;
     }
-    return this.sessionManager;
+    return this.sessionManager = new SessionManager(this.app).setRequest(this);
+  }
+
+  public auth() {
+    if(this.authManager) {
+      return this.authManager;
+    }
+    return this.authManager = new AuthManagerClass(this.app).setRequest(this);
   }
 }
 

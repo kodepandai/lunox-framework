@@ -1,4 +1,5 @@
 export * from "./Types";
+export * from "./Auth";
 export * from "./Filesystem";
 export * from "./Foundation";
 export * from "./Foundation/Exception";
