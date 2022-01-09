@@ -5,6 +5,7 @@ specifiers:
   "@rollup/plugin-typescript": ^8.3.0
   "@slynova/flydrive": ^1.0.3
   "@slynova/flydrive-s3": ^1.0.3
+  "@types/bcryptjs": ^2.4.2
   "@types/cors": ^2.8.12
   "@types/express-session": ^1.17.4
   "@types/formidable": ^2.0.0
@@ -13,6 +14,7 @@ specifiers:
   "@types/polka": ^0.5.3
   "@typescript-eslint/eslint-plugin": ^5.3.1
   "@typescript-eslint/parser": ^5.3.1
+  bcryptjs: ^2.4.3
   colorette: ^2.0.16
   commander: ^8.3.0
   dotenv: ^10.0.0
@@ -35,7 +37,7 @@ specifiers:
   svelte: ^3.44.3
   tslib: ^2.3.1
   typescript: ^4.5.4
-  vite: ^2.7.6
+  vite: ^2.7.10
 
 dependencies:
   "@slynova/flydrive": 1.0.3
@@ -53,6 +55,7 @@ devDependencies:
   "@rollup/plugin-json": 4.1.0_rollup@2.61.1
   "@rollup/plugin-typescript": 8.3.0_3bb347879280457c0420527ae9f527b5
   "@slynova/flydrive-s3": 1.0.3_@slynova+flydrive@1.0.3
+  "@types/bcryptjs": 2.4.2
   "@types/cors": 2.8.12
   "@types/express-session": 1.17.4
   "@types/formidable": 2.0.0
@@ -61,6 +64,7 @@ devDependencies:
   "@types/polka": 0.5.3
   "@typescript-eslint/eslint-plugin": 5.5.0_8078aa6651cb59a720743720029457d0
   "@typescript-eslint/parser": 5.5.0_eslint@8.3.0+typescript@4.5.4
+  bcryptjs: 2.4.3
   eslint: 8.3.0
   knex: 0.95.14_mysql@2.18.1
   mysql: 2.18.1
@@ -74,7 +78,7 @@ devDependencies:
   svelte: 3.44.3
   tslib: 2.3.1
   typescript: 4.5.4
-  vite: 2.7.6
+  vite: 2.7.10
 
 packages:
   /@babel/code-frame/7.16.0:
@@ -276,6 +280,13 @@ packages:
         integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==,
       }
     dev: false
+
+  /@types/bcryptjs/2.4.2:
+    resolution:
+      {
+        integrity: sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==,
+      }
+    dev: true
 
   /@types/body-parser/1.19.2:
     resolution:
@@ -729,6 +740,10 @@ packages:
       {
         integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==,
       }
+    dev: true
+
+  /bcryptjs/2.4.3:
+    resolution: { integrity: sha1-mrVie5PmBiH/fNrF2pczAn3x0Ms= }
     dev: true
 
   /bignumber.js/9.0.0:
@@ -3609,10 +3624,10 @@ packages:
       }
     dev: true
 
-  /vite/2.7.6:
+  /vite/2.7.10:
     resolution:
       {
-        integrity: sha512-PBNoc87rDYLtkpFU9dbVeGdbcyKzz6c34oScqivE3FEa3BhVa4ASupCzcz0eDIiSECovfLcQnLUJt9vhiEU08g==,
+        integrity: sha512-KEY96ntXUid1/xJihJbgmLZx7QSC2D4Tui0FdS0Old5OokYzFclcofhtxtjDdGOk/fFpPbHv9yw88+rB93Tb8w==,
       }
     engines: { node: ">=12.2.0" }
     hasBin: true
