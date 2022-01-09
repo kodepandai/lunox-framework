@@ -8,6 +8,7 @@ import RedirectResponse from "./Http/RedirectResponse";
 import path from "path";
 import { fileURLToPath } from "url";
 import View from "./Support/Facades/View";
+import crypto from "crypto";
 
 declare global {
   interface Window {
@@ -28,6 +29,7 @@ declare global {
   var view: ViewFactory["make"];
   var redirect: (url: string) => RedirectResponse;
   var back: () => RedirectResponse;
+  var sha1: (value: string) => string;
 }
 
 global.get_current_dir = (importMetaUrl: string) => {
@@ -46,3 +48,5 @@ global.view = View.make;
 global.redirect = (url: string) => new RedirectResponse(url);
 
 global.back = () => new RedirectResponse("__back");
+
+global.sha1 = (value) => crypto.createHash("sha1").update(value).digest("hex");
