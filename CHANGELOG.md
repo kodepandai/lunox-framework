@@ -1,6 +1,22 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- **hooks:** magic method __get cannot call wrapped class method
+
+### Code Refactoring
+- **facade:** change useFacade function using useMagic helper
+
+### Features
+- **auth:** added authmanager and session guard
+- **facade:** added resolveFacadeInstance to resolve and save resolved facade
+- **helpers:** added sha1 and Str.ucfirst method
+- **kernel:** handle response with return type of boolean and nullish
+- **model:** added custom primaryKey
+- **request:** added auth method to access auth manager
+- **session:** added migrate and remove method
+- **trait:** added simple traitable
+
 
 <a name="v0.6.1"></a>
 ## [v0.6.1] - 2022-01-03
