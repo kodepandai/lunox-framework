@@ -39,6 +39,7 @@ program
   .action(() => {
     tryCommand("build development", async () => {
       console.log(blueBright("compiling ts file..."));
+      await runCommand("rm -rf node_modules/.vite");
       await watch();
     });
   });
