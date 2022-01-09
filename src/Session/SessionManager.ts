@@ -1,28 +1,38 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ObjectOf } from "../Types";
 import type Application from "../Foundation/Application";
 import type { Store } from "express-session";
 import type Repository from "../Config/Repository";
 import type { Configuration } from "../Contracts/Session";
+import type { Session } from "express-session";
+import type Request from "../Http/Request";
 
+interface ExtendedSession extends Partial<Session> {
+  __old?: any;
+  __lastAccess?: any;
+  sessionStore?: Store;
+  [key: string]: any;
+}
 class SessionManager {
   protected app: Application;
 
-  protected session: ObjectOf<any>;
+  protected session: ExtendedSession;
+
+  protected request!: Request;
 
   constructor(app: Application) {
     this.app = app;
     this.session = {};
   }
 
-  public setSession(session: any) {
-    this.session = session;
+  public setRequest(request: Request) {
+    this.session = request.getOriginalRequest().session || {};
+    this.request = request;
     return this;
   }
 
   public get(key: string) {
     const keys = key.split(".");
-    return keys.reduce((prev, x) => prev?.[x], this.all(true)) || null;
+    return keys.reduce((prev: any, x) => prev?.[x], this.all(true, true)) || null;
   }
 
   public old(key: string) {
@@ -30,15 +40,19 @@ class SessionManager {
     return keys.reduce((prev, x) => prev?.[x], this.session?.__old) || null;
   }
 
-  public all(withFlashed = false) {
-    let session = this.session;
-    delete session.cookies;
+  public all(withFlashed = false, withAuth=false) {
+    let session = { ...this.session };
+    delete session.cookie;
     delete session.__lastAccess;
+    delete session.__old;
+    delete session.__session;
+    if (!withAuth && (this.request.auth().guard() as any)?.getName()) {
+      delete session[(this.request.auth().guard() as any)?.getName()];
+    }
     if (!withFlashed) return session;
     session = {
-      ...this.session,
+      ...session,
       ...this.session.__session,
-      __session: null,
     };
     return session;
   }
@@ -69,12 +83,25 @@ class SessionManager {
     });
   }
 
-  public flush() {
-    this.session?.destroy();
+  public async flush() {
+    return new Promise((res, rej) => {
+      this.session?.destroy?.((err) => {
+        if (!err) {
+          res(true);
+        }
+        rej(err);
+      });
+    });
   }
 
-  public forget(key: string) {
+  public remove(key: string) {
     this.session[key] = null;
+  }
+
+  public forget(keys: string[]){
+    keys.forEach((key)=>{
+      this.remove(key);
+    });
   }
 
   public getDefaultDriver() {
@@ -111,6 +138,31 @@ class SessionManager {
 
   public getConfig(): Configuration {
     return this.app.make<Repository>("config").get("session");
+  }
+
+  public async migrate(destroy = false): Promise<boolean> {
+    const oldID = this.request.getOriginalRequest().session?.id;
+    return new Promise((res, rej) => {
+      this.session.regenerate?.((err) => {
+        if (!err) {
+          this.session = this.request.getOriginalRequest().session as Session;
+          res(true);
+          if (destroy) {
+            // this will make sure old session is unlinked before we destroy it
+            setTimeout(() => {
+              this.session.sessionStore?.destroy(oldID as string, (err) => {
+                if (err) {
+                  console.log(err);
+                }
+              });
+            }, 1000);
+          }
+        } else {
+          console.log(err);
+          rej(err);
+        }
+      });
+    });
   }
 }
 export default SessionManager;
