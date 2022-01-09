@@ -2,8 +2,13 @@
 // https://gist.github.com/loilo/4d385d64e2b8552dcc12a0f5126b6df8
 
 type MagicMethods = "__get" | "__getStatic";
-const useMagic = (clazz: any, using: MagicMethods[], ...params: any[]) => {
+const useMagic = <T>(
+  clazz: any,
+  using: MagicMethods[],
+  ...params: any[]
+): T => {
   const classHandler = Object.create(null);
+  classHandler.params = params;
   // Trap for class instantiation
   classHandler.construct = (
     target: any,
@@ -18,14 +23,14 @@ const useMagic = (clazz: any, using: MagicMethods[], ...params: any[]) => {
 
     if (using.includes("__get")) {
       // Catches "instance.property"
-      const get = Object.getPrototypeOf(clazz)["__get"];
+      const get = Object.getOwnPropertyDescriptor(clazz.prototype, "__get");
       if (get) {
         instanceHandler.get = (target: any, name: string, receiver: any) => {
           const exists = Reflect.has(target, name);
           if (exists) {
             return Reflect.get(target, name, receiver);
           } else {
-            return get.call(target, name, ...params);
+            return get.value.call(target, name, ...params);
           }
         };
       }
