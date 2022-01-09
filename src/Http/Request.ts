@@ -30,6 +30,13 @@ class Request {
     return this.data[key] || null;
   }
 
+  public only(keys: string[]): ObjectOf<any>{
+    return keys.reduce((result, key)=>{
+      result[key] = this.data[key as any];
+      return result;
+    }, {} as ObjectOf<any>);
+  }
+  
   public all(): any {
     return this.data;
   }
