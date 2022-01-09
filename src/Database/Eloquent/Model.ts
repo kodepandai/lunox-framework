@@ -9,8 +9,14 @@ abstract class Model extends ObjectionModel {
 
   protected static table = "";
 
+  protected static primaryKey = "id";
+
   static get tableName() {
     return this.table || Str.plural(this.name.toLowerCase());
+  }
+
+  static get idColumn() {
+    return this.primaryKey;
   }
 
   $beforeUpdate() {
@@ -19,5 +25,7 @@ abstract class Model extends ObjectionModel {
     }
   }
 }
+
+export class ExtendedModel extends Model {}
 
 export default Model;
