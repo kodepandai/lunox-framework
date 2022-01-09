@@ -146,10 +146,10 @@ class Kernel {
                 response.getHeaders()
               );
             }
-
-            if (["object", "string", "number"].includes(typeof response)) {
-              res.end(JSON.stringify(response));
+            if (["object", "number", "boolean"].includes(typeof response)) {
+              return res.end(JSON.stringify(response));
             }
+            return res.end(response);
           }
         );
       })
