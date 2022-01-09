@@ -7,7 +7,7 @@ abstract class GuardHelper {
 
   protected provider!: UserProvider;
 
-  public async user<T=Authenticatable>(): Promise<T | undefined> {
+  public async user<T = Authenticatable>(): Promise<T | undefined> {
     return;
   }
 

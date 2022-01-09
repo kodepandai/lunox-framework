@@ -5,7 +5,7 @@ export interface Guard {
 
   guest(): Promise<boolean>;
 
-  user<T=Authenticatable>(): Promise<T | undefined>;
+  user<T = Authenticatable>(): Promise<T | undefined>;
 
   id(): Promise<string | undefined>;
 

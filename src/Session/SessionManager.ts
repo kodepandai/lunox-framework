@@ -32,7 +32,9 @@ class SessionManager {
 
   public get(key: string) {
     const keys = key.split(".");
-    return keys.reduce((prev: any, x) => prev?.[x], this.all(true, true)) || null;
+    return (
+      keys.reduce((prev: any, x) => prev?.[x], this.all(true, true)) || null
+    );
   }
 
   public old(key: string) {
@@ -40,7 +42,7 @@ class SessionManager {
     return keys.reduce((prev, x) => prev?.[x], this.session?.__old) || null;
   }
 
-  public all(withFlashed = false, withAuth=false) {
+  public all(withFlashed = false, withAuth = false) {
     let session = { ...this.session };
     delete session.cookie;
     delete session.__lastAccess;
@@ -98,8 +100,8 @@ class SessionManager {
     this.session[key] = null;
   }
 
-  public forget(keys: string[]){
-    keys.forEach((key)=>{
+  public forget(keys: string[]) {
+    keys.forEach((key) => {
       this.remove(key);
     });
   }

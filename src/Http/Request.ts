@@ -3,7 +3,7 @@ import type { ObjectOf } from "../Types";
 import type UploadedFile from "./UploadedFile";
 import type { ExtendedRequest } from "../Contracts/Request";
 import SessionManager from "../Session/SessionManager";
-import type {AuthManager} from "../Auth/AuthManager";
+import type { AuthManager } from "../Auth/AuthManager";
 import AuthManagerClass from "../Auth/AuthManager";
 import type { StatefulGuard } from "../Contracts/Auth/StatefulGuard";
 
@@ -56,17 +56,19 @@ class Request {
   }
 
   public session() {
-    if(this.sessionManager){
+    if (this.sessionManager) {
       return this.sessionManager;
     }
-    return this.sessionManager = new SessionManager(this.app).setRequest(this);
+    return (this.sessionManager = new SessionManager(this.app).setRequest(
+      this
+    ));
   }
 
   public auth() {
-    if(this.authManager) {
+    if (this.authManager) {
       return this.authManager;
     }
-    return this.authManager = new AuthManagerClass(this.app).setRequest(this);
+    return (this.authManager = new AuthManagerClass(this.app).setRequest(this));
   }
 }
 

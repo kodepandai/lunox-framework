@@ -87,7 +87,7 @@ class SessionGuard extends GuardHelper implements StatefulGuard {
     this.session.put(this.getName(), id);
   }
 
-  public async user<T=Authenticatable>(): Promise<T|undefined> {
+  public async user<T = Authenticatable>(): Promise<T | undefined> {
     if (this.loggedOut) {
       return;
     }
@@ -104,7 +104,7 @@ class SessionGuard extends GuardHelper implements StatefulGuard {
     return this._user as unknown as T;
   }
 
-  protected clearUserDataFromStorage(){
+  protected clearUserDataFromStorage() {
     this.session.remove(this.getName());
   }
 }
