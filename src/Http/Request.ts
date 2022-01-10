@@ -6,6 +6,7 @@ import SessionManager from "../Session/SessionManager";
 import type { AuthManager } from "../Auth/AuthManager";
 import AuthManagerClass from "../Auth/AuthManager";
 import type { StatefulGuard } from "../Contracts/Auth/StatefulGuard";
+import Str from "../Support/Str";
 
 class Request {
   protected app: Application;
@@ -30,13 +31,13 @@ class Request {
     return this.data[key] || null;
   }
 
-  public only(keys: string[]): ObjectOf<any>{
-    return keys.reduce((result, key)=>{
+  public only(keys: string[]): ObjectOf<any> {
+    return keys.reduce((result, key) => {
       result[key] = this.data[key as any];
       return result;
     }, {} as ObjectOf<any>);
   }
-  
+
   public all(): any {
     return this.data;
   }
@@ -76,6 +77,11 @@ class Request {
       return this.authManager;
     }
     return (this.authManager = new AuthManagerClass(this.app).setRequest(this));
+  }
+
+  public wantsJson() {
+    const acceptable = this.getOriginalRequest().headers.accept || "";
+    return Str.contains(acceptable, ["/json", "+json"]);
   }
 }
 
