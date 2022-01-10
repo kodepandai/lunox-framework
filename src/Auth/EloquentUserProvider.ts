@@ -1,13 +1,11 @@
-import type { Authenticatable } from "../Contracts/Auth/Authenticatable";
+import type {
+  Authenticatable,
+  Credentials,
+} from "../Contracts/Auth/Authenticatable";
 import type { ObjectOf } from "../Types";
 import type { UserProvider } from "../Contracts/Auth/UserProvider";
 import type { ExtendedModel } from "../Database/Eloquent/Model";
 import bcrypt from "bcryptjs";
-
-// // eslint-disable-next-line @typescript-eslint/no-empty-interface
-// interface ExtendedModel {
-//   query(): QueryBuilder<Model>
-// }
 
 class EloquentUserProvider implements UserProvider {
   model: typeof ExtendedModel;
@@ -23,7 +21,7 @@ class EloquentUserProvider implements UserProvider {
   }
 
   public async retrieveByCredentials(
-    credentials: ObjectOf<string | string[]>
+    credentials: Credentials
   ): Promise<Authenticatable | undefined> {
     if (
       !credentials ||

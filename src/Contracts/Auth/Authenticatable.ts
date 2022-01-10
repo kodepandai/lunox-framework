@@ -7,6 +7,6 @@ export interface Authenticatable extends ExtendedModel {
 }
 
 export interface Credentials {
-  password: string;
-  [key: string]: string;
+  password?: string;
+  [key: string]: any;
 }

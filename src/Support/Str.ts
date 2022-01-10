@@ -8,11 +8,11 @@ class Str {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  public static contains(haystack: string, needles: string|string[]){
-    if(typeof needles == "string"){
+  public static contains(haystack: string, needles: string | string[]) {
+    if (typeof needles == "string") {
       needles = [needles];
     }
-    return needles.some(x=>haystack.includes(x));
+    return needles.some((x) => haystack.includes(x));
   }
 }
 
