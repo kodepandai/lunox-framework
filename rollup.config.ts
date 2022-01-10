@@ -59,6 +59,6 @@ export default [
       ts({ outDir: "bin", declaration: false, rootDir: "console" }),
       production && terser(),
     ],
-    external: ["commander", "colorette", "child_process"],
+    external: ["commander", "colorette", "child_process", "crypto", "bcryptjs"],
   },
 ];

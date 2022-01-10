@@ -7,6 +7,7 @@ import type { AuthManager } from "../Auth/AuthManager";
 import AuthManagerClass from "../Auth/AuthManager";
 import type { StatefulGuard } from "../Contracts/Auth/StatefulGuard";
 import Str from "../Support/Str";
+import Validator from "../Support/Facades/Validator";
 
 class Request {
   protected app: Application;
@@ -82,6 +83,19 @@ class Request {
   public wantsJson() {
     const acceptable = this.getOriginalRequest().headers.accept || "";
     return Str.contains(acceptable, ["/json", "+json"]);
+  }
+
+  public async validate(
+    rules: ObjectOf<string>,
+    messages: ObjectOf<string> = {},
+    customAttributes: ObjectOf<string> = {}
+  ) {
+    return await Validator.make(
+      this.data,
+      rules,
+      messages,
+      customAttributes
+    ).validate();
   }
 }
 

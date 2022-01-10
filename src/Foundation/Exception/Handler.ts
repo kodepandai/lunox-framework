@@ -1,3 +1,4 @@
+import RedirectResponse from "src/Http/RedirectResponse";
 import type Container from "../../Container/Container";
 import type Request from "../../Http/Request";
 import type HttpResponse from "../../Http/Response";
@@ -24,13 +25,18 @@ class Handler {
     this.register();
   }
 
-  protected render(req: Request, e: any) {
-    let response: HttpResponse | null = null;
+  protected async render(req: Request, e: any) {
+    let response: any = null;
     this.renderCallbacks.forEach(({ exception, renderUsing }) => {
       if (e instanceof exception) {
         response = renderUsing(e, req);
       }
     });
+    if (response instanceof RedirectResponse) {
+      response.setRequest(req);
+      // make sure all session is saved
+      await req.session().save();
+    }
     if (response) return response;
 
     const err: ObjectOf<any> = { message: e.message };

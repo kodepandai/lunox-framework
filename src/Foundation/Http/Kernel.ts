@@ -43,9 +43,12 @@ class Kernel {
 
   async start() {
     const server = polka({
-      onError: (err, req, res) => {
+      onError: async (err, req, res) => {
         this.reportException(err);
-        const response = this.renderException((req as any)._httpRequest, err);
+        const response = await this.renderException(
+          (req as any)._httpRequest,
+          err
+        );
         return this.send(
           res,
           response.getStatus(),
@@ -248,11 +251,11 @@ class Kernel {
     return this.app.make<Handler>("ExceptionHandler").report(e);
   }
 
-  protected renderException(req: HttpRequest, e: string | IError) {
+  protected async renderException(req: HttpRequest, e: string | IError) {
     if (typeof e == "string") {
       e = new Error(e);
     }
-    return this.app.make<Handler>("ExceptionHandler").render(req, e);
+    return await this.app.make<Handler>("ExceptionHandler").render(req, e);
   }
 }
 
