@@ -1,8 +1,12 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v0.7.0"></a>
+## [v0.7.0] - 2022-01-11
 ### Bug Fixes
 - **hooks:** magic method __get cannot call wrapped class method
+- **model:** remove default table name, table name should be declared explicitly
 
 ### Code Refactoring
 - **facade:** change useFacade function using useMagic helper
@@ -11,11 +15,17 @@
 - **auth:** added authmanager and session guard
 - **facade:** added resolveFacadeInstance to resolve and save resolved facade
 - **helpers:** added sha1 and Str.ucfirst method
+- **helpers:** added Str.contains method
 - **kernel:** handle response with return type of boolean and nullish
+- **kernel:** serve public asset by default
 - **model:** added custom primaryKey
+- **request:** added request wantsJson method
 - **request:** added auth method to access auth manager
+- **request:** added request validate method
+- **request:** added request.only method
 - **session:** added migrate and remove method
 - **trait:** added simple traitable
+- **view:** added onServer method on cotext module script to access request server
 
 
 <a name="v0.6.1"></a>
@@ -103,7 +113,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.0...HEAD
+[v0.7.0]: https://github.com/kodepintar/lunox-framework/compare/v0.6.1...v0.7.0
 [v0.6.1]: https://github.com/kodepintar/lunox-framework/compare/v0.6.0...v0.6.1
 [v0.6.0]: https://github.com/kodepintar/lunox-framework/compare/v0.5.1...v0.6.0
 [v0.5.1]: https://github.com/kodepintar/lunox-framework/compare/v0.5.0...v0.5.1
