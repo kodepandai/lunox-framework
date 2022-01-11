@@ -39,10 +39,15 @@ class Factory {
     let appHtml;
     while (!rendered) {
       try {
-        appHtml = await render(this.path, this.data, req, (serverProps: any) =>{
-          // merge server props with view props
-          this.data = {...this.data, ...serverProps};
-        });
+        appHtml = await render(
+          this.path,
+          this.data,
+          req,
+          (serverProps: any) => {
+            // merge server props with view props
+            this.data = { ...this.data, ...serverProps };
+          }
+        );
         rendered = true;
       } catch (error) {
         if (

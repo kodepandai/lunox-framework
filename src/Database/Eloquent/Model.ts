@@ -1,5 +1,4 @@
 import { Model as ObjectionModel } from "objection";
-import Str from "../../Support/Str";
 abstract class Model extends ObjectionModel {
   id?: number;
   created_at?: Date;

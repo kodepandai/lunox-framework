@@ -178,7 +178,7 @@ class Kernel {
     // serve public directory
     const pub = sirv(base_path("public"), {
       maxAge: 331536000, // 1Y,
-      dev: process.env.NODE_ENV!="production"
+      dev: process.env.NODE_ENV != "production",
     });
     server.use(pub);
 
