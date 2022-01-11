@@ -12,7 +12,7 @@ abstract class Model extends ObjectionModel {
   protected static primaryKey = "id";
 
   static get tableName() {
-    return this.table || Str.plural(this.name.toLowerCase());
+    return this.table;
   }
 
   static get idColumn() {
