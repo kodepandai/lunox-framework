@@ -1,5 +1,3 @@
-import type { ObjectOf } from "./Types";
-
 const makeView = async (modules: any, viewPath: string) => {
   let View = null;
   await Promise.all(
@@ -9,19 +7,7 @@ const makeView = async (modules: any, viewPath: string) => {
         View = new component({
           target: document.getElementById("app"),
           hydrate: true,
-          props: {
-            ...(window._data as ObjectOf<any>),
-            session: (key: string) => {
-              if (typeof window != "undefined") {
-                return (window._session as any)[key];
-              }
-            },
-            old: (key: string) => {
-              if (typeof window != "undefined") {
-                return (window._old as any)[key];
-              }
-            },
-          },
+          props: window._data,
         });
       }
     })

@@ -14,8 +14,6 @@ declare global {
   interface Window {
     _view: string;
     _data: ObjectOf<any> | string;
-    _session: ObjectOf<any> | string;
-    _old: ObjectOf<any> | string;
   }
   var app: <T extends string | null | any = null>(
     abstract?: T | string | null,

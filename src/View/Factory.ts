@@ -26,20 +26,6 @@ class Factory {
     const url = req.getOriginalRequest().originalUrl;
     let template = "";
     let render: any = null;
-    const fetchedSession: ObjectOf<any> = {
-      session: {},
-      old: {},
-    };
-    const session = (key: string) => {
-      const value = req.session().get(key);
-      fetchedSession.session[key] = value;
-      return value;
-    };
-    const old = (key: string) => {
-      const value = req.session().old(key);
-      fetchedSession.old[key] = value;
-      return value;
-    };
     if (!isProd) {
       const vite = this.app.make<ViteDevServer>("vite");
       template = fs.readFileSync(base_path("../index.html"), "utf-8");
@@ -49,12 +35,14 @@ class Factory {
       template = fs.readFileSync(base_path("client/index.html"), "utf-8");
       render = (await import(base_path("server/entry-server"))).render;
     }
-    const context = { ...this.data, session, old };
     let rendered = false;
     let appHtml;
     while (!rendered) {
       try {
-        appHtml = await render(this.path, context);
+        appHtml = await render(this.path, this.data, req, (serverProps: any) =>{
+          // merge server props with view props
+          this.data = {...this.data, ...serverProps};
+        });
         rendered = true;
       } catch (error) {
         if (
@@ -72,9 +60,7 @@ class Factory {
       .replace("<!--app-head-->", appHtml.head)
       .replace("/*style*/", appHtml.css.code)
       .replace("$$view", this.path)
-      .replace("$$data", JSON.stringify(this.data))
-      .replace("$$old", JSON.stringify(fetchedSession.old))
-      .replace("$$session", JSON.stringify(fetchedSession.session));
+      .replace("$$data", JSON.stringify(this.data));
     req.session().remove("__old");
     req.session().remove("__session");
 
