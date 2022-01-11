@@ -30,6 +30,9 @@ program
       console.log(blueBright("building client side view components..."));
       await buildClient();
       console.log(green("view are compiled to ./dist/client folder\n"));
+      console.log(blueBright("copying assets..."));
+      await runCommand("cp -r ./public ./dist/public");
+      console.log(green("done"));
     });
   });
 

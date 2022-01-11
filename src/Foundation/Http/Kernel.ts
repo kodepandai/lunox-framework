@@ -167,13 +167,20 @@ class Kernel {
       // use vite's connect instance as middleware
       server.use(vite.middlewares);
     } else {
-      const dir = base_path("/client");
+      const dir = base_path("client");
       const serve = sirv(dir, {
         maxAge: 31536000, // 1Y
         immutable: true,
       });
       server.use(serve);
     }
+
+    // serve public directory
+    const pub = sirv(base_path("public"), {
+      maxAge: 331536000, // 1Y,
+      dev: process.env.NODE_ENV!="production"
+    });
+    server.use(pub);
 
     server.listen(port, () => {
       console.log("server run on port: " + port);
