@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.7.1"></a>
+## [v0.7.1] - 2022-01-11
+### Bug Fixes
+- **view:** make onServer method optional
+
+
 <a name="v0.7.0"></a>
 ## [v0.7.0] - 2022-01-11
 ### Bug Fixes
@@ -113,7 +119,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.1...HEAD
+[v0.7.1]: https://github.com/kodepintar/lunox-framework/compare/v0.7.0...v0.7.1
 [v0.7.0]: https://github.com/kodepintar/lunox-framework/compare/v0.6.1...v0.7.0
 [v0.6.1]: https://github.com/kodepintar/lunox-framework/compare/v0.6.0...v0.6.1
 [v0.6.0]: https://github.com/kodepintar/lunox-framework/compare/v0.5.1...v0.6.0
