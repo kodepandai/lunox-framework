@@ -8,8 +8,10 @@ export const makeRender =
         Object.keys(modules).map(async (m) => {
           if (m == `${viewPath}/${url}.svelte`) {
             const module = await modules[m]();
-            const serverProps = await module.onServer(req);
-            props = { ...props, ...serverProps };
+            if(module.onServer){
+              const serverProps = await module.onServer(req);
+              props = { ...props, ...serverProps };
+            }
             View = module.default;
           }
         })
