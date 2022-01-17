@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.7.2"></a>
+## [v0.7.2] - 2022-01-17
+### Features
+- **facade:** added facadeCalled method that triggered when facade is called
+
+
 <a name="v0.7.1"></a>
 ## [v0.7.1] - 2022-01-11
 ### Bug Fixes
@@ -119,7 +125,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.2...HEAD
+[v0.7.2]: https://github.com/kodepintar/lunox-framework/compare/v0.7.1...v0.7.2
 [v0.7.1]: https://github.com/kodepintar/lunox-framework/compare/v0.7.0...v0.7.1
 [v0.7.0]: https://github.com/kodepintar/lunox-framework/compare/v0.6.1...v0.7.0
 [v0.6.1]: https://github.com/kodepintar/lunox-framework/compare/v0.6.0...v0.6.1
