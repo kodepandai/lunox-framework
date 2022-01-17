@@ -67,7 +67,7 @@ class Route {
       await import(callback);
     } else {
       if (typeof callback == "function") {
-        callback();
+        await callback();
       }
     }
     this.middlewareStack.pop();
@@ -88,6 +88,9 @@ class Route {
       },
       []
     );
+  }
+  protected facadeCalled(){
+    this.calledAction = "";
   }
 }
 
