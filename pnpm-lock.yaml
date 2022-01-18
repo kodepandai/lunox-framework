@@ -23,7 +23,7 @@ specifiers:
   formidable: ^2.0.1
   knex: ^0.95.14
   mysql: ^2.18.1
-  node-input-validator: ^5.0.0-beta.3
+  node-input-validator: 5.0.0-beta.3
   nodemon: ^2.0.15
   objection: ^3.0.0
   pluralize: ^8.0.0
@@ -819,7 +819,7 @@ packages:
       }
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
     dev: true
 
@@ -1980,7 +1980,6 @@ packages:
       {
         integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==,
       }
-    dev: false
 
   /ignore-by-default/1.0.1:
     resolution: { integrity: sha1-SMptcvbGo68Aqa1K5odr44ieKwk= }
