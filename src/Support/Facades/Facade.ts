@@ -19,7 +19,7 @@ abstract class Facade {
   static __getStatic(name: string, abstract: string) {
     return (...args: any) => {
       const target = this.resolveFacadeInstance(abstract);
-      if(target.facadeCalled){
+      if (target.facadeCalled) {
         target.facadeCalled();
       }
       if (target[name]) {

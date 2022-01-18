@@ -89,7 +89,7 @@ class Route {
       []
     );
   }
-  protected facadeCalled(){
+  protected facadeCalled() {
     this.calledAction = "";
   }
 }
