@@ -2,6 +2,7 @@ import type Application from "../Foundation/Application";
 import type { ObjectOf } from "../Types";
 import Validator from "./Validator";
 import pkg from "node-input-validator/cjs/index";
+import type { Rule } from "../Contracts/Validation";
 
 class Factory {
   protected app: Application;
@@ -18,13 +19,15 @@ class Factory {
     return new Validator(data, rules, messages, customAttributes);
   }
 
-  public extend(
-    ruleName: string,
-    handle: (args: string[] | undefined, value: any) => Promise<boolean>
-  ) {
-    return pkg.extend(ruleName, (args) => ({
-      name: ruleName,
-      handler: (value: any) => handle(args, value),
+  public extend(rule: Rule) {
+    if(rule.message){
+      pkg.Messages.extend({
+        [rule.name]: rule.message
+      });
+    }
+    return pkg.extend(rule.name, (args) => ({
+      name: rule.name,
+      handler: (value: any) => rule.passes(args, value),
     }));
   }
 }
