@@ -9,7 +9,6 @@ const Mimes: Rule = {
         "Invalid rule args, the usage must be mime:a,b,c"
       );
     }
-    console.log(value, value instanceof UploadedFile);
     if(value instanceof UploadedFile){
       let match = false;
       args.forEach((arg)=>{
