@@ -2,6 +2,21 @@
 ## [Unreleased]
 
 
+<a name="v0.7.5"></a>
+## [v0.7.5] - 2022-01-22
+### Features
+- **validation:** added validation extend for custom validation rule
+
+
+<a name="v0.7.4"></a>
+## [v0.7.4] - 2022-01-18
+
+<a name="v0.7.3"></a>
+## [v0.7.3] - 2022-01-18
+### Features
+- **validation:** added unique validation rule (database)
+
+
 <a name="v0.7.2"></a>
 ## [v0.7.2] - 2022-01-17
 ### Features
@@ -125,7 +140,10 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.2...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.5...HEAD
+[v0.7.5]: https://github.com/kodepintar/lunox-framework/compare/v0.7.4...v0.7.5
+[v0.7.4]: https://github.com/kodepintar/lunox-framework/compare/v0.7.3...v0.7.4
+[v0.7.3]: https://github.com/kodepintar/lunox-framework/compare/v0.7.2...v0.7.3
 [v0.7.2]: https://github.com/kodepintar/lunox-framework/compare/v0.7.1...v0.7.2
 [v0.7.1]: https://github.com/kodepintar/lunox-framework/compare/v0.7.0...v0.7.1
 [v0.7.0]: https://github.com/kodepintar/lunox-framework/compare/v0.6.1...v0.7.0
