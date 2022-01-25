@@ -68,7 +68,7 @@
 ## [v0.6.0] - 2021-12-21
 ### Features
 - **response:** added redirect response with flashed session
-- **session:** added session manager, middleware and service provider ([#2](https://github.com/kodepintar/lunox-framework/issues/2))
+- **session:** added session manager, middleware and service provider ([#2](https://github.com/kodepandai/lunox-framework/issues/2))
 
 
 <a name="v0.5.1"></a>
@@ -113,7 +113,7 @@
 <a name="v0.2.0"></a>
 ## [v0.2.0] - 2021-12-08
 ### Features
-- **database:** database manager and artisan migrate command ([#1](https://github.com/kodepintar/lunox-framework/issues/1))
+- **database:** database manager and artisan migrate command ([#1](https://github.com/kodepandai/lunox-framework/issues/1))
 
 
 <a name="v0.1.0"></a>
@@ -140,22 +140,22 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.5...HEAD
-[v0.7.5]: https://github.com/kodepintar/lunox-framework/compare/v0.7.4...v0.7.5
-[v0.7.4]: https://github.com/kodepintar/lunox-framework/compare/v0.7.3...v0.7.4
-[v0.7.3]: https://github.com/kodepintar/lunox-framework/compare/v0.7.2...v0.7.3
-[v0.7.2]: https://github.com/kodepintar/lunox-framework/compare/v0.7.1...v0.7.2
-[v0.7.1]: https://github.com/kodepintar/lunox-framework/compare/v0.7.0...v0.7.1
-[v0.7.0]: https://github.com/kodepintar/lunox-framework/compare/v0.6.1...v0.7.0
-[v0.6.1]: https://github.com/kodepintar/lunox-framework/compare/v0.6.0...v0.6.1
-[v0.6.0]: https://github.com/kodepintar/lunox-framework/compare/v0.5.1...v0.6.0
-[v0.5.1]: https://github.com/kodepintar/lunox-framework/compare/v0.5.0...v0.5.1
-[v0.5.0]: https://github.com/kodepintar/lunox-framework/compare/v0.4.2...v0.5.0
-[v0.4.2]: https://github.com/kodepintar/lunox-framework/compare/v0.4.1...v0.4.2
-[v0.4.1]: https://github.com/kodepintar/lunox-framework/compare/v0.4.0...v0.4.1
-[v0.4.0]: https://github.com/kodepintar/lunox-framework/compare/v0.3.0...v0.4.0
-[v0.3.0]: https://github.com/kodepintar/lunox-framework/compare/v0.2.0...v0.3.0
-[v0.2.0]: https://github.com/kodepintar/lunox-framework/compare/v0.1.0...v0.2.0
-[v0.1.0]: https://github.com/kodepintar/lunox-framework/compare/v0.0.3...v0.1.0
-[v0.0.3]: https://github.com/kodepintar/lunox-framework/compare/v0.0.2...v0.0.3
-[v0.0.2]: https://github.com/kodepintar/lunox-framework/compare/v0.0.1...v0.0.2
+[Unreleased]: https://github.com/kodepandai/lunox-framework/compare/v0.7.5...HEAD
+[v0.7.5]: https://github.com/kodepandai/lunox-framework/compare/v0.7.4...v0.7.5
+[v0.7.4]: https://github.com/kodepandai/lunox-framework/compare/v0.7.3...v0.7.4
+[v0.7.3]: https://github.com/kodepandai/lunox-framework/compare/v0.7.2...v0.7.3
+[v0.7.2]: https://github.com/kodepandai/lunox-framework/compare/v0.7.1...v0.7.2
+[v0.7.1]: https://github.com/kodepandai/lunox-framework/compare/v0.7.0...v0.7.1
+[v0.7.0]: https://github.com/kodepandai/lunox-framework/compare/v0.6.1...v0.7.0
+[v0.6.1]: https://github.com/kodepandai/lunox-framework/compare/v0.6.0...v0.6.1
+[v0.6.0]: https://github.com/kodepandai/lunox-framework/compare/v0.5.1...v0.6.0
+[v0.5.1]: https://github.com/kodepandai/lunox-framework/compare/v0.5.0...v0.5.1
+[v0.5.0]: https://github.com/kodepandai/lunox-framework/compare/v0.4.2...v0.5.0
+[v0.4.2]: https://github.com/kodepandai/lunox-framework/compare/v0.4.1...v0.4.2
+[v0.4.1]: https://github.com/kodepandai/lunox-framework/compare/v0.4.0...v0.4.1
+[v0.4.0]: https://github.com/kodepandai/lunox-framework/compare/v0.3.0...v0.4.0
+[v0.3.0]: https://github.com/kodepandai/lunox-framework/compare/v0.2.0...v0.3.0
+[v0.2.0]: https://github.com/kodepandai/lunox-framework/compare/v0.1.0...v0.2.0
+[v0.1.0]: https://github.com/kodepandai/lunox-framework/compare/v0.0.3...v0.1.0
+[v0.0.3]: https://github.com/kodepandai/lunox-framework/compare/v0.0.2...v0.0.3
+[v0.0.2]: https://github.com/kodepandai/lunox-framework/compare/v0.0.1...v0.0.2

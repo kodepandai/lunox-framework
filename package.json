@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kodepintar/lunox-framework.git"
+    "url": "git+https://github.com/kodepandai/lunox-framework.git"
   },
   "keywords": [
     "laravel",
@@ -40,9 +40,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kodepintar/lunox-framework/issues"
+    "url": "https://github.com/kodepandai/lunox-framework/issues"
   },
-  "homepage": "https://github.com/kodepintar/lunox-framework#readme",
+  "homepage": "https://github.com/kodepandai/lunox-framework#readme",
   "dependencies": {
     "@slynova/flydrive": "^1.0.3",
     "colorette": "^2.0.16",
