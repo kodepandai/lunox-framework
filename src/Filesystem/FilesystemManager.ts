@@ -1,5 +1,5 @@
 import type Application from "../Foundation/Application";
-import { StorageManager } from "@slynova/flydrive";
+import {StorageManager} from "@kodepandai/flydrive";
 
 class FilesystemManager extends StorageManager {
   protected app: Application;
@@ -20,7 +20,7 @@ class FilesystemManager extends StorageManager {
   public async registerS3Driver() {
     this.registerDriver(
       "s3",
-      (await import("@slynova/flydrive-s3")).AmazonWebServicesS3Storage
+      (await import("@kodepandai/flydrive-s3")).AmazonWebServicesS3Storage
     );
   }
 }

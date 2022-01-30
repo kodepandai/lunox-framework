@@ -1,6 +1,6 @@
 {
   "name": "lunox",
-  "version": "0.7.5-rc.1",
+  "version": "0.8.0-beta.1",
   "description": "Laravel-Flavoured NodeJs framework",
   "bin": {
     "lunox": "./bin/lunox.cjs"
@@ -44,7 +44,7 @@
   },
   "homepage": "https://github.com/kodepandai/lunox-framework#readme",
   "dependencies": {
-    "@slynova/flydrive": "^1.0.3",
+    "@kodepandai/flydrive": "^2.0.0",
     "colorette": "^2.0.16",
     "commander": "^8.3.0",
     "dotenv": "^10.0.0",
@@ -56,9 +56,9 @@
     "sirv": "^1.0.18"
   },
   "devDependencies": {
+    "@kodepandai/flydrive-s3": "^2.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^8.3.0",
-    "@slynova/flydrive-s3": "^1.0.3",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.12",
     "@types/express-session": "^1.17.4",
