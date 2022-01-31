@@ -10,7 +10,7 @@ class MakeSeederCommand extends Command {
   public async handle() {
     this.info("making seeder...");
     const SeederName = this.argument("name");
-    const seederStub = fs.readFileSync(base_path("../stub/seeder"), {
+    const seederStub = fs.readFileSync(stub_path("seeder"), {
       encoding: "utf-8",
     });
     const content = seederStub.replace(/#SeederName/g, SeederName);

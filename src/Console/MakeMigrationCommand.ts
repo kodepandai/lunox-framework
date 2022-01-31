@@ -11,7 +11,7 @@ class MakeMigrationCommand extends Command {
     await DB.getDb().migrate.make(this.argument("migration_name"), {
       tableName: "migrations",
       directory: "database/migrations",
-      stub: "stub/migration",
+      stub: stub_path("migration"),
       extension: "ts",
     });
     this.comment(`created migration file ${this.argument("migration_name")}`);
