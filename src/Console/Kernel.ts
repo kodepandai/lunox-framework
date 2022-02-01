@@ -21,6 +21,7 @@ import ResetMigrationCommand from "./ResetMigrationCommand";
 import RefreshMigrationCommand from "./RefreshMigrationCommand";
 import MakeSeederCommand from "./MakeSeederCommand";
 import RunSeederCommand from "./RunSeederCommand";
+import MakeModelCommand from "./MakeModelCommand";
 
 class Kernel {
   protected app: Application;
@@ -66,6 +67,7 @@ class Kernel {
     const commands = [
       MakeMigrationCommand,
       MakeSeederCommand,
+      MakeModelCommand,
       RunMigrationCommand,
       RunSeederCommand,
       RollbackMigrationCommand,
@@ -120,7 +122,7 @@ class Kernel {
       .description(commandInstance.getDescription())
       .action(async () => {
         const argKeys = args
-          .filter((a) => !a.startsWith("--"))
+          .filter((a) => !(a.startsWith("--") || a.startsWith("-")))
           .map((a) => a.replace("?", ""));
         const inputArgs = _program.args.reduce((p, c, i) => {
           p[argKeys[i].split(" : ")[0]] = c;
@@ -141,7 +143,7 @@ class Kernel {
         a = a.split(" : ")[0];
       }
       // if argument start with --, make it as option
-      if (a.startsWith("--")) {
+      if (a.startsWith("--")||a.startsWith("-")) {
         if (a.split("=").length == 2) {
           if (a.split("=")[1] == "") {
             // option with required value
