@@ -12,6 +12,15 @@ class MakeModelCommand extends Command {
   public async handle() {
     this.info("making model...");
     const ModelName = this.argument("model_class");
+
+    if(fs.existsSync( path.join(
+      base_path("../app/Model"),
+      ModelName + ".ts"
+    ))){
+      this.error("model already exists!");
+      return this.FAILURE;
+    }
+    
     const TableName = Str.plural(Str.snake(ModelName));
     const modelStub = fs.readFileSync(stub_path("model"), {
       encoding: "utf-8",
