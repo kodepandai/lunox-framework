@@ -24,6 +24,7 @@ import RunSeederCommand from "./RunSeederCommand";
 import MakeModelCommand from "./MakeModelCommand";
 import MakeCommand from "./MakeCommand";
 import MakeMiddlewareCommand from "./MakeMiddlewareCommand";
+import MakeProviderCommand from "./MakeProviderCommand";
 
 class Kernel {
   protected app: Application;
@@ -70,6 +71,7 @@ class Kernel {
       MakeCommand,
       MakeMiddlewareCommand,
       MakeMigrationCommand,
+      MakeProviderCommand,
       MakeSeederCommand,
       MakeModelCommand,
       RunMigrationCommand,
