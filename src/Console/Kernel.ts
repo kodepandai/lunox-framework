@@ -23,6 +23,7 @@ import MakeSeederCommand from "./MakeSeederCommand";
 import RunSeederCommand from "./RunSeederCommand";
 import MakeModelCommand from "./MakeModelCommand";
 import MakeCommand from "./MakeCommand";
+import MakeMiddlewareCommand from "./MakeMiddlewareCommand";
 
 class Kernel {
   protected app: Application;
@@ -67,6 +68,7 @@ class Kernel {
   protected async builtinCommands() {
     const commands = [
       MakeCommand,
+      MakeMiddlewareCommand,
       MakeMigrationCommand,
       MakeSeederCommand,
       MakeModelCommand,
