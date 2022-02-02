@@ -25,6 +25,7 @@ import MakeModelCommand from "./MakeModelCommand";
 import MakeCommand from "./MakeCommand";
 import MakeMiddlewareCommand from "./MakeMiddlewareCommand";
 import MakeProviderCommand from "./MakeProviderCommand";
+import MakeControllerCommand from "./MakeControllerCommand";
 
 class Kernel {
   protected app: Application;
@@ -69,6 +70,7 @@ class Kernel {
   protected async builtinCommands() {
     const commands = [
       MakeCommand,
+      MakeControllerCommand,
       MakeMiddlewareCommand,
       MakeMigrationCommand,
       MakeProviderCommand,
