@@ -20,9 +20,9 @@ class Factory {
   }
 
   public extend(rule: Rule) {
-    if(rule.message){
+    if (rule.message) {
       pkg.Messages.extend({
-        [rule.name]: rule.message
+        [rule.name]: rule.message,
       });
     }
     return pkg.extend(rule.name, (args) => ({

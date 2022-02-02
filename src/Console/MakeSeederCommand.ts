@@ -11,10 +11,14 @@ class MakeSeederCommand extends Command {
     this.info("making seeder...");
     const SeederName = this.argument("name");
 
-    if(fs.existsSync( path.join(
-      base_path("../database/seeders"),
-      this.argument("name") + ".ts"
-    ))){
+    if (
+      fs.existsSync(
+        path.join(
+          base_path("../database/seeders"),
+          this.argument("name") + ".ts"
+        )
+      )
+    ) {
       this.error("seeder already exists!");
       return this.FAILURE;
     }

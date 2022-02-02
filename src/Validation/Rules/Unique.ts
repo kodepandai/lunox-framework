@@ -13,14 +13,13 @@ const Unique: Rule = {
     const dupplicate = await DB.table(table).where(column, value).first();
     if (
       ignored &&
-        dupplicate?.[ignoredColumn].toString() == ignored.toString()
+      dupplicate?.[ignoredColumn].toString() == ignored.toString()
     ) {
       return true;
     }
     if (dupplicate) return false;
     return true;
-  }
-}; 
-
+  },
+};
 
 export default Unique;

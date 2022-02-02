@@ -11,24 +11,22 @@ class MakeProviderCommand extends Command {
     this.info("making provider...");
     const ProviderName = this.argument("name");
 
-    if(fs.existsSync(path.join(
-      base_path("../app/Providers"),
-      ProviderName + ".ts"
-    ))){
+    if (
+      fs.existsSync(
+        path.join(base_path("../app/Providers"), ProviderName + ".ts")
+      )
+    ) {
       this.error("provider class already exists!");
       return this.FAILURE;
     }
-    
+
     const stub = fs.readFileSync(stub_path("provider"), {
       encoding: "utf-8",
     });
     const content = stub.replace(/#ProviderName/g, ProviderName);
 
     fs.writeFileSync(
-      path.join(
-        base_path("../app/Providers"),
-        ProviderName + ".ts"
-      ),
+      path.join(base_path("../app/Providers"), ProviderName + ".ts"),
       content
     );
     this.comment(`created provider ${ProviderName}`);

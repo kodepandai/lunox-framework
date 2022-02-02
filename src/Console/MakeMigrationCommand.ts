@@ -9,15 +9,19 @@ class MakeMigrationCommand extends Command {
 
   public async handle() {
     this.info("making migration...");
-    const TableName = this.argument("migration_name").replace("create_", "").replace("_table", "");
-    const generated = await DB.getDb().migrate.make(this.argument("migration_name"), {
-      tableName: "migrations",
-      directory: "database/migrations",
-      stub: stub_path("migration"),
-      extension: "ts",
-
-    });
-    let content = fs.readFileSync(generated, {encoding: "utf-8"});
+    const TableName = this.argument("migration_name")
+      .replace("create_", "")
+      .replace("_table", "");
+    const generated = await DB.getDb().migrate.make(
+      this.argument("migration_name"),
+      {
+        tableName: "migrations",
+        directory: "database/migrations",
+        stub: stub_path("migration"),
+        extension: "ts",
+      }
+    );
+    let content = fs.readFileSync(generated, { encoding: "utf-8" });
     content = content.replace(/#TableName/g, TableName);
 
     fs.writeFileSync(generated, content);

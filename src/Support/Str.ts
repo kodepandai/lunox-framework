@@ -8,8 +8,10 @@ class Str {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  public static snake(value: string, glue = "_"){
-    return value.replace(/[A-Z]/g, (letter, i) => i == 0 ? letter.toLowerCase():`${glue}${letter.toLowerCase()}`);
+  public static snake(value: string, glue = "_") {
+    return value.replace(/[A-Z]/g, (letter, i) =>
+      i == 0 ? letter.toLowerCase() : `${glue}${letter.toLowerCase()}`
+    );
   }
 
   public static contains(haystack: string, needles: string | string[]) {

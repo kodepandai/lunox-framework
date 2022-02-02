@@ -11,24 +11,22 @@ class MakeControllerCommand extends Command {
     this.info("making controller...");
     const ControllerName = this.argument("name");
 
-    if(fs.existsSync(path.join(
-      base_path("../app/Http/Controllers"),
-      ControllerName + ".ts"
-    ))){
+    if (
+      fs.existsSync(
+        path.join(base_path("../app/Http/Controllers"), ControllerName + ".ts")
+      )
+    ) {
       this.error("controller already exists!");
       return this.FAILURE;
     }
-    
+
     const stub = fs.readFileSync(stub_path("controller"), {
       encoding: "utf-8",
     });
     const content = stub.replace(/#ControllerName/g, ControllerName);
 
     fs.writeFileSync(
-      path.join(
-        base_path("../app/Http/Controllers"),
-        ControllerName + ".ts"
-      ),
+      path.join(base_path("../app/Http/Controllers"), ControllerName + ".ts"),
       content
     );
     this.comment(`created controller ${ControllerName}`);

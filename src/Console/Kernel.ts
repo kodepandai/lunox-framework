@@ -151,7 +151,7 @@ class Kernel {
         a = a.split(" : ")[0];
       }
       // if argument start with --, make it as option
-      if (a.startsWith("--")||a.startsWith("-")) {
+      if (a.startsWith("--") || a.startsWith("-")) {
         if (a.split("=").length == 2) {
           if (a.split("=")[1] == "") {
             // option with required value

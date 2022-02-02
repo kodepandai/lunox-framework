@@ -11,24 +11,22 @@ class MakeMiddlewareCommand extends Command {
     this.info("making middleware...");
     const MiddlewareName = this.argument("name");
 
-    if(fs.existsSync(path.join(
-      base_path("../app/Middleware"),
-      MiddlewareName + ".ts"
-    ))){
+    if (
+      fs.existsSync(
+        path.join(base_path("../app/Middleware"), MiddlewareName + ".ts")
+      )
+    ) {
       this.error("console command already exists!");
       return this.FAILURE;
     }
-    
+
     const stub = fs.readFileSync(stub_path("middleware"), {
       encoding: "utf-8",
     });
     const content = stub.replace(/#MiddlewareName/g, MiddlewareName);
 
     fs.writeFileSync(
-      path.join(
-        base_path("../app/Middleware"),
-        MiddlewareName + ".ts"
-      ),
+      path.join(base_path("../app/Middleware"), MiddlewareName + ".ts"),
       content
     );
     this.comment(`created middleware file ${MiddlewareName}`);

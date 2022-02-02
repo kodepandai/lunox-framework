@@ -1,5 +1,5 @@
 import type Application from "../Foundation/Application";
-import {StorageManager} from "@kodepandai/flydrive";
+import { StorageManager } from "@kodepandai/flydrive";
 
 class FilesystemManager extends StorageManager {
   protected app: Application;

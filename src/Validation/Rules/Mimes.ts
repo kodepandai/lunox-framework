@@ -5,14 +5,12 @@ const Mimes: Rule = {
   name: "mimes",
   passes: async (args, value) => {
     if (!args || args.length == 0) {
-      throw new Error(
-        "Invalid rule args, the usage must be mime:a,b,c"
-      );
+      throw new Error("Invalid rule args, the usage must be mime:a,b,c");
     }
-    if(value instanceof UploadedFile){
+    if (value instanceof UploadedFile) {
       let match = false;
-      args.forEach((arg)=>{
-        if (value.getClientMimeType()?.includes(arg)){
+      args.forEach((arg) => {
+        if (value.getClientMimeType()?.includes(arg)) {
           match = true;
         }
       });
@@ -21,8 +19,6 @@ const Mimes: Rule = {
     return false;
   },
   message: "The :attr must be a file of type: :args.",
-
 };
-  
 
 export default Mimes;
