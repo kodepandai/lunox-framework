@@ -9,7 +9,8 @@
   "main": "dist/index.js",
   "files": [
     "dist/*",
-    "global.d.ts"
+    "global.d.ts",
+    "stub/*"
   ],
   "scripts": {
     "build": "npm run clean && NODE_ENV=production rollup -c && npm run fix",
