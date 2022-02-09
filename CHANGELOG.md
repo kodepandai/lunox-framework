@@ -1,8 +1,13 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- missing return statement on UploadedFile.getClientOriginalExtension method
+
 ### Features
 - **console:** added common artisan command ([#3](https://github.com/kodepintar/lunox-framework/issues/3))
+- **exception:** handle HttpException
+- **exception:** added NotFoundHttpException
 - **filesystem:** change dependency [@slynova](https://github.com/slynova)/flydrive to [@kodepandai](https://github.com/kodepandai)/flydrive
 
 
