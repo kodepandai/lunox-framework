@@ -3,10 +3,15 @@ import type { HttpExceptionInterface } from "../Contracts/Exception/HttpExceptio
 
 class HttpException extends Error implements HttpExceptionInterface {
   private statusCode: number;
-  private headers: ObjectOf<any>;
-  private previous: Error|null;
-  
-  public constructor(statusCode: number, message = "", previous: Error|null = null, headers: ObjectOf<any> = {}){
+  private headers: ObjectOf<string>;
+  private previous: Error | null;
+
+  public constructor(
+    statusCode: number,
+    message = "",
+    previous: Error | null = null,
+    headers: ObjectOf<string> = {}
+  ) {
     super(message);
     this.previous = previous;
     this.statusCode = statusCode;
@@ -15,14 +20,13 @@ class HttpException extends Error implements HttpExceptionInterface {
   public getStatusCode(): number {
     return this.statusCode;
   }
-  public getHeaders(): ObjectOf<any> {
+  public getHeaders(): ObjectOf<string> {
     return this.headers;
   }
 
   public getPrevious(): Error | null {
     return this.previous;
   }
-    
 }
 
 export default HttpException;
