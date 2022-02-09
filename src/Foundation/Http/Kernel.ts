@@ -21,6 +21,7 @@ import formidable from "formidable";
 import UploadedFile from "../../Http/UploadedFile";
 import ViewFactory from "../../View/Factory";
 import RedirectResponse from "../../Http/RedirectResponse";
+import NotFoundHttpException from "../../Http/NotFoundHttpException";
 
 class Kernel {
   protected app: Application;
@@ -56,8 +57,8 @@ class Kernel {
           response.getHeaders()
         );
       },
-      onNoMatch: (req, res) => {
-        res.end("URL not foud");
+      onNoMatch: () => {
+        throw new NotFoundHttpException("URL not found");
       },
     });
 

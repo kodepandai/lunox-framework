@@ -1,9 +1,11 @@
-import RedirectResponse from "src/Http/RedirectResponse";
+import HttpException from "../../Http/HttpException";
+import RedirectResponse from "../../Http/RedirectResponse";
 import type Container from "../../Container/Container";
 import type Request from "../../Http/Request";
 import type HttpResponse from "../../Http/Response";
 import Response from "../../Support/Facades/Response";
 import type { Class, ObjectOf } from "../../Types";
+import ValidationException from "../../Validation/ValidationException";
 
 type renderUsing<E> = (e: E, req: Request) => HttpResponse;
 type reportUsing<E> = (e: E) => void;
@@ -19,6 +21,11 @@ class Handler {
   protected container: Container;
   protected reportCallbacks: reportCallback<any>[] = [];
   protected renderCallbacks: renderCallback<any>[] = [];
+  protected dontReport: Class<Error>[] = [];
+  protected internalDontReport: Class<Error>[] = [
+    HttpException,
+    ValidationException,
+  ];
 
   constructor(container: Container) {
     this.container = container;
@@ -39,14 +46,28 @@ class Handler {
     }
     if (response) return response;
 
+    let statusCode = 500;
+    let headers: ObjectOf<string> = {};
+
+    if (e instanceof HttpException) {
+      statusCode = e.getStatusCode();
+      headers = e.getHeaders();
+
+      if (!req.wantsJson()) {
+        // TODO: render error to view, and we can customize it
+        return Response.make(e.message, statusCode, headers);
+      }
+    }
+
     const err: ObjectOf<any> = { message: e.message };
     if (env("APP_DEBUG")) {
       err.stack = e.stack;
     }
-    return Response.make(err, 500);
+    return Response.make(err, statusCode, headers);
   }
 
   protected report(e: any) {
+    if (this.shouldntReport(e)) return;
     // TODO: make logger
     let report = (e: any) => {
       console.log(e);
@@ -74,6 +95,11 @@ class Handler {
   }
 
   protected register() {}
+
+  protected shouldntReport(e: Class<Error>) {
+    const dontReport = [...this.dontReport, ...this.internalDontReport];
+    return dontReport.findIndex((x) => e instanceof x) >= 0;
+  }
 }
 
 export default Handler;

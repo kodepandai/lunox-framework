@@ -14,7 +14,7 @@ class UploadedFile {
 
   public getClientOriginalExtension() {
     this.failIfArray("getClientOriginalExtension");
-    path.extname((this.file as File).originalFilename || "");
+    return path.extname((this.file as File).originalFilename || "");
   }
 
   public getClientOriginalName() {
