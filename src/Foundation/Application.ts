@@ -1,10 +1,11 @@
 import path from "path";
+import { HttpException, NotFoundHttpException } from "../Http";
 import type Repository from "../Config/Repository";
 import Container from "../Container/Container";
 import type { Bootstrapper } from "../Contracts/Foundation/Boostrapper";
 import RoutingServiceProvider from "../Routing/RoutingServiceProvider";
 import type ServiceProvider from "../Support/ServiceProvider";
-import type { Class } from "../Types";
+import type { Class, ObjectOf } from "../Types";
 
 class Application extends Container {
   protected _basePath!: string;
@@ -86,6 +87,13 @@ class Application extends Container {
 
   protected async registerBaseServiceProviders() {
     await this.register(new RoutingServiceProvider(this));
+  }
+
+  public abort(code: number, message = "", headers: ObjectOf<string> = {}) {
+    if (code == 404) {
+      throw new NotFoundHttpException(message);
+    }
+    throw new HttpException(code, message, null, headers);
   }
 }
 

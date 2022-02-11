@@ -29,6 +29,11 @@ declare global {
   var back: () => RedirectResponse;
   var sha1: (value: string) => string;
   var stub_path: (path?: string) => string;
+  var abort: (
+    code: number,
+    message?: string,
+    headers?: ObjectOf<string>
+  ) => void;
 }
 
 global.get_current_dir = (importMetaUrl: string) => {
@@ -52,3 +57,6 @@ global.sha1 = (value) => crypto.createHash("sha1").update(value).digest("hex");
 
 global.stub_path = (_path = "") =>
   path.join(get_current_dir(import.meta.url), "..", "stub", _path);
+
+global.abort = (code: number, message = "", headers: ObjectOf<string> = {}) =>
+  app().abort(code, message, headers);
