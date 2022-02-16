@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v0.8.0"></a>
+## [v0.8.0] - 2022-02-16
 ### Features
 - **console:** added common artisan command ([#3](https://github.com/kodepintar/lunox-framework/issues/3))
 - **exception:** export HttpException and NotFoundHttpException
@@ -147,7 +150,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.7.5...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.8.0...HEAD
+[v0.8.0]: https://github.com/kodepintar/lunox-framework/compare/v0.7.5...v0.8.0
 [v0.7.5]: https://github.com/kodepintar/lunox-framework/compare/v0.7.4...v0.7.5
 [v0.7.4]: https://github.com/kodepintar/lunox-framework/compare/v0.7.3...v0.7.4
 [v0.7.3]: https://github.com/kodepintar/lunox-framework/compare/v0.7.2...v0.7.3
