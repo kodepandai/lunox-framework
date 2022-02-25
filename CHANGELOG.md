@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- **database:** custom port not loaded from env
+
 
 <a name="v0.8.0"></a>
 ## [v0.8.0] - 2022-02-16
