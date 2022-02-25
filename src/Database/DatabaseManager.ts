@@ -70,6 +70,7 @@ class DatabaseManager {
         user: config.username,
         password: config.password,
         database: config.database,
+        port: config.port
       },
     });
     try {
