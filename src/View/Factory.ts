@@ -65,7 +65,10 @@ class Factory {
       .replace("<!--app-head-->", appHtml.head)
       .replace("/*style*/", appHtml.css.code)
       .replace("$$view", this.path)
-      .replace("$$data", JSON.stringify(this.data));
+      .replace("$$data", 
+        JSON.stringify(this.data)
+          .replace(/\$\$/g, "$$$$$$") //this to prevent "$$" replaced to "$" when render latex
+      );
     req.session().remove("__old");
     req.session().remove("__session");
 
