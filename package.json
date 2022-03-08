@@ -1,6 +1,6 @@
 {
   "name": "lunox",
-  "version": "0.8.1-beta.2",
+  "version": "0.9.0-beta",
   "description": "Laravel-Flavoured NodeJs framework",
   "bin": {
     "lunox": "./bin/lunox.cjs"
@@ -15,7 +15,7 @@
   "scripts": {
     "build": "npm run clean && NODE_ENV=production rollup -c && npm run fix",
     "clean": "rm -rf dist & rm -rf bin",
-    "dev": "rollup -cw & nodemon -q -w dist --es-module-specifier-resolution=node dist/index.js",
+    "dev": "rollup -cw & nodemon -q -w dist dist/index.js",
     "fix": "rm dist/Types.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "prettier --check --plugin-search-dir=. . && eslint .",
@@ -46,12 +46,12 @@
   "homepage": "https://github.com/kodepandai/lunox-framework#readme",
   "dependencies": {
     "@kodepandai/flydrive": "^2.0.0",
+    "@kodepandai/node-input-validator": "^1.0.0-beta",
     "colorette": "^2.0.16",
     "commander": "^8.3.0",
     "dotenv": "^10.0.0",
     "express-session": "^1.17.2",
     "formidable": "^2.0.1",
-    "node-input-validator": "5.0.0-beta.3",
     "pluralize": "^8.0.0",
     "polka": "^1.0.0-next.22",
     "sirv": "^1.0.18"

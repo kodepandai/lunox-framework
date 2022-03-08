@@ -1,7 +1,7 @@
 import type Application from "../Foundation/Application";
 import type { ObjectOf } from "../Types";
 import Validator from "./Validator";
-import pkg from "node-input-validator/cjs/index";
+import {Messages, extend} from "@kodepandai/node-input-validator";
 import type { Rule } from "../Contracts/Validation";
 
 class Factory {
@@ -21,11 +21,11 @@ class Factory {
 
   public extend(rule: Rule) {
     if (rule.message) {
-      pkg.Messages.extend({
+      Messages.extend({
         [rule.name]: rule.message,
       });
     }
-    return pkg.extend(rule.name, (args) => ({
+    return extend(rule.name, (args) => ({
       name: rule.name,
       handler: (value: any) => rule.passes(args, value),
     }));

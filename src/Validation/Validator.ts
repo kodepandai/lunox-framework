@@ -1,8 +1,8 @@
-import pkg from "node-input-validator/cjs/index";
+import {Validator as V} from "@kodepandai/node-input-validator";
 import ValidationException from "../Validation/ValidationException";
 import type { ObjectOf } from "../Types";
 
-class Validator extends pkg.Validator {
+class Validator extends V {
   protected _inputs: ObjectOf<any>;
   constructor(
     data: ObjectOf<any>,
