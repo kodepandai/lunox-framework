@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@kodepandai/flydrive': ^2.0.0
-  '@kodepandai/flydrive-s3': ^2.0.0
+  '@kodepandai/flydrive-s3': ^2.1.0
   '@kodepandai/node-input-validator': ^1.0.0-beta
   '@rollup/plugin-json': ^4.1.0
   '@rollup/plugin-typescript': ^8.3.0
@@ -52,7 +52,7 @@ dependencies:
   sirv: 1.0.18
 
 devDependencies:
-  '@kodepandai/flydrive-s3': 2.0.0_@kodepandai+flydrive@2.0.0
+  '@kodepandai/flydrive-s3': 2.1.0_@kodepandai+flydrive@2.0.0
   '@rollup/plugin-json': 4.1.0_rollup@2.61.1
   '@rollup/plugin-typescript': 8.3.0_3bb347879280457c0420527ae9f527b5
   '@types/bcryptjs': 2.4.2
@@ -135,10 +135,10 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@kodepandai/flydrive-s3/2.0.0_@kodepandai+flydrive@2.0.0:
-    resolution: {integrity: sha512-XnoHd3BsIj2JQkz7m+X5MUC3SXZA6PoP7zv88hvCWVvkvYy7Ly0oYufe53DH/M9fE34x+qjAHReDrvSyXA4CwQ==}
+  /@kodepandai/flydrive-s3/2.1.0_@kodepandai+flydrive@2.0.0:
+    resolution: {integrity: sha512-QUs6HNb/TDRZFEFL4U8sXtfhM3o1EQc/1fUB4FwMzVNR5PNzRAI9tcusbglME1ZvoVdHQUa1cSaH4QINV70euw==}
     peerDependencies:
-      '@kodepandai/flydrive': ^1.0.3
+      '@kodepandai/flydrive': ^2
     dependencies:
       '@kodepandai/flydrive': 2.0.0
       aws-sdk: 2.1088.0
