@@ -14,7 +14,7 @@ class RunSeederCommand extends Command {
     }
     this.info("seed databases...");
     const dbSeeder = (
-      await import(base_path("database/seeders/DatabaseSeeder"))
+      await import(base_path("database/seeders/DatabaseSeeder.js"))
     ).default;
     const instance = new dbSeeder() as Seeder;
     await instance.run();
