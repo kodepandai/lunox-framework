@@ -11,7 +11,7 @@ import fs from "fs";
 import path from "path";
 import type Command from "./Command";
 import { Command as CommanderCommand } from "commander";
-import { blue } from "colorette";
+import { bgRed, blue, whiteBright } from "colorette";
 import { exit } from "process";
 import MakeMigrationCommand from "./MakeMigrationCommand";
 import type { ObjectOf } from "../Types";
@@ -26,6 +26,7 @@ import MakeCommand from "./MakeCommand";
 import MakeMiddlewareCommand from "./MakeMiddlewareCommand";
 import MakeProviderCommand from "./MakeProviderCommand";
 import MakeControllerCommand from "./MakeControllerCommand";
+import { RuntimeException } from "../Foundation/Exception";
 
 class Kernel {
   protected app: Application;
@@ -139,8 +140,19 @@ class Kernel {
 
         commandInstance.setArguments(inputArgs);
         commandInstance.setOptions(_program.opts());
-        const exitCode = await commandInstance.handle();
-        exit(exitCode);
+        try {
+          const exitCode = await commandInstance.handle();
+          exit(exitCode);
+        } catch (error) {
+          if(error instanceof Error){
+            console.log(bgRed(whiteBright(error.message)));
+          } else {
+            console.log(error);
+          }
+          if(!(error instanceof RuntimeException)){
+            exit(1);
+          }
+        }
       });
 
     // parse arguments and options

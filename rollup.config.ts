@@ -48,6 +48,7 @@ export default [
       "objection",
       "pluralize",
       "express-session",
+      "cookie",
     ],
   },
   {

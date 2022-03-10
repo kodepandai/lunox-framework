@@ -1,3 +1,4 @@
+import { RuntimeException } from "../Foundation/Exception";
 import type { CallBack, Concrete, ObjectOf } from "../Types";
 
 interface Binding {
@@ -52,6 +53,9 @@ class Container {
       }
       return this.build<T>(abstract, params);
     } catch (error) {
+      if(error instanceof RuntimeException){
+        throw error;
+      }
       throw new Error("cannot resolve " + abstract);
     }
   }
