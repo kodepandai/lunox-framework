@@ -53,7 +53,7 @@ class Container {
       }
       return this.build<T>(abstract, params);
     } catch (error) {
-      if(error instanceof RuntimeException){
+      if (error instanceof RuntimeException) {
         throw error;
       }
       throw new Error("cannot resolve " + abstract);

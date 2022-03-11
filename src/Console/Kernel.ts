@@ -126,8 +126,8 @@ class Kernel {
 
   protected registerCommand(commandInstance: Command) {
     // get arguments between curly brackets
-    const args = commandInstance.getSignature()
-      .match(/(?<=\{)(.*?)(?=})/g) || [];
+    const args =
+      commandInstance.getSignature().match(/(?<=\{)(.*?)(?=})/g) || [];
     const _program = this.program
       .command(commandInstance.getSignature().split(" ")[0])
       .description(commandInstance.getDescription())
@@ -136,7 +136,7 @@ class Kernel {
           .filter((a) => !(a.startsWith("--") || a.startsWith("-")))
           .map((a) => a.replace("?", ""));
         const inputArgs = _program.args.reduce((p, c, i) => {
-          if(argKeys.length>0){
+          if (argKeys.length > 0) {
             p[argKeys[i].split(" : ")[0]] = c;
           }
           return p;
@@ -149,12 +149,12 @@ class Kernel {
           const exitCode = await commandInstance.handle();
           exit(exitCode);
         } catch (error) {
-          if(error instanceof Error){
+          if (error instanceof Error) {
             console.log(bgRed(whiteBright(error.message)));
           } else {
             console.log(error);
           }
-          if(!(error instanceof RuntimeException)){
+          if (!(error instanceof RuntimeException)) {
             exit(1);
           }
         }

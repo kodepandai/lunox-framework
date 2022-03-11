@@ -7,4 +7,14 @@ import Storage from "./Storage";
 import useFacade from "./useFacade";
 import Validator from "./Validator";
 import View from "./View";
-export { Facade, Response, Route, Storage, useFacade, Validator, View, Auth, Crypt };
+export {
+  Facade,
+  Response,
+  Route,
+  Storage,
+  useFacade,
+  Validator,
+  View,
+  Auth,
+  Crypt,
+};

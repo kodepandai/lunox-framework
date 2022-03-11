@@ -1,4 +1,4 @@
-import {Validator as V} from "@kodepandai/node-input-validator";
+import { Validator as V } from "@kodepandai/node-input-validator";
 import ValidationException from "../Validation/ValidationException";
 import type { ObjectOf } from "../Types";
 

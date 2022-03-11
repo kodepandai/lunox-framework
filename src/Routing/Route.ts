@@ -64,7 +64,7 @@ class Route {
       this.middlewareStack.push(null);
     }
     if (typeof callback == "string") {
-      await import(callback+".js");
+      await import(callback + ".js");
     } else {
       if (typeof callback == "function") {
         await callback();

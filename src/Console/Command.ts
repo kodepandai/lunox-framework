@@ -4,7 +4,6 @@ import type { Application } from "../Foundation";
 import type { ObjectOf } from "../Types";
 
 class Command {
-
   protected laravel!: Application;
 
   SUCCESS: 0 = 0;
@@ -36,7 +35,7 @@ class Command {
     this.opts = opts;
   }
 
-  public setLaravel(laravel: Application){
+  public setLaravel(laravel: Application) {
     this.laravel = laravel;
   }
 
