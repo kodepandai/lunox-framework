@@ -1,8 +1,12 @@
 import { spawn } from "child_process";
 import { bgRed, cyanBright, whiteBright, yellow } from "colorette";
+import type { Application } from "../Foundation";
 import type { ObjectOf } from "../Types";
 
 class Command {
+
+  protected laravel!: Application;
+
   SUCCESS: 0 = 0;
   FAILURE: 1 = 1;
   INVALID: 2 = 2;
@@ -18,7 +22,7 @@ class Command {
   }
 
   public getSignature() {
-    return this.signature;
+    return this.signature.replace(/\s\s+/g, " ");
   }
   public getDescription() {
     return this.description;
@@ -30,6 +34,10 @@ class Command {
 
   public setOptions(opts: ObjectOf<any>) {
     this.opts = opts;
+  }
+
+  public setLaravel(laravel: Application){
+    this.laravel = laravel;
   }
 
   public arguments() {
