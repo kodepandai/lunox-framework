@@ -25,9 +25,9 @@ import NotFoundHttpException from "../../Http/NotFoundHttpException";
 
 class Kernel {
   protected app: Application;
-  protected middleware: Middleware[] = [];
-  protected middlewareGroups: ObjectOf<Middleware[]> = {};
-  protected routeMiddleware: ObjectOf<Middleware> = {};
+  protected middleware: (Middleware|Class<Middleware>)[] = [];
+  protected middlewareGroups: ObjectOf<(Middleware|Class<Middleware>)[]> = {};
+  protected routeMiddleware: ObjectOf<Middleware|Class<Middleware>> = {};
 
   protected bootstrappers: Class<Bootstrapper>[] = [
     LoadEnvirontmentVariabel,
@@ -188,14 +188,17 @@ class Kernel {
     });
   }
 
-  private handleMiddleware(middleware: string | Middleware) {
-    const { handle } = (typeof middleware == "string"
+  private handleMiddleware(middleware: string | Middleware| Class<Middleware>) {
+
+    let middlewareInstance: Middleware|Class<Middleware> = (typeof middleware == "string"
       ? this.routeMiddleware[middleware]
-      : middleware) || { handle: null };
-    if (!handle) throw new Error("cannot resolve middleware " + middleware);
+      : middleware); 
+    if(is_class(middlewareInstance)){
+      middlewareInstance = new (middlewareInstance as Class<Middleware>)();
+    }
     return (_req: Request, res: Response, next: NextHandler) => {
       try {
-        return handle(
+        return (middlewareInstance as Middleware).handle(
           (_req as any)._httpRequest,
           (req: HttpRequest, nativeMiddleware) => {
             // update instance of request from middleware next function

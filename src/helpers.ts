@@ -34,6 +34,7 @@ declare global {
     message?: string,
     headers?: ObjectOf<string>
   ) => void;
+  var is_class: (instance:any) => boolean;
 }
 
 global.get_current_dir = (importMetaUrl: string) => {
@@ -60,3 +61,4 @@ global.stub_path = (_path = "") =>
 
 global.abort = (code: number, message = "", headers: ObjectOf<string> = {}) =>
   app().abort(code, message, headers);
+global.is_class = (instance:any) => typeof instance === "function" && /^class\s/.test(instance + "");
