@@ -26,6 +26,10 @@ class Encrypter {
     this.cipher = cipher;
   }
 
+  public getKey(){
+    return this.key;
+  }
+
   public static supported(key: Buffer, cipher: CipherTypes)
   {
     if(!Encrypter.supportedCiphers[cipher]) return false;
@@ -33,7 +37,7 @@ class Encrypter {
   }
 
   public static generateKey(cipher: CipherTypes){
-    return crypto.randomFillSync(new Uint8Array(Encrypter.supportedCiphers[cipher]["size"]||32));
+    return crypto.randomBytes(Encrypter.supportedCiphers[cipher]["size"]||32);
   }
 
   public encrypt(value:any, needSerialize = true ){

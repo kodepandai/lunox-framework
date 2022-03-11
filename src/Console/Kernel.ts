@@ -27,6 +27,7 @@ import MakeMiddlewareCommand from "./MakeMiddlewareCommand";
 import MakeProviderCommand from "./MakeProviderCommand";
 import MakeControllerCommand from "./MakeControllerCommand";
 import { RuntimeException } from "../Foundation/Exception";
+import KeyGenerateCommand from "./KeyGenerateCommand";
 
 class Kernel {
   protected app: Application;
@@ -70,6 +71,7 @@ class Kernel {
    */
   protected async builtinCommands() {
     const commands = [
+      KeyGenerateCommand,
       MakeCommand,
       MakeControllerCommand,
       MakeMiddlewareCommand,
@@ -124,8 +126,8 @@ class Kernel {
 
   protected registerCommand(commandInstance: Command) {
     // get arguments between curly brackets
-    const args =
-      commandInstance.getSignature().match(/(?<=\{)(.*?)(?=})/g) || [];
+    const args = commandInstance.getSignature()
+      .match(/(?<=\{)(.*?)(?=})/g) || [];
     const _program = this.program
       .command(commandInstance.getSignature().split(" ")[0])
       .description(commandInstance.getDescription())
@@ -134,12 +136,15 @@ class Kernel {
           .filter((a) => !(a.startsWith("--") || a.startsWith("-")))
           .map((a) => a.replace("?", ""));
         const inputArgs = _program.args.reduce((p, c, i) => {
-          p[argKeys[i].split(" : ")[0]] = c;
+          if(argKeys.length>0){
+            p[argKeys[i].split(" : ")[0]] = c;
+          }
           return p;
         }, {} as ObjectOf<string>);
 
         commandInstance.setArguments(inputArgs);
         commandInstance.setOptions(_program.opts());
+        commandInstance.setLaravel(this.app);
         try {
           const exitCode = await commandInstance.handle();
           exit(exitCode);
