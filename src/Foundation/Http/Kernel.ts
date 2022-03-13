@@ -184,7 +184,10 @@ class Kernel {
     server.use(pub);
 
     server.listen(port, () => {
-      console.log("server run on port: " + port);
+      if(process.env.NODE_ENV!="production"){
+        return console.log("Starting development server: http://localhost:" + port);
+      }
+      return console.log("server run on port: " + port);
     });
   }
 
