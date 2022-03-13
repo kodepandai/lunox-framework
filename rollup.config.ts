@@ -49,6 +49,7 @@ export default [
       "pluralize",
       "express-session",
       "cookie",
+      "repl"
     ],
   },
   {

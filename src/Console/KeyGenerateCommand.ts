@@ -19,7 +19,7 @@ class KeyGenerateCommand extends Command {
     }
     this.setKeyInEnvironmentFile(key);
     this.info("Application key set successfully.");
-    this.laravel.make<Repository>("config").set("app.key", key);
+    this.lunox.make<Repository>("config").set("app.key", key);
 
     return this.SUCCESS;
   }
@@ -29,7 +29,7 @@ class KeyGenerateCommand extends Command {
       "base64:" +
       Encrypter.base64Encode(
         Encrypter.generateKey(
-          this.laravel.make<Repository>("config").get("app.cipher")
+          this.lunox.make<Repository>("config").get("app.cipher")
         )
       )
     );

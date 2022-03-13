@@ -4,7 +4,7 @@ import type { Application } from "../Foundation";
 import type { ObjectOf } from "../Types";
 
 class Command {
-  protected laravel!: Application;
+  protected lunox!: Application;
 
   SUCCESS: 0 = 0;
   FAILURE: 1 = 1;
@@ -35,8 +35,8 @@ class Command {
     this.opts = opts;
   }
 
-  public setLaravel(laravel: Application) {
-    this.laravel = laravel;
+  public setLunox(lunox: Application) {
+    this.lunox = lunox;
   }
 
   public arguments() {

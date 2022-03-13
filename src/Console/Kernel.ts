@@ -8,7 +8,6 @@ import RegisterFacades from "../Foundation/Bootstrap/RegisterFacades";
 import RegisterProviders from "../Foundation/Bootstrap/RegisterProviders";
 import BootProviders from "../Foundation/Bootstrap/BootProviders";
 import fs from "fs";
-import path from "path";
 import type Command from "./Command";
 import { Command as CommanderCommand } from "commander";
 import { bgRed, blue, whiteBright } from "colorette";
@@ -28,6 +27,7 @@ import MakeProviderCommand from "./MakeProviderCommand";
 import MakeControllerCommand from "./MakeControllerCommand";
 import { RuntimeException } from "../Foundation/Exception";
 import KeyGenerateCommand from "./KeyGenerateCommand";
+import TinkerCommand from "./TinkerCommand";
 
 class Kernel {
   protected app: Application;
@@ -84,6 +84,7 @@ class Kernel {
       RollbackMigrationCommand,
       ResetMigrationCommand,
       RefreshMigrationCommand,
+      TinkerCommand
     ];
     await Promise.all(
       commands.map((c) => {
@@ -100,20 +101,9 @@ class Kernel {
   }
 
   protected async load(paths: string) {
-    let files: string[] = [];
-    const walkDir = async (_path: string) => {
-      const _files = fs.readdirSync(_path);
-      await Promise.all(
-        _files.map(async (f) => {
-          if (fs.lstatSync(path.join(_path, f)).isDirectory()) {
-            return walkDir(path.join(_path, f));
-          }
-          files = files.concat(path.join(_path, f));
-        })
-      );
-    };
+    
     // resolve all commands from given path
-    walkDir(paths);
+    const files = await walkDir(paths);
     // register all commands to artisan
     await Promise.all(
       files.map(async (f) => {
@@ -144,10 +134,12 @@ class Kernel {
 
         commandInstance.setArguments(inputArgs);
         commandInstance.setOptions(_program.opts());
-        commandInstance.setLaravel(this.app);
+        commandInstance.setLunox(this.app);
         try {
           const exitCode = await commandInstance.handle();
-          exit(exitCode);
+          if(exitCode>0){
+            exit(exitCode);
+          }
         } catch (error) {
           if (error instanceof Error) {
             console.log(bgRed(whiteBright(error.message)));
