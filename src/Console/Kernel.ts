@@ -46,6 +46,7 @@ class Kernel {
   constructor(app: Application) {
     this.app = app;
     this.program = new CommanderCommand();
+    process.env.APP_RUNNING_IN_CONSOLE = "true";
   }
 
   public async handle() {

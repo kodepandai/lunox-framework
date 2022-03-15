@@ -12,6 +12,10 @@ class Application extends Container {
 
   protected isBooted = false;
 
+  public config!: Repository;
+
+  protected isRunningInConsole: boolean|null = null;
+
   constructor(basePath: string | null = null) {
     super();
     /* exported app */
@@ -94,6 +98,17 @@ class Application extends Container {
       throw new NotFoundHttpException(message);
     }
     throw new HttpException(code, message, null, headers);
+  }
+
+  public runningInConsole(){
+    if(this.isRunningInConsole == null){
+      this.isRunningInConsole = env("APP_RUNNING_IN_CONSOLE");
+    }
+    return this.isRunningInConsole;
+  }
+
+  public runingUnitTests(){
+    this.config.get("app.env") == "testing";
   }
 }
 

@@ -9,6 +9,7 @@ class LoadConfiguration implements Bootstrapper {
     app.singleton("config", Repository);
     const Config = app.make<Repository>("config", { items: {} });
     global.config = (key, defaultValue) => Config.get(key, defaultValue);
+    app.config = Config;
     await this.loadConfigurations(app, Config);
   }
 
