@@ -5,6 +5,7 @@ import type Repository from "../Config/Repository";
 import type { Configuration } from "../Contracts/Session";
 import type { Session } from "express-session";
 import type Request from "../Http/Request";
+import { Str } from "../Support";
 
 interface ExtendedSession extends Partial<Session> {
   __old?: any;
@@ -19,6 +20,8 @@ class SessionManager {
 
   protected request!: Request;
 
+  protected started = false;
+
   constructor(app: Application) {
     this.app = app;
     this.session = {};
@@ -27,6 +30,9 @@ class SessionManager {
   public setRequest(request: Request) {
     this.session = request.getOriginalRequest().session || {};
     this.request = request;
+    if(!this.isStarted()){
+      this.start();
+    }
     return this;
   }
 
@@ -165,6 +171,25 @@ class SessionManager {
         }
       });
     });
+  }
+
+  public async start(){
+    if(! this.has("_token")){
+      this.regenerateToken();
+    }
+    this.started = true;
+  }
+
+  public regenerateToken(){
+    this.put("_token", Str.random(40));
+  }
+
+  public token(){
+    this.get("_token");
+  }
+
+  public isStarted(){
+    return this.started;
   }
 }
 export default SessionManager;
