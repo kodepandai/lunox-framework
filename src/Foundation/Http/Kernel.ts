@@ -1,13 +1,25 @@
 import { STATUS_CODES } from "http";
 import sirv from "sirv";
 import path from "path";
-import polka, { Request, NextHandler, Response, IError } from "polka";
+import polka, {
+  Request as ServerRequest,
+  NextHandler,
+  Response as ServerResponse,
+  IError,
+} from "polka";
 
 import type { Bootstrapper } from "../../Contracts/Foundation/Boostrapper";
-import type { Middleware } from "../../Contracts/Http/Middleware";
+import type {
+  Middleware,
+  NativeMiddleware,
+} from "../../Contracts/Http/Middleware";
 import HttpRequest from "../../Http/Request";
 import HttpResponse from "../../Http/Response";
-import Route from "../../Support/Facades/Route";
+import {
+  Route,
+  Response as ResponseFacade,
+  Response,
+} from "../../Support/Facades";
 import type { Class, ObjectOf } from "../../Types";
 import type Application from "../Application";
 import BootProviders from "../Bootstrap/BootProviders";
@@ -25,9 +37,9 @@ import NotFoundHttpException from "../../Http/NotFoundHttpException";
 
 class Kernel {
   protected app: Application;
-  protected middleware: (Middleware|Class<Middleware>)[] = [];
-  protected middlewareGroups: ObjectOf<(Middleware|Class<Middleware>)[]> = {};
-  protected routeMiddleware: ObjectOf<Middleware|Class<Middleware>> = {};
+  protected middleware: (Middleware | Class<Middleware>)[] = [];
+  protected middlewareGroups: ObjectOf<(Middleware | Class<Middleware>)[]> = {};
+  protected routeMiddleware: ObjectOf<Middleware | Class<Middleware>> = {};
 
   protected bootstrappers: Class<Bootstrapper>[] = [
     LoadEnvirontmentVariabel,
@@ -92,7 +104,7 @@ class Kernel {
     // run global middlewares
     const globalMiddlewares = this.middleware.map((middleware) =>
       this.handleMiddleware(middleware)
-    );
+    ) as any;
     server.use(...globalMiddlewares);
 
     const port = env("PORT") || 8000;
@@ -139,17 +151,50 @@ class Kernel {
             if (response instanceof RedirectResponse) {
               response.setRequest(httpRequest);
             }
+
+            let httpResponse: HttpResponse =
+              ResponseFacade.make(response).setServerResponse(res);
+            const afterMiddlewares = route.middleware
+              .reduce((collect, middleware) => {
+                if (
+                  typeof middleware == "string" &&
+                  this.middlewareGroups[middleware]
+                ) {
+                  collect = [
+                    ...collect,
+                    ...this.middlewareGroups[middleware].map((m) =>
+                      this.handleMiddleware(m, true)
+                    ),
+                  ];
+                } else {
+                  collect = [
+                    ...collect,
+                    this.handleMiddleware(middleware, true),
+                  ];
+                }
+                return collect;
+              }, [] as any[])
+              .filter((m) => m != undefined);
+            for (let i = 0; i <= afterMiddlewares.length; i++) {
+              const afterMiddleware = afterMiddlewares[i];
+              if (typeof afterMiddleware == "function") {
+                httpResponse = await afterMiddleware(httpResponse);
+              }
+            }
+
+            res = httpResponse.getServerResponse() as ServerResponse;
             if (response instanceof HttpResponse) {
               // make sure all session is saved
               await httpRequest.session().save();
 
               return this.send(
                 res,
-                response.getStatus(),
-                response.getOriginal(),
-                response.getHeaders()
+                httpResponse.getStatus(),
+                httpResponse.getOriginal(),
+                httpResponse.getHeaders()
               );
             }
+
             if (["object", "number", "boolean"].includes(typeof response)) {
               return res.end(JSON.stringify(response));
             }
@@ -184,34 +229,56 @@ class Kernel {
     server.use(pub);
 
     server.listen(port, () => {
-      if(process.env.NODE_ENV!="production"){
-        return console.log("Starting development server: http://localhost:" + port);
+      if (process.env.NODE_ENV != "production") {
+        return console.log(
+          "Starting development server: http://localhost:" + port
+        );
       }
       return console.log("server run on port: " + port);
     });
   }
 
-  private handleMiddleware(middleware: string | Middleware| Class<Middleware>) {
-
-    let middlewareInstance: Middleware|Class<Middleware> = (typeof middleware == "string"
-      ? this.routeMiddleware[middleware]
-      : middleware); 
-    if(is_class(middlewareInstance)){
+  private handleMiddleware(
+    middleware: string | Middleware | Class<Middleware>,
+    after = false
+  ) {
+    let middlewareInstance: Middleware | Class<Middleware> =
+      typeof middleware == "string"
+        ? this.routeMiddleware[middleware]
+        : middleware;
+    if (is_class(middlewareInstance)) {
       middlewareInstance = new (middlewareInstance as Class<Middleware>)();
     }
-    return (_req: Request, res: Response, next: NextHandler) => {
+    if (after) {
+      return (<Middleware>middlewareInstance).handleAfter;
+    }
+    if ((<Middleware>middlewareInstance).handleNative) {
+      return (<Middleware>middlewareInstance).handleNative as NativeMiddleware;
+    }
+    return async (
+      _req: ServerRequest,
+      _res: ServerResponse,
+      next: NextHandler
+    ) => {
       try {
-        return (middlewareInstance as Middleware).handle(
-          (_req as any)._httpRequest,
-          (req: HttpRequest, nativeMiddleware) => {
-            // update instance of request from middleware next function
-            (_req as any)._httpRequest = req;
-            if (nativeMiddleware) {
-              return nativeMiddleware(_req, res, next);
-            }
-            return next();
-          }
+        const handle = (<Middleware>middlewareInstance).handle?.bind(
+          middlewareInstance
         );
+        if (handle) {
+          const responseHandle = await handle(
+            (_req as any)._httpRequest,
+            (req: HttpRequest) => {
+              // update instance of request from middleware next function
+              (_req as any)._httpRequest = req;
+              return Response.make().setServerResponse(_res);
+            }
+          );
+          const updatedResponse = responseHandle.getServerResponse();
+          if (updatedResponse) {
+            _res = updatedResponse;
+          }
+        }
+        return next();
       } catch (error) {
         if (error instanceof Error) {
           return next(error);
@@ -221,7 +288,7 @@ class Kernel {
   }
 
   private send(
-    res: Response,
+    res: ServerResponse,
     code = 200,
     data: any = "",
     headers: ObjectOf<string> = {}

@@ -6,7 +6,7 @@ import ExpressSession from "express-session";
 import Session from "../../Support/Facades/Session";
 
 const StartSession: Middleware = {
-  async handle(req, next) {
+  async handleNative(req, res, next) {
     const sessionConfig = Session.getConfig();
     const SessionMiddleware = ExpressSession({
       store: await Session.getStore(ExpressSession),
@@ -24,7 +24,7 @@ const StartSession: Middleware = {
           sessionConfig.same_site == null ? undefined : sessionConfig.same_site,
       },
     }) as unknown as NativeMiddleware;
-    return next(req, SessionMiddleware);
+    return SessionMiddleware(req, res, next);
   },
 };
 

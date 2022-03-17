@@ -28,16 +28,16 @@ class Request {
     this.data = { ...query, ...req.body };
   }
 
-  public get(key: string, defaultValue=null) { 
+  public get(key: string, defaultValue = null) {
     return this.data[key] || defaultValue;
   }
 
-  public input(key: string, defaultValue=null){
+  public input(key: string, defaultValue = null) {
     return this.get(key, defaultValue);
   }
 
-  public header(key: string){
-    return this.req.headers[key];
+  public header(key: string) {
+    return this.req.headers[key.toLowerCase()];
   }
 
   public only(keys: string[]): ObjectOf<any> {
@@ -59,7 +59,7 @@ class Request {
     return this.files[key] || null;
   }
 
-  public method(){
+  public method() {
     return this.req.method;
   }
 
@@ -110,8 +110,8 @@ class Request {
     ).validate();
   }
 
-  public is(...patterns: any[]){
-    return Str.is(patterns, this.req.url.replace("/",""));
+  public is(...patterns: any[]) {
+    return Str.is(patterns, this.req.url.replace("/", ""));
   }
 }
 

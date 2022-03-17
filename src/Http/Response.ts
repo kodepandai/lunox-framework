@@ -1,11 +1,17 @@
 import type { ObjectOf } from "../Types";
+import type { Response as ServerResponse } from "polka";
 
 class Response {
   protected original: any;
   protected status: number;
-  protected headers: ObjectOf<string>;
+  protected headers: ObjectOf<any>;
+  protected res?: ServerResponse;
   constructor(content: any, status = 200, headers: ObjectOf<string> = {}) {
-    this.original = content;
+    if (content instanceof Response) {
+      this.original = content.getOriginal();
+    } else {
+      this.original = content;
+    }
     this.status = status;
     this.headers = headers;
   }
@@ -27,11 +33,25 @@ class Response {
     return this;
   }
 
+  public setServerResponse(res: ServerResponse) {
+    this.res = res;
+    this.res.statusCode = this.status;
+    return this;
+  }
+
+  public getServerResponse() {
+    return this.res;
+  }
+
   public setHeader(key: string, value: string) {
-    this.headers = {
-      ...this.headers,
-      [key]: value,
-    };
+    if (this.res) {
+      this.res.setHeader(key, value);
+    } else {
+      this.headers = {
+        ...this.headers,
+        [key]: value,
+      };
+    }
     return this;
   }
 }
