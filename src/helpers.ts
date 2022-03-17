@@ -36,7 +36,7 @@ declare global {
     message?: string,
     headers?: ObjectOf<string>
   ) => void;
-  var is_class: (instance:any) => boolean;
+  var is_class: (instance: any) => boolean;
   var walkDir: (path: string) => Promise<string[]>;
 }
 
@@ -62,11 +62,13 @@ global.sha1 = (value) => crypto.createHash("sha1").update(value).digest("hex");
 global.stub_path = (_path = "") =>
   path.join(get_current_dir(import.meta.url), "..", "stub", _path);
 
-global.lunox_path = (_path="")=> path.join(get_current_dir(import.meta.url), _path);
+global.lunox_path = (_path = "") =>
+  path.join(get_current_dir(import.meta.url), _path);
 
 global.abort = (code: number, message = "", headers: ObjectOf<string> = {}) =>
   app().abort(code, message, headers);
-global.is_class = (instance:any) => typeof instance === "function" && /^class\s/.test(instance + "");
+global.is_class = (instance: any) =>
+  typeof instance === "function" && /^class\s/.test(instance + "");
 
 global.walkDir = async (_path: string) => {
   let files: string[] = [];

@@ -85,7 +85,7 @@ class Kernel {
       RollbackMigrationCommand,
       ResetMigrationCommand,
       RefreshMigrationCommand,
-      TinkerCommand
+      TinkerCommand,
     ];
     await Promise.all(
       commands.map((c) => {
@@ -102,7 +102,6 @@ class Kernel {
   }
 
   protected async load(paths: string) {
-    
     // resolve all commands from given path
     const files = await walkDir(paths);
     // register all commands to artisan
@@ -138,7 +137,7 @@ class Kernel {
         commandInstance.setLunox(this.app);
         try {
           const exitCode = await commandInstance.handle();
-          if(exitCode>0){
+          if (exitCode > 0) {
             exit(exitCode);
           }
         } catch (error) {

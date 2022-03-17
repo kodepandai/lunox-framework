@@ -8,25 +8,23 @@ class TinkerCommand extends Command {
   protected description = "Interact with your application";
   protected shell!: repl.REPLServer;
 
-  public async handle(){
-    
+  public async handle() {
     this.shell = repl.start();
     this.shell.context.use = this.loadModule.bind(this);
     return this.SUCCESS;
   }
 
-  protected async loadModule(module:string){
-    if(module.includes("app")){
+  protected async loadModule(module: string) {
+    if (module.includes("app")) {
       module = path.join(this.lunox.basePath(), module);
-      const Instance = (await import(module+".js")).default;
+      const Instance = (await import(module + ".js")).default;
 
       this.shell.context[module.split(path.sep).pop() as string] = Instance;
     } else {
       const Instance = (await import(lunox_path("index.js")))[module];
-      if(Instance instanceof Facade){   
+      if (Instance instanceof Facade) {
         this.shell.context[module] = useFacade(Instance);
       } else {
-    
         this.shell.context[module] = Instance;
       }
     }

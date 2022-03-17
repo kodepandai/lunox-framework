@@ -2,7 +2,7 @@ import type { ObjectOf } from "../Types";
 import type Application from "../Foundation/Application";
 import type { Store } from "express-session";
 import type Repository from "../Config/Repository";
-import type { Configuration } from "../Contracts/Session";
+import type { SessionConfig } from "../Contracts/Config";
 import type { Session } from "express-session";
 import type Request from "../Http/Request";
 import { Str } from "../Support";
@@ -30,7 +30,7 @@ class SessionManager {
   public setRequest(request: Request) {
     this.session = request.getOriginalRequest().session || {};
     this.request = request;
-    if(!this.isStarted()){
+    if (!this.isStarted()) {
       this.start();
     }
     return this;
@@ -144,7 +144,7 @@ class SessionManager {
     }
   }
 
-  public getConfig(): Configuration {
+  public getConfig(): SessionConfig {
     return this.app.make<Repository>("config").get("session");
   }
 
@@ -173,22 +173,22 @@ class SessionManager {
     });
   }
 
-  public async start(){
-    if(! this.has("_token")){
+  public async start() {
+    if (!this.has("_token")) {
       this.regenerateToken();
     }
     this.started = true;
   }
 
-  public regenerateToken(){
+  public regenerateToken() {
     this.put("_token", Str.random(40));
   }
 
-  public token(){
-    this.get("_token");
+  public token() {
+    return this.get("_token");
   }
 
-  public isStarted(){
+  public isStarted() {
     return this.started;
   }
 }

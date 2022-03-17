@@ -46,6 +46,7 @@
   "homepage": "https://github.com/kodepandai/lunox-framework#readme",
   "dependencies": {
     "@kodepandai/flydrive": "^2.0.0",
+    "@kodepandai/hash-equals": "^0.1.0",
     "@kodepandai/node-input-validator": "^1.0.0-beta",
     "colorette": "^2.0.16",
     "commander": "^8.3.0",

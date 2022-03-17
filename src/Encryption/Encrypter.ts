@@ -6,6 +6,7 @@ import { RuntimeException } from "../Foundation/Exception";
 import type { CipherTypes, JsonPayload } from "../Contracts/Encryption";
 import DecryptException from "./DecryptException";
 import type { ObjectOf } from "../Types";
+import hashEquals from "@kodepandai/hash-equals";
 
 class Encrypter {
   protected key!: Buffer;
@@ -102,15 +103,6 @@ class Encrypter {
     hmac.update(data);
     return hmac.digest("hex");
   }
-  static base64Encode(value: string | Buffer) {
-    if (typeof value == "string") {
-      value = Buffer.from(value);
-    }
-    return value.toString("base64");
-  }
-  static base64Decode(value: string) {
-    return Buffer.from(value, "base64");
-  }
 
   protected getJsonPayload(payload: string) {
     let json = {};
@@ -139,6 +131,21 @@ class Encrypter {
   }
   protected isValidMac(payload: JsonPayload) {
     return this.hash(payload.iv, payload.value) === payload.mac;
+  }
+
+  public static hashEquals(answer: string, guess: string) {
+    return hashEquals(answer, guess);
+  }
+
+  public static base64Encode(value: string | Buffer) {
+    if (typeof value == "string") {
+      value = Buffer.from(value);
+    }
+    return value.toString("base64");
+  }
+
+  public static base64Decode(value: string) {
+    return Buffer.from(value, "base64");
   }
 }
 

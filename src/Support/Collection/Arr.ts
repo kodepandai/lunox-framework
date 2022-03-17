@@ -1,9 +1,9 @@
 class Arr {
-  public static wrap(value:string[]|string|null){
-    if(value === null){
+  public static wrap(value: string[] | string | null) {
+    if (value === null) {
       return [];
     }
-    return Array.isArray(value)?value: [value];
+    return Array.isArray(value) ? value : [value];
   }
 }
 

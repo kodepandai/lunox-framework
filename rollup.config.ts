@@ -39,6 +39,7 @@ export default [
       "@kodepandai/flydrive",
       "@kodepandai/flydrive-s3",
       "@kodepandai/node-input-validator",
+      "@kodepandai/hash-equals",
       "formidable",
       "commander",
       "colorette",
@@ -49,7 +50,7 @@ export default [
       "pluralize",
       "express-session",
       "cookie",
-      "repl"
+      "repl",
     ],
   },
   {
