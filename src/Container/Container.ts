@@ -1,3 +1,4 @@
+import { RuntimeException } from "../Foundation/Exception";
 import type { CallBack, Concrete, ObjectOf } from "../Types";
 
 interface Binding {
@@ -29,7 +30,7 @@ class Container {
     let instance: any = null;
 
     // if concrete is Class, construct it and inject the params
-    if (typeof concrete === "function" && /^class\s/.test(concrete + "")) {
+    if (is_class(concrete)) {
       instance = Reflect.construct(concrete, []);
       Object.keys(params).forEach((key) => {
         Reflect.set(instance, key, params[key]);
@@ -52,6 +53,9 @@ class Container {
       }
       return this.build<T>(abstract, params);
     } catch (error) {
+      if (error instanceof RuntimeException) {
+        throw error;
+      }
       throw new Error("cannot resolve " + abstract);
     }
   }

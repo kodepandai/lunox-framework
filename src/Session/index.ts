@@ -1,3 +1,4 @@
 import StartSession from "./Middleware/StartSession";
 import SessionServiceProvider from "./SessionServiceProvider";
-export { SessionServiceProvider, StartSession };
+import TokenMismatchException from "./TokenMismatchException";
+export { SessionServiceProvider, StartSession, TokenMismatchException };

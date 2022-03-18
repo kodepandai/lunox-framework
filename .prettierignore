@@ -2,3 +2,4 @@ dist/
 bin/
 *.md
 entry-server.ts
+*.yaml

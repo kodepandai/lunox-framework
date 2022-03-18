@@ -1,3 +1,3 @@
 import Handler from "./Handler";
-
-export { Handler };
+import RuntimeException from "./RuntimeException";
+export { Handler, RuntimeException };

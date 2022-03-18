@@ -1,8 +1,30 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v0.9.0"></a>
+## [v0.9.0] - 2022-03-18
 ### Bug Fixes
 - **database:** custom port not loaded from env
+- **view:** prevent latex being stripped
+
+### Code Refactoring
+- full esm support ([#5](https://github.com/kodepintar/lunox-framework/issues/5))
+
+### Features
+- **application:** added runningInConsole and runningUnitTests method
+- **command:** added artisan key:generate command
+- **command:** added artisan tinker command
+- **console:** access laravel application from console command
+- **encryption:** added encrypter class
+- **facade:** added Crypt facade
+- **helpers:** added Str.is and Str.random method
+- **kernel:** separate before middleware, after middleware and native middleware excecution
+- **middleware:** support class based middleware
+- **middleware:** add and verify csrf token
+- **middleware:** EncryptCookie middleware that decrypt and encrypt cookie automatically
+- **request:** added new method is, header, method, and input (alias to method get)
+- **session:** generate token for csrf protection
 
 
 <a name="v0.8.0"></a>
@@ -153,7 +175,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.9.0...HEAD
+[v0.9.0]: https://github.com/kodepintar/lunox-framework/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/kodepintar/lunox-framework/compare/v0.7.5...v0.8.0
 [v0.7.5]: https://github.com/kodepintar/lunox-framework/compare/v0.7.4...v0.7.5
 [v0.7.4]: https://github.com/kodepintar/lunox-framework/compare/v0.7.3...v0.7.4

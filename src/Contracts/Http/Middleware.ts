@@ -1,13 +1,15 @@
 import type Request from "../../Http/Request";
 import type { Middleware as PolkaMiddleware } from "polka";
+import type Response from "../../Http/Response";
 
 export type NativeMiddleware = PolkaMiddleware;
-export type MiddlewareHandler = (
-  req: Request,
-  next: (req: Request, nativeMiddleware?: NativeMiddleware) => void,
-  ...args: any[]
-) => Promise<any>;
-
+export type NextFunction = (req: Request) => Response;
 export interface Middleware {
-  handle: MiddlewareHandler;
+  handle?: (
+    req: Request,
+    next: NextFunction,
+    ...args: any[]
+  ) => Promise<Response>;
+  handleAfter?: (res: Response) => Promise<Response>;
+  handleNative?: NativeMiddleware;
 }

@@ -6,6 +6,7 @@ import type HttpResponse from "../../Http/Response";
 import Response from "../../Support/Facades/Response";
 import type { Class, ObjectOf } from "../../Types";
 import ValidationException from "../../Validation/ValidationException";
+import { TokenMismatchException } from "../../Session";
 
 type renderUsing<E> = (e: E, req: Request) => HttpResponse;
 type reportUsing<E> = (e: E) => void;
@@ -25,6 +26,7 @@ class Handler {
   protected internalDontReport: Class<Error>[] = [
     HttpException,
     ValidationException,
+    TokenMismatchException,
   ];
 
   constructor(container: Container) {
@@ -49,6 +51,8 @@ class Handler {
     let statusCode = 500;
     let headers: ObjectOf<string> = {};
 
+    e = this.prepareException(e);
+
     if (e instanceof HttpException) {
       statusCode = e.getStatusCode();
       headers = e.getHeaders();
@@ -66,6 +70,20 @@ class Handler {
     return Response.make(err, statusCode, headers);
   }
 
+  protected prepareException(e:any){
+    const mapException = [
+      {
+        type: TokenMismatchException,
+        value: (e: TokenMismatchException)=> new HttpException(419, e.message, e)
+      }
+    ];
+    return mapException.reduce((prev, map)=>{
+      if (e instanceof map.type){ 
+        prev = map.value(e);
+      }
+      return prev;
+    }, e);
+  }
   protected report(e: any) {
     if (this.shouldntReport(e)) return;
     // TODO: make logger

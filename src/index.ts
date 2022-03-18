@@ -14,3 +14,5 @@ export * from "./Console";
 export * from "./View";
 export * from "./Session";
 export * from "./Http";
+export * from "./Cookie";
+export * from "./Encryption";

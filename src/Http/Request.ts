@@ -8,7 +8,12 @@ import AuthManagerClass from "../Auth/AuthManager";
 import type { StatefulGuard } from "../Contracts/Auth/StatefulGuard";
 import Str from "../Support/Str";
 import Validator from "../Support/Facades/Validator";
+import cookie from "cookie";
 
+interface RequestCookies {
+  [key: string]: any,
+  set: (key: string, value: any) => void
+}
 class Request {
   protected app: Application;
   public files: ObjectOf<UploadedFile> = {};
@@ -21,6 +26,8 @@ class Request {
 
   protected authManager?: AuthManager & StatefulGuard;
 
+  protected _cookies?: ObjectOf<any>;
+
   constructor(app: Application, req: ExtendedRequest) {
     this.app = app;
     this.req = req;
@@ -28,8 +35,16 @@ class Request {
     this.data = { ...query, ...req.body };
   }
 
-  public get(key: string) {
-    return this.data[key] || null;
+  public get(key: string, defaultValue = null) {
+    return this.data[key] || defaultValue;
+  }
+
+  public input(key: string, defaultValue = null) {
+    return this.get(key, defaultValue);
+  }
+
+  public header(key: string) {
+    return this.req.headers[key.toLowerCase()];
   }
 
   public only(keys: string[]): ObjectOf<any> {
@@ -49,6 +64,10 @@ class Request {
 
   public file(key: string) {
     return this.files[key] || null;
+  }
+
+  public method() {
+    return this.req.method;
   }
 
   public merge(newData: ObjectOf<any>) {
@@ -71,6 +90,23 @@ class Request {
     return (this.sessionManager = new SessionManager(this.app).setRequest(
       this
     ));
+  }
+
+  public get cookies(){
+    if(!this._cookies){
+      this._cookies =  cookie.parse(this.req.headers?.cookie as string||"");
+      Object.defineProperty(this._cookies, "set", {
+        value: this.setCookie.bind(this)
+      });
+    }
+    return this._cookies as RequestCookies;
+  }
+
+  public setCookie(key: string, value: any){
+    if(!this._cookies){
+      this._cookies = {};
+    }
+    this._cookies[key] = value;
   }
 
   public auth() {
@@ -96,6 +132,10 @@ class Request {
       messages,
       customAttributes
     ).validate();
+  }
+
+  public is(...patterns: any[]) {
+    return Str.is(patterns, this.req.url.replace("/", ""));
   }
 }
 

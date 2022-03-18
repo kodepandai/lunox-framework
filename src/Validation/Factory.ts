@@ -1,7 +1,7 @@
 import type Application from "../Foundation/Application";
 import type { ObjectOf } from "../Types";
 import Validator from "./Validator";
-import {Messages, extend} from "@kodepandai/node-input-validator";
+import { Messages, extend } from "@kodepandai/node-input-validator";
 import type { Rule } from "../Contracts/Validation";
 
 class Factory {
