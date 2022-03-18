@@ -17,7 +17,6 @@ import HttpRequest from "../../Http/Request";
 import HttpResponse from "../../Http/Response";
 import {
   Route,
-  Response as ResponseFacade,
   Response,
 } from "../../Support/Facades";
 import type { Class, ObjectOf } from "../../Types";
@@ -66,7 +65,7 @@ class Kernel {
           res,
           response.getStatus(),
           response.getOriginal(),
-          response.getHeaders()
+          response.headers
         );
       },
       onNoMatch: () => {
@@ -79,10 +78,12 @@ class Kernel {
     await this.app.bootstrapWith(this.bootstrappers);
 
     server.use((req, res, next) => {
-      // create Http\Request on first middleware
+      // create Http\Request and Http\Response on first middleware
       // and inject it to rest of middleware
       const request = new HttpRequest(this.app, req);
+      const response = Response.make({}).setServerResponse(res);
       (req as any)._httpRequest = request;
+      (res as any)._httpResponse = response;
       if (req.method.toLowerCase() == "get") return next();
 
       const form = formidable({ multiples: true });
@@ -139,6 +140,7 @@ class Kernel {
           ...routeMiddlewares,
           async (req, res) => {
             const httpRequest = (req as any)._httpRequest as HttpRequest;
+            let httpResponse = (res as any)._httpResponse as HttpResponse;
             let response = await route.action(
               httpRequest,
               ...Object.values(req.params)
@@ -152,8 +154,6 @@ class Kernel {
               response.setRequest(httpRequest);
             }
 
-            let httpResponse: HttpResponse =
-              ResponseFacade.make(response).setServerResponse(res);
             const afterMiddlewares = route.middleware
               .reduce((collect, middleware) => {
                 if (
@@ -182,16 +182,16 @@ class Kernel {
               }
             }
 
-            res = httpResponse.getServerResponse() as ServerResponse;
             if (response instanceof HttpResponse) {
               // make sure all session is saved
               await httpRequest.session().save();
-
+              httpResponse.mergeResponse(response);
+              httpResponse.setCookiesToHeaders();
               return this.send(
                 res,
                 httpResponse.getStatus(),
                 httpResponse.getOriginal(),
-                httpResponse.getHeaders()
+                httpResponse.headers
               );
             }
 
@@ -250,10 +250,10 @@ class Kernel {
       middlewareInstance = new (middlewareInstance as Class<Middleware>)();
     }
     if (after) {
-      return (<Middleware>middlewareInstance).handleAfter;
+      return (<Middleware>middlewareInstance).handleAfter?.bind(middlewareInstance);
     }
     if ((<Middleware>middlewareInstance).handleNative) {
-      return (<Middleware>middlewareInstance).handleNative as NativeMiddleware;
+      return (<Middleware>middlewareInstance).handleNative?.bind(middlewareInstance) as NativeMiddleware;
     }
     return async (
       _req: ServerRequest,
@@ -270,13 +270,10 @@ class Kernel {
             (req: HttpRequest) => {
               // update instance of request from middleware next function
               (_req as any)._httpRequest = req;
-              return Response.make().setServerResponse(_res);
+              return (_res as any)._httpResponse as HttpResponse;
             }
           );
-          const updatedResponse = responseHandle.getServerResponse();
-          if (updatedResponse) {
-            _res = updatedResponse;
-          }
+          (_res as any)._httpResponse  = responseHandle;
         }
         return next();
       } catch (error) {
@@ -299,7 +296,9 @@ class Kernel {
     let k: any;
     const obj: ObjectOf<any> = {};
     for (k in headers) {
-      obj[k.toLowerCase()] = headers[k];
+      if(typeof headers[k]!="function"){
+        obj[k.toLowerCase()] = headers[k];
+      }
     }
 
     let type = obj[TYPE] || res.getHeader(TYPE);

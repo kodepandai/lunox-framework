@@ -96,10 +96,10 @@ class Encrypter {
       throw new Error("Value is not defined !");
     }
     const data = String(iv) + String(value);
-    return this.hashHmac(data, this.key);
+    return this.hashHmac("sha256",data, this.key);
   }
-  hashHmac(data: string, key: Buffer) {
-    const hmac = crypto.createHmac("sha256", key);
+  hashHmac(algoritm:"sha1"|"sha256" , data: string, key:Buffer) {
+    const hmac = crypto.createHmac(algoritm, key);
     hmac.update(data);
     return hmac.digest("hex");
   }

@@ -6,10 +6,11 @@ import type {
   NextFunction,
 } from "../../../Contracts/Http/Middleware";
 import { TokenMismatchException } from "../../../Session";
-import cookie from "cookie";
 import type { SessionConfig } from "../../../Contracts/Config";
-import { DecryptException } from "src/Encryption";
-import type Response from "src/Http/Response";
+import { DecryptException } from "../../../Encryption";
+import type Response from "../../../Http/Response";
+import Cookie from "../Cookie";
+import CookieValuePrefix from "../../../Cookie/CookieValuePrefix";
 
 class VerifyCsrfToken implements Middleware {
   protected app!: Application;
@@ -60,25 +61,21 @@ class VerifyCsrfToken implements Middleware {
 
   protected tokensMatch(req: Request) {
     const token = this.getTokenFromRequest(req);
-    console.log(req.session().token(), token);
-    return Encrypter.hashEquals(req.session().token(), token);
+    return typeof token == "string" && Encrypter.hashEquals(req.session().token(), token);
   }
-
+  
   protected getTokenFromRequest(req: Request) {
     let token = req.input("_token") || req.header("X-CSRF-TOKEN");
-    console.log("a", token);
     const header = req.header("X-XSRF-TOKEN");
+    
     if (!token && header) {
       try {
-        token = this.encrypter.decrypt(header as string, false);
-        console.log("b", token);
+        token = CookieValuePrefix.remove(this.encrypter.decrypt(header as string, false));
       } catch (e) {
         if (e instanceof DecryptException) {
           token = "";
         }
-        console.log("c", token);
       }
-      console.log("d", token);
     }
 
     return token;
@@ -89,18 +86,22 @@ class VerifyCsrfToken implements Middleware {
   }
 
   protected addCookieToResponse(req: Request, res: Response) {
-    console.log("adding csrf");
     const config = this.app.config.get<SessionConfig>("session");
-    res.setHeader(
-      "Set-Cookie",
-      cookie.serialize("XSRF-TOKEN", req.session().token(), {
-        httpOnly: config.http_only,
-        maxAge: config.lifetime * 60 * 1000,
-        path: config.path,
-        secure: config.secure,
-        sameSite: config.same_site == null ? undefined : config.same_site,
-        domain: config.domain == null ? undefined : config.domain,
-      })
+    res.headers.setCookie(this.newCookie(req, config));
+
+  }
+
+  protected newCookie(req: Request, config: SessionConfig){
+    return new Cookie(
+      "XSRF-TOKEN",
+      req.session().token(),
+      Cookie.getExpiresTimeFromLifeTime(config.lifetime),
+      config.path,
+      config.domain,
+      config.secure,
+      false,
+      false,
+      config.same_site
     );
   }
 }

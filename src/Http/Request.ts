@@ -8,7 +8,12 @@ import AuthManagerClass from "../Auth/AuthManager";
 import type { StatefulGuard } from "../Contracts/Auth/StatefulGuard";
 import Str from "../Support/Str";
 import Validator from "../Support/Facades/Validator";
+import cookie from "cookie";
 
+interface RequestCookies {
+  [key: string]: any,
+  set: (key: string, value: any) => void
+}
 class Request {
   protected app: Application;
   public files: ObjectOf<UploadedFile> = {};
@@ -20,6 +25,8 @@ class Request {
   protected sessionManager?: SessionManager;
 
   protected authManager?: AuthManager & StatefulGuard;
+
+  protected _cookies?: ObjectOf<any>;
 
   constructor(app: Application, req: ExtendedRequest) {
     this.app = app;
@@ -83,6 +90,23 @@ class Request {
     return (this.sessionManager = new SessionManager(this.app).setRequest(
       this
     ));
+  }
+
+  public get cookies(){
+    if(!this._cookies){
+      this._cookies =  cookie.parse(this.req.headers?.cookie as string||"");
+      Object.defineProperty(this._cookies, "set", {
+        value: this.setCookie.bind(this)
+      });
+    }
+    return this._cookies as RequestCookies;
+  }
+
+  public setCookie(key: string, value: any){
+    if(!this._cookies){
+      this._cookies = {};
+    }
+    this._cookies[key] = value;
   }
 
   public auth() {
