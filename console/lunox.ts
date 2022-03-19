@@ -22,7 +22,7 @@ program
   .description("build lunox application for production")
   .action(() => {
     tryCommand("build production", async () => {
-      deleteHelper(lunox_path("dist"));
+      deleteHelper(base_path("dist"));
       console.log(blueBright("compiling ts file..."));
       await bundleTs();
       console.log(green("ts file compiled to ./dist folder\n"));
@@ -33,7 +33,7 @@ program
       await buildClient();
       console.log(green("view are compiled to ./dist/client folder\n"));
       console.log(blueBright("copying assets..."));
-      copyHelper(lunox_path("public"), lunox_path("dist/public"));
+      copyHelper(base_path("public"), base_path("dist/public"));
       console.log(green("done"));
     });
   });
@@ -44,7 +44,7 @@ program
   .action(() => {
     tryCommand("build development", async () => {
       console.log(blueBright("compiling ts file..."));
-      deleteHelper(lunox_path("node_modules/.vite"));
+      deleteHelper(base_path("node_modules/.vite"));
       await watch();
     });
   });
