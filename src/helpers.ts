@@ -53,27 +53,31 @@ global.base_path = (_path: string) => app().basePath(_path);
 
 global.deleteHelper = (path) => {
 
-  const lstat = fs.lstatSync(path);
-  if (lstat.isFile()) {
-    fs.unlinkSync(path);
-  } else {
-    const files = fs.readdirSync(path);
-    files.forEach(file => {
-      deleteHelper(`${path}/${file}`);
-    });
-    fs.rmdirSync(path);
+  if (fs.existsSync(path)) {
+    const lstat = fs.lstatSync(path);
+    if (lstat.isFile()) {
+      fs.unlinkSync(path);
+    } else {
+      const files = fs.readdirSync(path);
+      files.forEach(file => {
+        deleteHelper(`${path}/${file}`);
+      });
+      fs.rmdirSync(path);
+    }
   }
 };
 
 global.copyHelper = (path, dest) => {
-  const lstat = fs.lstatSync(path);
-  if (lstat.isFile()) {
-    fs.copyFileSync(path, dest);
-  } else {
-    const files = fs.readdirSync(path);
-    files.forEach(file => {
-      copyHelper(`${path}/${file}`, `${dest}/${file}`);
-    });
+  if (fs.existsSync(path)) {
+    const lstat = fs.lstatSync(path);
+    if (lstat.isFile()) {
+      fs.copyFileSync(path, dest);
+    } else {
+      const files = fs.readdirSync(path);
+      files.forEach(file => {
+        copyHelper(`${path}/${file}`, `${dest}/${file}`);
+      });
+    }
   }
 };
 

@@ -12,15 +12,17 @@ if (!command) {
 
 function deleteHelper(path) {
 
-  const lstat = fs.lstatSync(path);
-  if (lstat.isFile()) {
-    fs.unlinkSync(path);
-  } else {
-    const files = fs.readdirSync(path);
-    files.forEach(file => {
-      deleteHelper(`${path}/${file}`);
-    });
-    fs.rmdirSync(path);
+  if (fs.existsSync(path)) {
+    const lstat = fs.lstatSync(path);
+    if (lstat.isFile()) {
+      fs.unlinkSync(path);
+    } else {
+      const files = fs.readdirSync(path);
+      files.forEach(file => {
+        deleteHelper(`${path}/${file}`);
+      });
+      fs.rmdirSync(path);
+    }
   }
 }
 
