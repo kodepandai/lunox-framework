@@ -41,6 +41,8 @@ declare global {
   var is_class: (instance: any) => boolean;
   var walkDir: (path: string) => Promise<string[]>;
   var agent: SuperAgentTest;
+  var deleteHelper: (path: string) => void;
+  var copyHelper: (path: string, dest: string) => void;
 }
 
 global.get_current_dir = (importMetaUrl: string) => {
@@ -48,6 +50,33 @@ global.get_current_dir = (importMetaUrl: string) => {
 };
 
 global.base_path = (_path: string) => app().basePath(_path);
+
+global.deleteHelper = (path) => {
+
+  const lstat = fs.lstatSync(path);
+  if (lstat.isFile()) {
+    fs.unlinkSync(path);
+  } else {
+    const files = fs.readdirSync(path);
+    files.forEach(file => {
+      deleteHelper(`${path}/${file}`);
+    });
+    fs.rmdirSync(path);
+  }
+};
+
+global.copyHelper = (path, dest) => {
+  const lstat = fs.lstatSync(path);
+  if (lstat.isFile()) {
+    fs.copyFileSync(path, dest);
+  } else {
+    const files = fs.readdirSync(path);
+    files.forEach(file => {
+      copyHelper(`${path}/${file}`, `${dest}/${file}`);
+    });
+  }
+};
+
 
 global.config = <T = any>(key = "", defaultValue?: T) =>
   app<Repository>("config").get(key, defaultValue);
