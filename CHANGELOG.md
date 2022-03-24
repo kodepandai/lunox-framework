@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- **console:** handle artisan without pnpm and better error info
+
 
 <a name="v0.9.0"></a>
 ## [v0.9.0] - 2022-03-18
