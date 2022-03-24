@@ -55,9 +55,16 @@ class Kernel {
         encoding: "utf-8",
       })
     ).version;
-    const args = JSON.parse(
-      process.env.npm_config_argv as string
-    ).original.slice(2);
+    let args:any = [];
+    try {
+      // this works on pnpm and old npm version
+      args = JSON.parse(
+       process.env.npm_config_argv as string
+      ).original.slice(2);
+    } catch (error) {
+      // fallback to process.argv
+      args = process.argv.slice(2);
+    }
     await this.app.bootstrapWith(this.bootstrappers);
     await this.builtinCommands();
     await this.commands();
