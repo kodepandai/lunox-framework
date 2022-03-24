@@ -11,8 +11,8 @@ import Validator from "../Support/Facades/Validator";
 import cookie from "cookie";
 
 interface RequestCookies {
-  [key: string]: any,
-  set: (key: string, value: any) => void
+  [key: string]: any;
+  set: (key: string, value: any) => void;
 }
 class Request {
   protected app: Application;
@@ -92,18 +92,18 @@ class Request {
     ));
   }
 
-  public get cookies(){
-    if(!this._cookies){
-      this._cookies =  cookie.parse(this.req.headers?.cookie as string||"");
+  public get cookies() {
+    if (!this._cookies) {
+      this._cookies = cookie.parse((this.req.headers?.cookie as string) || "");
       Object.defineProperty(this._cookies, "set", {
-        value: this.setCookie.bind(this)
+        value: this.setCookie.bind(this),
       });
     }
     return this._cookies as RequestCookies;
   }
 
-  public setCookie(key: string, value: any){
-    if(!this._cookies){
+  public setCookie(key: string, value: any) {
+    if (!this._cookies) {
       this._cookies = {};
     }
     this._cookies[key] = value;

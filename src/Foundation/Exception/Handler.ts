@@ -70,15 +70,16 @@ class Handler {
     return Response.make(err, statusCode, headers);
   }
 
-  protected prepareException(e:any){
+  protected prepareException(e: any) {
     const mapException = [
       {
         type: TokenMismatchException,
-        value: (e: TokenMismatchException)=> new HttpException(419, e.message, e)
-      }
+        value: (e: TokenMismatchException) =>
+          new HttpException(419, e.message, e),
+      },
     ];
-    return mapException.reduce((prev, map)=>{
-      if (e instanceof map.type){ 
+    return mapException.reduce((prev, map) => {
+      if (e instanceof map.type) {
         prev = map.value(e);
       }
       return prev;

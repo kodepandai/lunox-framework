@@ -3,9 +3,9 @@ import type { Response as ServerResponse } from "polka";
 import type { Cookie } from "../Foundation/Http";
 
 interface ResponseHeaders {
-  [key: string]: any
-  getCookies: ()=>Cookie[]
-  setCookie: (cookie: Cookie)=>void
+  [key: string]: any;
+  getCookies: () => Cookie[];
+  setCookie: (cookie: Cookie) => void;
 }
 
 class Response {
@@ -24,11 +24,11 @@ class Response {
     this._headers = headers;
   }
 
-  public getCookies(){
+  public getCookies() {
     return this.cookies;
   }
 
-  public setCookie(cookie: Cookie){
+  public setCookie(cookie: Cookie) {
     this.cookies.push(cookie);
   }
 
@@ -41,23 +41,23 @@ class Response {
   }
 
   public get headers() {
-    if(!this._headers.getCookies){
+    if (!this._headers.getCookies) {
       Object.defineProperty(this._headers, "getCookies", {
-        value: this.getCookies.bind(this)
+        value: this.getCookies.bind(this),
       });
     }
-    if(!this._headers.setCookie){
+    if (!this._headers.setCookie) {
       Object.defineProperty(this._headers, "setCookie", {
-        value: this.setCookie.bind(this)
+        value: this.setCookie.bind(this),
       });
     }
     return this._headers as ResponseHeaders;
   }
 
-  public setCookiesToHeaders(){
+  public setCookiesToHeaders() {
     this._headers = {
       ...this._headers,
-      "set-cookie": this.cookies.map(c=>c.toString())
+      "set-cookie": this.cookies.map((c) => c.toString()),
     };
   }
 
@@ -76,26 +76,23 @@ class Response {
     return this;
   }
 
-  public mergeResponse(res: Response){
+  public mergeResponse(res: Response) {
     this._headers = {
       ...this._headers,
-      ...res.headers
+      ...res.headers,
     };
     this.original = res.getOriginal();
-    this.cookies = [
-      ...this.cookies,
-      ...res.headers.getCookies()
-    ];
+    this.cookies = [...this.cookies, ...res.headers.getCookies()];
   }
 
   public getServerResponse() {
     return this.res;
   }
 
-  public setHeader(key: string, value: string|string[]) {
+  public setHeader(key: string, value: string | string[]) {
     if (this.res) {
       this.res.setHeader(key, value);
-    } 
+    }
     this._headers = {
       ...this.headers,
       [key]: value,

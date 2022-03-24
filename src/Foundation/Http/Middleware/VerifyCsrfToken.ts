@@ -61,16 +61,21 @@ class VerifyCsrfToken implements Middleware {
 
   protected tokensMatch(req: Request) {
     const token = this.getTokenFromRequest(req);
-    return typeof token == "string" && Encrypter.hashEquals(req.session().token(), token);
+    return (
+      typeof token == "string" &&
+      Encrypter.hashEquals(req.session().token(), token)
+    );
   }
-  
+
   protected getTokenFromRequest(req: Request) {
     let token = req.input("_token") || req.header("X-CSRF-TOKEN");
     const header = req.header("X-XSRF-TOKEN");
-    
+
     if (!token && header) {
       try {
-        token = CookieValuePrefix.remove(this.encrypter.decrypt(header as string, false));
+        token = CookieValuePrefix.remove(
+          this.encrypter.decrypt(header as string, false)
+        );
       } catch (e) {
         if (e instanceof DecryptException) {
           token = "";
@@ -88,10 +93,9 @@ class VerifyCsrfToken implements Middleware {
   protected addCookieToResponse(req: Request, res: Response) {
     const config = this.app.config.get<SessionConfig>("session");
     res.headers.setCookie(this.newCookie(req, config));
-
   }
 
-  protected newCookie(req: Request, config: SessionConfig){
+  protected newCookie(req: Request, config: SessionConfig) {
     return new Cookie(
       "XSRF-TOKEN",
       req.session().token(),

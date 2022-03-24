@@ -9,87 +9,97 @@ class Cookie {
     protected secure = false,
     protected httpOnly = true,
     protected raw = false,
-    protected sameSite: "lax"|"strict"|"none"|undefined|null = "lax"
+    protected sameSite: "lax" | "strict" | "none" | undefined | null = "lax"
   ) {
-    if(this.domain ==null){
+    if (this.domain == null) {
       this.domain = undefined;
     }
-    if(this.sameSite == null){
+    if (this.sameSite == null) {
       this.sameSite = undefined;
     }
   }
 
-  public static fromString(_cookie: string){
-    if(!_cookie) return null;
+  public static fromString(_cookie: string) {
+    if (!_cookie) return null;
     const data = {
       name: "",
       expires: 0,
       value: "",
       path: "/",
-      domain: null, 
+      domain: null,
       sameSite: "Lax",
       secure: false,
-      httpOnly: false
+      httpOnly: false,
     };
     const parsed = cookie.parse(_cookie);
     data.name = Object.keys(parsed)[0];
     data.value = parsed[data.name];
-    data.path = parsed["Path"]||"/";
-    data.expires = Cookie.getExpiresTimeFromLifeTime(Number(parsed["Max-Age"])/60000);
+    data.path = parsed["Path"] || "/";
+    data.expires = Cookie.getExpiresTimeFromLifeTime(
+      Number(parsed["Max-Age"]) / 60000
+    );
     (data.domain as any) = parsed["Domain"];
     data.sameSite = parsed["SameSite"].toLowerCase();
-    if(_cookie.includes("Secure;")){
+    if (_cookie.includes("Secure;")) {
       data.secure = true;
     }
-    if(_cookie.includes("HttpOnly;")){
+    if (_cookie.includes("HttpOnly;")) {
       data.httpOnly = true;
     }
-    
-    return new Cookie(data.name, data.value, data.expires,data.path,data.domain, data.secure, data.httpOnly);
+
+    return new Cookie(
+      data.name,
+      data.value,
+      data.expires,
+      data.path,
+      data.domain,
+      data.secure,
+      data.httpOnly
+    );
   }
 
-  public static getExpiresTimeFromLifeTime(lifetime: number|string){
+  public static getExpiresTimeFromLifeTime(lifetime: number | string) {
     const d = new Date();
-    return d.setTime(d.getTime()+Number(lifetime)*60*1000);
+    return d.setTime(d.getTime() + Number(lifetime) * 60 * 1000);
   }
 
-  public getName(){
+  public getName() {
     return this.name;
   }
 
-  public getExpiresTime(){
+  public getExpiresTime() {
     return this.expires;
   }
 
-  public getPath(){
+  public getPath() {
     return this.path;
   }
 
-  public getDomain(){
+  public getDomain() {
     return this.domain;
   }
 
-  public isSecure(){
+  public isSecure() {
     return this.secure;
   }
 
-  public isHttpOnly(){
+  public isHttpOnly() {
     return this.httpOnly;
   }
 
-  public isRaw(){
+  public isRaw() {
     return this.raw;
   }
 
-  public getSameSite(){
+  public getSameSite() {
     return this.sameSite;
   }
 
-  public getValue(){
+  public getValue() {
     return this.value;
   }
 
-  public toString(){
+  public toString() {
     return cookie.serialize(this.name, this.value, {
       domain: this.domain as any,
       expires: new Date(this.expires),

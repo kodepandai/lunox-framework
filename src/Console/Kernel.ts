@@ -55,12 +55,12 @@ class Kernel {
         encoding: "utf-8",
       })
     ).version;
-    let args:any = [];
+    let args: any = [];
     try {
       // this works on pnpm and old npm version
-      args = JSON.parse(
-       process.env.npm_config_argv as string
-      ).original.slice(2);
+      args = JSON.parse(process.env.npm_config_argv as string).original.slice(
+        2
+      );
     } catch (error) {
       // fallback to process.argv
       args = process.argv.slice(2);

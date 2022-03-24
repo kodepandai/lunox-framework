@@ -15,10 +15,7 @@ import type {
 } from "../../Contracts/Http/Middleware";
 import HttpRequest from "../../Http/Request";
 import HttpResponse from "../../Http/Response";
-import {
-  Route,
-  Response,
-} from "../../Support/Facades";
+import { Route, Response } from "../../Support/Facades";
 import type { Class, ObjectOf } from "../../Types";
 import type Application from "../Application";
 import BootProviders from "../Bootstrap/BootProviders";
@@ -250,10 +247,14 @@ class Kernel {
       middlewareInstance = new (middlewareInstance as Class<Middleware>)();
     }
     if (after) {
-      return (<Middleware>middlewareInstance).handleAfter?.bind(middlewareInstance);
+      return (<Middleware>middlewareInstance).handleAfter?.bind(
+        middlewareInstance
+      );
     }
     if ((<Middleware>middlewareInstance).handleNative) {
-      return (<Middleware>middlewareInstance).handleNative?.bind(middlewareInstance) as NativeMiddleware;
+      return (<Middleware>middlewareInstance).handleNative?.bind(
+        middlewareInstance
+      ) as NativeMiddleware;
     }
     return async (
       _req: ServerRequest,
@@ -273,7 +274,7 @@ class Kernel {
               return (_res as any)._httpResponse as HttpResponse;
             }
           );
-          (_res as any)._httpResponse  = responseHandle;
+          (_res as any)._httpResponse = responseHandle;
         }
         return next();
       } catch (error) {
@@ -296,7 +297,7 @@ class Kernel {
     let k: any;
     const obj: ObjectOf<any> = {};
     for (k in headers) {
-      if(typeof headers[k]!="function"){
+      if (typeof headers[k] != "function") {
         obj[k.toLowerCase()] = headers[k];
       }
     }
