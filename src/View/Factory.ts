@@ -61,6 +61,15 @@ class Factory {
         }
       }
     }
+    if(isProd){
+      // get version of js in template
+      const matchedJs = template.match("assets/index.(.*).js");
+      if(matchedJs){
+        const v = matchedJs[1];
+        // add version prefix to css for better cache control
+        template = template.replace(".css", ".css?v="+v);
+      }
+    }
     const html = template
       .replace("<!--preload-links-->", preloadLinks)
       .replace("<!--app-html-->", appHtml.html)
