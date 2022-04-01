@@ -17,7 +17,9 @@ export const makeRender =
               props = { ...props, ...serverProps };
             }
             View = module.default;
-            preloadLinks = renderPreloadLinks("app"+fullViewPath.split("app")[1], manifest);
+            if(process.env.NODE_ENV=="production"){
+              preloadLinks = renderPreloadLinks("app"+fullViewPath.split("app")[1], manifest);
+            }
           }
         })
       );
