@@ -37,7 +37,7 @@ specifiers:
   rollup-plugin-terser: ^7.0.2
   session-file-store: ^1.5.0
   sirv: ^1.0.18
-  svelte: ^3.44.3
+  svelte: ^3.46.6
   tslib: ^2.3.1
   typescript: ^4.5.4
   vite: ^2.7.10
@@ -81,7 +81,7 @@ devDependencies:
   rollup-plugin-multi-input: 1.3.1
   rollup-plugin-terser: 7.0.2_rollup@2.61.1
   session-file-store: 1.5.0
-  svelte: 3.44.3
+  svelte: 3.46.6
   tslib: 2.3.1
   typescript: 4.5.4
   vite: 2.7.10
@@ -2452,8 +2452,8 @@ packages:
       has-flag: 4.0.0
     dev: true
 
-  /svelte/3.44.3:
-    resolution: {integrity: sha512-aGgrNCip5PQFNfq9e9tmm7EYxWLVHoFsEsmKrtOeRD8dmoGDdyTQ+21xd7qgFd8MNdKGSYvg7F9dr+Tc0yDymg==}
+  /svelte/3.46.6:
+    resolution: {integrity: sha512-o9nNft/OzCz/9kJpmWa1S52GAM+huCjPIsNWydYmgei74ZWlOA9/hN9+Z12INdklghu31seEXZMRHhS1+8DETw==}
     engines: {node: '>= 8'}
     dev: true
 
