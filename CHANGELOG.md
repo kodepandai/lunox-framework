@@ -3,9 +3,10 @@
 
 ### Bug Fixes
 - **console:** handle artisan without pnpm and better error info
+- **view:** generate preload links only on build
 
 ### Features
-- **view:** added preload links to ssr
+- **view:** added preload links for better ssr ([#8](https://github.com/kodepintar/lunox-framework/issues/8))
 
 
 <a name="v0.9.0"></a>
