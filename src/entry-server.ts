@@ -1,5 +1,4 @@
 import type Request from "./Http/Request";
-import { basename } from "path";
 import {readFileSync} from "fs";
 
 export const makeRender =

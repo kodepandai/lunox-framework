@@ -204,15 +204,15 @@ class Kernel {
     if (process.env.NODE_ENV != "production") {
       const { createServer } = (await import("vite")).default;
       const vite = await createServer({
-        server: { 
-          middlewareMode: "ssr" ,
+        server: {
+          middlewareMode: "ssr",
           watch: {
             // During tests we edit the files too fast and sometimes chokidar
             // misses change events, so enforce polling for consistency
             usePolling: true,
-            interval: 100
+            interval: 100,
           },
-        }
+        },
       });
       this.app.instance("vite", vite);
       // use vite's connect instance as middleware
