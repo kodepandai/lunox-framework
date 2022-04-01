@@ -4,6 +4,9 @@
 ### Bug Fixes
 - **console:** handle artisan without pnpm and better error info
 
+### Features
+- **view:** added preload links to ssr
+
 
 <a name="v0.9.0"></a>
 ## [v0.9.0] - 2022-03-18

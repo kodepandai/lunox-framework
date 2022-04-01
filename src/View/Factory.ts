@@ -37,9 +37,10 @@ class Factory {
     }
     let rendered = false;
     let appHtml;
+    let preloadLinks = "";
     while (!rendered) {
       try {
-        appHtml = await render(
+        [appHtml, preloadLinks] = await render(
           this.path,
           this.data,
           req,
@@ -61,6 +62,7 @@ class Factory {
       }
     }
     const html = template
+      .replace("<!--preload-links-->", preloadLinks)
       .replace("<!--app-html-->", appHtml.html)
       .replace("<!--app-head-->", appHtml.head)
       .replace("/*style*/", appHtml.css.code)
