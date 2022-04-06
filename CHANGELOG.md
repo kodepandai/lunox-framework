@@ -1,8 +1,12 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v0.9.1"></a>
+## [v0.9.1] - 2022-04-06
 ### Bug Fixes
 - **console:** handle artisan without pnpm and better error info
+- **view:** generate css version for better cache control
 - **view:** generate preload links only on build
 
 ### Features
@@ -182,7 +186,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.9.1...HEAD
+[v0.9.1]: https://github.com/kodepintar/lunox-framework/compare/v0.9.0...v0.9.1
 [v0.9.0]: https://github.com/kodepintar/lunox-framework/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/kodepintar/lunox-framework/compare/v0.7.5...v0.8.0
 [v0.7.5]: https://github.com/kodepintar/lunox-framework/compare/v0.7.4...v0.7.5
