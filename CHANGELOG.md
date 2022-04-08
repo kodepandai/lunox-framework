@@ -1,6 +1,10 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Features
+- **controller:** support controller middleware
+- **controller:** support class based controller
+
 
 <a name="v0.9.1"></a>
 ## [v0.9.1] - 2022-04-06
