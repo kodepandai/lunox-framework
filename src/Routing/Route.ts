@@ -1,6 +1,7 @@
 import type { Middleware } from "../Contracts/Http/Middleware";
 import type { Method, RouteCallback, Routes } from "../Contracts/Routing/Route";
 import type { CallBack } from "../Types";
+import type { ExtendedController } from "./Controller";
 
 type MiddlewareStack = null | Middleware | string | (Middleware | string)[];
 class Route {
@@ -19,7 +20,12 @@ class Route {
   }
 
   private addRoutes =
-    (method: Method) => (uri: string, action: RouteCallback) => {
+    (method: Method) => (uri: string, action: RouteCallback|[typeof ExtendedController, string]) => {
+      if(Array.isArray(action)){
+        const [ControllerClass, controllerMethod] = action;
+        const controller = new ControllerClass();
+        action = (req, ...params) => controller.callAction(controllerMethod, [req, ...params]);
+      }
       this.routes.push({
         uri: this.prefixStack.join("") + uri,
         method,

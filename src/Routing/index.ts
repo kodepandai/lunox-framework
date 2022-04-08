@@ -1,3 +1,3 @@
+import Controller from "./Controller";
 import RoutingServiceProvider from "./RoutingServiceProvider";
-
-export { RoutingServiceProvider };
+export { RoutingServiceProvider, Controller };
