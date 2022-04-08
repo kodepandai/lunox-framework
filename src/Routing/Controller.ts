@@ -1,21 +1,27 @@
 import { Arr } from "../Support";
-import type { ObjectOf } from "../Types";
 import type { Middleware, MiddlewareStack } from "../Contracts/Http/Middleware";
 import { BadMethodCallException } from "../Foundation/Exception";
-import ControllerMiddlewareOptions, {IOptions} from "./ControllerMiddlewareOptions";
+import ControllerMiddlewareOptions, {
+  IOptions,
+} from "./ControllerMiddlewareOptions";
 
 abstract class Controller {
-
-  protected middlewares: ({ middleware: string | Middleware, options:IOptions })[] = [];
+  protected middlewares: {
+    middleware: string | Middleware;
+    options: IOptions;
+  }[] = [];
 
   /**
-    * Execute an action on the controller.
-    */
+   * Execute an action on the controller.
+   */
   public callAction(method: string, parameters: any[]) {
     // handle calls to missing methods
-    if (!Object.getOwnPropertyNames(Object.getPrototypeOf(this)).includes(method)) {
+    if (
+      !Object.getOwnPropertyNames(Object.getPrototypeOf(this)).includes(method)
+    ) {
       throw new BadMethodCallException(
-        `Method ${this.constructor.name}.${method} does not exist.`);
+        `Method ${this.constructor.name}.${method} does not exist.`
+      );
     }
 
     return (this as any)[method](...parameters);
@@ -27,26 +33,25 @@ abstract class Controller {
   public middleware(middleware: MiddlewareStack) {
     const options: IOptions = {
       except: [],
-      only: []
+      only: [],
     };
-    Arr.wrap(middleware).forEach(m => {
+    Arr.wrap(middleware).forEach((m) => {
       this.middlewares.push({
         middleware: m,
-        options
+        options,
       });
     });
     return new ControllerMiddlewareOptions(options);
   }
 
   /**
-    * Get the middleware assigned to the controller.
-    */
+   * Get the middleware assigned to the controller.
+   */
   public getMiddleware() {
     return this.middlewares;
   }
-
 }
 
-export class ExtendedController extends Controller { }
+export class ExtendedController extends Controller {}
 
 export default Controller;

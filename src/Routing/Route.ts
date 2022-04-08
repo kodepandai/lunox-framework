@@ -4,6 +4,7 @@ import type { CallBack } from "../Types";
 import type { ExtendedController } from "./Controller";
 import type { IOptions } from "./ControllerMiddlewareOptions";
 
+type RouteAction = RouteCallback | [typeof ExtendedController, string];
 class Route {
   protected routes: Routes[];
   protected prefixStack: string[];
@@ -20,21 +21,28 @@ class Route {
   }
 
   private addRoutes =
-    (method: Method) => (uri: string, action: RouteCallback|[typeof ExtendedController, string]) => {
-      let controllerMiddlewares: (string|Middleware)[] = [];
-      if(Array.isArray(action)){
+    (method: Method) => (uri: string, action: RouteAction) => {
+      let controllerMiddlewares: (string | Middleware)[] = [];
+      if (Array.isArray(action)) {
         const [ControllerClass, controllerMethod] = action;
         const controller = new ControllerClass();
-        action = (req, ...params) => controller.callAction(controllerMethod, [req, ...params]);
-        controllerMiddlewares = controller.getMiddleware().filter(m=>{
-          return this.methodIncludedByOptions(controllerMethod, m.options);
-        }).map(m=>m.middleware);
+        action = (req, ...params) =>
+          controller.callAction(controllerMethod, [req, ...params]);
+        controllerMiddlewares = controller
+          .getMiddleware()
+          .filter((m) => {
+            return this.methodIncludedByOptions(controllerMethod, m.options);
+          })
+          .map((m) => m.middleware);
       }
       this.routes.push({
         uri: this.prefixStack.join("") + uri,
         method,
         action,
-        middleware: this.flattenMiddleware([...this.middlewareStack, ...controllerMiddlewares]),
+        middleware: this.flattenMiddleware([
+          ...this.middlewareStack,
+          ...controllerMiddlewares,
+        ]),
       });
       this.calledAction = "addRoutes";
       return this;
@@ -102,14 +110,15 @@ class Route {
   protected facadeCalled() {
     this.calledAction = "";
   }
-  
+
   /**
    * determine if the given options should included in particular method
    */
-  private methodIncludedByOptions(method: string, options: IOptions)
-  {
-    return options.only.includes(method) && !options.except.includes(method) ||
-    (!options.except.includes(method) && options.only.length==0);
+  private methodIncludedByOptions(method: string, options: IOptions) {
+    return (
+      (options.only.includes(method) && !options.except.includes(method)) ||
+      (!options.except.includes(method) && options.only.length == 0)
+    );
   }
 }
 

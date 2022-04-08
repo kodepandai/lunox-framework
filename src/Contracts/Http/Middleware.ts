@@ -4,7 +4,11 @@ import type Response from "../../Http/Response";
 
 export type NativeMiddleware = PolkaMiddleware;
 export type NextFunction = (req: Request) => Response;
-export type MiddlewareStack = null | Middleware | string | (Middleware | string)[];
+export type MiddlewareStack =
+  | null
+  | Middleware
+  | string
+  | (Middleware | string)[];
 
 export interface Middleware {
   handle?: (
