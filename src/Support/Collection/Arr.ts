@@ -1,5 +1,5 @@
 class Arr {
-  public static wrap(value: string[] | string | null) {
+  public static wrap<T=string>(value: T[] | T | null) {
     if (value === null) {
       return [];
     }

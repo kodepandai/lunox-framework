@@ -1,9 +1,9 @@
-import type { Middleware } from "../Contracts/Http/Middleware";
+import type { Middleware, MiddlewareStack } from "../Contracts/Http/Middleware";
 import type { Method, RouteCallback, Routes } from "../Contracts/Routing/Route";
 import type { CallBack } from "../Types";
 import type { ExtendedController } from "./Controller";
+import type { IOptions } from "./ControllerMiddlewareOptions";
 
-type MiddlewareStack = null | Middleware | string | (Middleware | string)[];
 class Route {
   protected routes: Routes[];
   protected prefixStack: string[];
@@ -21,16 +21,20 @@ class Route {
 
   private addRoutes =
     (method: Method) => (uri: string, action: RouteCallback|[typeof ExtendedController, string]) => {
+      let controllerMiddlewares: (string|Middleware)[] = [];
       if(Array.isArray(action)){
         const [ControllerClass, controllerMethod] = action;
         const controller = new ControllerClass();
         action = (req, ...params) => controller.callAction(controllerMethod, [req, ...params]);
+        controllerMiddlewares = controller.getMiddleware().filter(m=>{
+          return this.methodIncludedByOptions(controllerMethod, m.options);
+        }).map(m=>m.middleware);
       }
       this.routes.push({
         uri: this.prefixStack.join("") + uri,
         method,
         action,
-        middleware: this.flattenMiddleware(this.middlewareStack),
+        middleware: this.flattenMiddleware([...this.middlewareStack, ...controllerMiddlewares]),
       });
       this.calledAction = "addRoutes";
       return this;
@@ -97,6 +101,15 @@ class Route {
   }
   protected facadeCalled() {
     this.calledAction = "";
+  }
+  
+  /**
+   * determine if the given options should included in particular method
+   */
+  private methodIncludedByOptions(method: string, options: IOptions)
+  {
+    return options.only.includes(method) && !options.except.includes(method) ||
+    (!options.except.includes(method) && options.only.length==0);
   }
 }
 
