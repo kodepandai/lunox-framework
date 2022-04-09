@@ -4,6 +4,7 @@
 ### Features
 - **controller:** support controller middleware
 - **controller:** support class based controller
+- **route:** support macro
 
 
 <a name="v0.9.1"></a>
