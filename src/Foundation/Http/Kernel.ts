@@ -239,7 +239,7 @@ class Kernel {
           "Starting development server: http://localhost:" + port
         );
       }
-      return console.log("server run on port: " + port);
+      return console.log("Starting server: http://localhost:" + port);
     });
   }
 

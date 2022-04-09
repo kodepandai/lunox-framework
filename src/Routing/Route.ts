@@ -1,3 +1,4 @@
+import Macroable, { Macro } from "src/Support/Traits/Macroable";
 import type { Middleware, MiddlewareStack } from "../Contracts/Http/Middleware";
 import type { Method, RouteCallback, Routes } from "../Contracts/Routing/Route";
 import type { CallBack } from "../Types";
@@ -5,7 +6,7 @@ import type { ExtendedController } from "./Controller";
 import type { IOptions } from "./ControllerMiddlewareOptions";
 
 type RouteAction = RouteCallback | [typeof ExtendedController, string];
-class Route {
+class Route extends Macroable {
   protected routes: Routes[];
   protected prefixStack: string[];
   protected middlewareStack: MiddlewareStack[];
@@ -13,6 +14,7 @@ class Route {
   protected calledAction: string;
 
   constructor() {
+    super();
     this.routes = [];
     this.prefixStack = [];
     this.middlewareStack = [];
@@ -122,4 +124,8 @@ class Route {
   }
 }
 
+interface Route {
+  macro: (name: string, macro: Macro) => any;
+  [key: string]: any;
+}
 export default Route;

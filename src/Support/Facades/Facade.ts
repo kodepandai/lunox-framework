@@ -1,3 +1,4 @@
+import BadMethodCallException from "../../Foundation/Exception/BadMethodCallException";
 import type Application from "../../Foundation/Application";
 import type { Class, ObjectOf } from "../../Types";
 
@@ -19,12 +20,35 @@ abstract class Facade {
   static __getStatic(name: string, abstract: string) {
     return (...args: any) => {
       const target = this.resolveFacadeInstance(abstract);
+
+      // this for checking Route facade is being called
       if (target.facadeCalled) {
         target.facadeCalled();
       }
+
+      // check method is callable in instance
       if (target[name]) {
         return target[name].call(target, ...args);
       }
+
+      // check method is callable in class
+      if (target.constructor) {
+        if (target.constructor[name]) {
+          return target.constructor[name].call(target.constructor, ...args);
+        }
+        // if class have magic method __getStatic
+        if (target.constructor.__getStatic) {
+          return target.constructor.__getStatic.call(
+            target.constructor,
+            name,
+            ...args
+          );
+        }
+      }
+
+      throw new BadMethodCallException(
+        `Method ${target.constructor.name}.${name} does not exist.`
+      );
     };
   }
 
