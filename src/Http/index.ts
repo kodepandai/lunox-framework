@@ -1,3 +1,4 @@
 import HttpException from "./HttpException";
 import NotFoundHttpException from "./NotFoundHttpException";
-export { NotFoundHttpException, HttpException };
+import Request from "./Request";
+export { NotFoundHttpException, HttpException, Request };

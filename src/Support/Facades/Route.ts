@@ -1,11 +1,11 @@
 import Facade from "./Facade";
 import useFacade from "./useFacade";
-import RouteClass from "../../Routing/Route";
+import RouterClass, { Router } from "../../Routing/Router";
 
 class Route extends Facade {
   public static getFacadeAccessor() {
-    return RouteClass;
+    return RouterClass;
   }
 }
 
-export default useFacade<RouteClass>(Route);
+export default useFacade<Router>(Route);

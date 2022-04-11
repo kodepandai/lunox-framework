@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import View from "./Support/Facades/View";
 import crypto from "crypto";
 import fs from "fs";
+import { isProxy } from "util/types";
 
 declare global {
   interface Window {
@@ -68,7 +69,8 @@ global.lunox_path = (_path = "") =>
 global.abort = (code: number, message = "", headers: ObjectOf<string> = {}) =>
   app().abort(code, message, headers);
 global.is_class = (instance: any) =>
-  typeof instance === "function" && /^class\s/.test(instance + "");
+  typeof instance === "function" &&
+  (/^class\s/.test(instance + "") || isProxy(instance));
 
 global.walkDir = async (_path: string) => {
   let files: string[] = [];

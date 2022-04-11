@@ -1,5 +1,6 @@
 import { BadMethodCallException } from "../../Foundation/Exception";
 import type { ObjectOf } from "../../Types";
+import useMagic from "../useMagic";
 
 export type Macro = (...arg: any[]) => any;
 class Macroable {
@@ -27,16 +28,49 @@ class Macroable {
   }
 
   /**
+   * Get all registered macros
+   */
+  public static getMacros() {
+    return this.macros;
+  }
+
+  /**
+   * Set registered macros manually
+   */
+  public static setMacros(macros: ObjectOf<Macro>) {
+    this.macros = macros;
+  }
+
+  /**
    * Dynamically handle call to the class
    */
-  protected static __getStatic(method: string, ...parameters: any[]): any {
-    if (!this.hasMacro(method)) {
-      throw new BadMethodCallException(
-        `Method ${this.constructor.name}.${method} does not exist.`
-      );
-    }
-    return this.macros[method](...parameters);
+  protected static __getStatic(method: string): any {
+    if (typeof method != "string") return;
+    return (...parameters: any[]) => {
+      console.log("get static di macroable", method, parameters, this.macros);
+      if (!this.hasMacro(method)) {
+        throw new BadMethodCallException(
+          `Method ${this.constructor.name}.${method} does not exist.`
+        );
+      }
+      return this.macros[method](...parameters);
+    };
+  }
+
+  /**
+   * Dynamically handle call to the class
+   */
+  protected __get(method: string): any {
+    return (...parameters: any[]) => {
+      const constructor = this.constructor as unknown as typeof Macroable;
+      if (!constructor.hasMacro(method)) {
+        throw new BadMethodCallException(
+          `Method ${constructor.name}.${method} does not exist.`
+        );
+      }
+      return constructor.macros[method](...parameters);
+    };
   }
 }
 
-export default Macroable;
+export default useMagic<typeof Macroable>(Macroable, ["__getStatic", "__get"]);

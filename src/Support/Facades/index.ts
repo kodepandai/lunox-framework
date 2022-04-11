@@ -1,6 +1,7 @@
 import Auth from "./Auth";
 import Crypt from "./Crypt";
 import Facade from "./Facade";
+// import Request from "./Request";
 import Response from "./Response";
 import Route from "./Route";
 import Storage from "./Storage";
@@ -17,4 +18,5 @@ export {
   View,
   Auth,
   Crypt,
+  // Request
 };

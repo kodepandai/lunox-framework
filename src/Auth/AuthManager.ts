@@ -108,7 +108,4 @@ export class AuthManager {
   }
 }
 
-export default useMagic<typeof AuthManager & Class<StatefulGuard>>(
-  AuthManager,
-  ["__get"]
-);
+export default useMagic<typeof AuthManager & Class<StatefulGuard>>(AuthManager);

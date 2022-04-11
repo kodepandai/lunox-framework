@@ -1,17 +1,21 @@
-import Macroable, { Macro } from "src/Support/Traits/Macroable";
+import Macroable, { Macro } from "../Support/Traits/Macroable";
 import type { Middleware, MiddlewareStack } from "../Contracts/Http/Middleware";
 import type { Method, RouteCallback, Routes } from "../Contracts/Routing/Route";
-import type { CallBack } from "../Types";
+import type { CallBack, ObjectOf } from "../Types";
 import type { ExtendedController } from "./Controller";
 import type { IOptions } from "./ControllerMiddlewareOptions";
+import { useMagic } from "../Support";
 
 type RouteAction = RouteCallback | [typeof ExtendedController, string];
-class Route extends Macroable {
+export class Router extends Macroable {
   protected routes: Routes[];
   protected prefixStack: string[];
   protected middlewareStack: MiddlewareStack[];
   protected deep: number;
   protected calledAction: string;
+
+  // redeclare static macros to avoid all macros being merged
+  protected static macros: ObjectOf<Macro> = {};
 
   constructor() {
     super();
@@ -124,8 +128,9 @@ class Route extends Macroable {
   }
 }
 
-interface Route {
+export interface Router {
   macro: (name: string, macro: Macro) => any;
   [key: string]: any;
 }
-export default Route;
+// export default Router;
+export default useMagic<typeof Router>(Router);

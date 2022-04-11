@@ -1,6 +1,7 @@
 import BadMethodCallException from "../../Foundation/Exception/BadMethodCallException";
 import type Application from "../../Foundation/Application";
 import type { Class, ObjectOf } from "../../Types";
+import useMagic from "../useMagic";
 
 abstract class Facade {
   protected static facadeId: string | null = null;
@@ -20,7 +21,6 @@ abstract class Facade {
   static __getStatic(name: string, abstract: string) {
     return (...args: any) => {
       const target = this.resolveFacadeInstance(abstract);
-
       // this for checking Route facade is being called
       if (target.facadeCalled) {
         target.facadeCalled();
@@ -37,6 +37,7 @@ abstract class Facade {
           return target.constructor[name].call(target.constructor, ...args);
         }
         // if class have magic method __getStatic
+        console.log("xx", name, args);
         if (target.constructor.__getStatic) {
           return target.constructor.__getStatic.call(
             target.constructor,
@@ -74,4 +75,4 @@ abstract class Facade {
 }
 export class ExtendedFacade extends Facade {}
 
-export default Facade;
+export default useMagic<typeof Facade>(Facade, ["__getStatic"]);
