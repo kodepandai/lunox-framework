@@ -1,9 +1,13 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- **macro:** compatible  magic method for facade and macroable class
+
 ### Features
 - **controller:** support controller middleware
 - **controller:** support class based controller
+- **request:** support macro
 - **route:** support macro
 
 
