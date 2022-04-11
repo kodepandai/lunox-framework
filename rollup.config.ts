@@ -51,6 +51,7 @@ export default [
       "express-session",
       "cookie",
       "repl",
+      "util/types",
     ],
   },
   {
@@ -64,13 +65,6 @@ export default [
       ts({ outDir: "bin", declaration: false, rootDir: "console" }),
       production && terser(),
     ],
-    external: [
-      "commander",
-      "colorette",
-      "child_process",
-      "crypto",
-      "bcryptjs",
-      "util/types",
-    ],
+    external: ["commander", "colorette", "child_process", "crypto", "bcryptjs"],
   },
 ];

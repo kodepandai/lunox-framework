@@ -1,4 +1,4 @@
-import type Request from "../Http/Request";
+import type { Request } from "../Http/Request";
 import type { ViteDevServer } from "vite";
 import path from "path";
 import fs from "fs";

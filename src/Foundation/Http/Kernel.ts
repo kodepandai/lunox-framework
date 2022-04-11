@@ -13,7 +13,7 @@ import type {
   Middleware,
   NativeMiddleware,
 } from "../../Contracts/Http/Middleware";
-import HttpRequest from "../../Http/Request";
+import HttpRequest, { Request } from "../../Http/Request";
 import HttpResponse from "../../Http/Response";
 import { Route, Response } from "../../Support/Facades";
 import type { Class, ObjectOf } from "../../Types";
@@ -136,7 +136,7 @@ class Kernel {
           path.join(route.uri),
           ...routeMiddlewares,
           async (req, res) => {
-            const httpRequest = (req as any)._httpRequest as HttpRequest;
+            const httpRequest = (req as any)._httpRequest as Request;
             let httpResponse = (res as any)._httpResponse as HttpResponse;
             let response = await route.action(
               httpRequest,
@@ -276,7 +276,7 @@ class Kernel {
         if (handle) {
           const responseHandle = await handle(
             (_req as any)._httpRequest,
-            (req: HttpRequest) => {
+            (req: Request) => {
               // update instance of request from middleware next function
               (_req as any)._httpRequest = req;
               return (_res as any)._httpResponse as HttpResponse;
@@ -340,7 +340,7 @@ class Kernel {
     return this.app.make<Handler>("ExceptionHandler").report(e);
   }
 
-  protected async renderException(req: HttpRequest, e: string | IError) {
+  protected async renderException(req: Request, e: string | IError) {
     if (typeof e == "string") {
       e = new Error(e);
     }

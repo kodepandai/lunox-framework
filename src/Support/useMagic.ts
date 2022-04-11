@@ -31,10 +31,6 @@ const useMagic = <T>(clazz: any, ...params: any[]): T => {
 
   if (Object.getPrototypeOf(clazz)["__getStatic"]) {
     classHandler.get = (target: any, name: string, receiver: any) => {
-      // if(name == "__getStatic"){
-      // console.log(clazz, name, params);
-      // }
-      // console.log(name, receiver, params);
       if (name in target) {
         return target[name];
       } else {

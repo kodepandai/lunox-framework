@@ -4,10 +4,10 @@ import type Application from "../Foundation/Application";
 import type { Class, ObjectOf } from "../Types";
 import EloquentUserProvider from "./EloquentUserProvider";
 import SessionGuard from "./SessionGuard";
-import type Request from "../Http/Request";
 import type { StatefulGuard } from "../Contracts/Auth/StatefulGuard";
 import type { UserProvider } from "../Contracts/Auth/UserProvider";
 import useMagic from "../Support/useMagic";
+import type { Request } from "../Http/Request";
 
 type DriverCreator = (name: string, config: ObjectOf<any>) => StatefulGuard;
 

@@ -47,7 +47,6 @@ class Macroable {
   protected static __getStatic(method: string): any {
     if (typeof method != "string") return;
     return (...parameters: any[]) => {
-      console.log("get static di macroable", method, parameters, this.macros);
       if (!this.hasMacro(method)) {
         throw new BadMethodCallException(
           `Method ${this.constructor.name}.${method} does not exist.`
@@ -61,6 +60,7 @@ class Macroable {
    * Dynamically handle call to the class
    */
   protected __get(method: string): any {
+    if (typeof method != "string") return;
     return (...parameters: any[]) => {
       const constructor = this.constructor as unknown as typeof Macroable;
       if (!constructor.hasMacro(method)) {

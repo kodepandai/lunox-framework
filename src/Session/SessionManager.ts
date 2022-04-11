@@ -4,7 +4,7 @@ import type { Store } from "express-session";
 import type Repository from "../Config/Repository";
 import type { SessionConfig } from "../Contracts/Config";
 import type { Session } from "express-session";
-import type Request from "../Http/Request";
+import type { Request } from "../Http/Request";
 import { Str } from "../Support";
 
 interface ExtendedSession extends Partial<Session> {

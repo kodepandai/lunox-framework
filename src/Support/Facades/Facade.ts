@@ -35,16 +35,7 @@ abstract class Facade {
       if (target.constructor) {
         if (target.constructor[name]) {
           return target.constructor[name].call(target.constructor, ...args);
-        }
-        // if class have magic method __getStatic
-        console.log("xx", name, args);
-        if (target.constructor.__getStatic) {
-          return target.constructor.__getStatic.call(
-            target.constructor,
-            name,
-            ...args
-          );
-        }
+        }       
       }
 
       throw new BadMethodCallException(

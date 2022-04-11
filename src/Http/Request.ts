@@ -9,12 +9,18 @@ import type { StatefulGuard } from "../Contracts/Auth/StatefulGuard";
 import Str from "../Support/Str";
 import Validator from "../Support/Facades/Validator";
 import cookie from "cookie";
+import type { Macro } from "../Support/Traits/Macroable";
+import Macroable from "../Support/Traits/Macroable";
+import { useMagic } from "../Support";
 
 interface RequestCookies {
   [key: string]: any;
   set: (key: string, value: any) => void;
 }
-class Request {
+export class Request extends Macroable {
+  // redeclare static macros to avoid all macros being merged
+  protected static macros: ObjectOf<Macro> = {};
+
   protected app: Application;
   public files: ObjectOf<UploadedFile> = {};
 
@@ -29,10 +35,11 @@ class Request {
   protected _cookies?: ObjectOf<any>;
 
   constructor(app: Application, req: ExtendedRequest) {
+    super();
     this.app = app;
     this.req = req;
-    const query = typeof req.query == "object" ? req.query : {};
-    this.data = { ...query, ...req.body };
+    const query = typeof req?.query == "object" ? req.query : {};
+    this.data = { ...query, ...req?.body };
   }
 
   public get(key: string, defaultValue = null) {
@@ -84,7 +91,7 @@ class Request {
   }
 
   public session() {
-    if (this.sessionManager) {
+    if (this.sessionManager && this.sessionManager instanceof SessionManager) {
       return this.sessionManager;
     }
     return (this.sessionManager = new SessionManager(this.app).setRequest(
@@ -139,4 +146,8 @@ class Request {
   }
 }
 
-export default Request;
+export interface Request {
+  macro: (name: string, macro: Macro) => any;
+  [key: string]: any;
+}
+export default useMagic<typeof Request>(Request);

@@ -1,5 +1,5 @@
 import type { ObjectOf } from "../Types";
-import type Request from "./Request";
+import type { Request } from "./Request";
 import Response from "./Response";
 
 class RedirectResponse extends Response {

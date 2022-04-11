@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/kodepandai/lunox-framework#readme",
   "dependencies": {
-    "@kodepandai/flydrive": "^2.0.0",
+    "@kodepandai/flydrive": "^2.0.1",
     "@kodepandai/hash-equals": "^0.1.0",
     "@kodepandai/node-input-validator": "^1.0.0-beta",
     "colorette": "^2.0.16",
@@ -59,7 +59,7 @@
     "sirv": "^1.0.18"
   },
   "devDependencies": {
-    "@kodepandai/flydrive-s3": "^2.1.0",
+    "@kodepandai/flydrive-s3": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^8.3.0",
     "@types/bcryptjs": "^2.4.2",
