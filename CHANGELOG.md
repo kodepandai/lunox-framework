@@ -3,10 +3,12 @@
 
 ### Bug Fixes
 - **macro:** compatible  magic method for facade and macroable class
+- **request:** fixing magic method and macroable usage
 
 ### Features
 - **controller:** support controller middleware
 - **controller:** support class based controller
+- **macro:** give macro access to instance
 - **request:** support macro
 - **route:** support macro
 
