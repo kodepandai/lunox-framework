@@ -52,7 +52,8 @@ class Macroable {
           `Method ${constructor.name}.${method} does not exist.`
         );
       }
-      return constructor.macros[method](...parameters);
+      // rebind this to give macro access to actual instance
+      return constructor.macros[method].bind(this)(...parameters);
     };
   }
 }
