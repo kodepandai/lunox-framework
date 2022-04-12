@@ -28,24 +28,9 @@ class Macroable {
   }
 
   /**
-   * Get all registered macros
-   */
-  public static getMacros() {
-    return this.macros;
-  }
-
-  /**
-   * Set registered macros manually
-   */
-  public static setMacros(macros: ObjectOf<Macro>) {
-    this.macros = macros;
-  }
-
-  /**
    * Dynamically handle call to the class
    */
   protected static __getStatic(method: string): any {
-    if (typeof method != "string") return;
     return (...parameters: any[]) => {
       if (!this.hasMacro(method)) {
         throw new BadMethodCallException(
@@ -60,7 +45,6 @@ class Macroable {
    * Dynamically handle call to the class
    */
   protected __get(method: string): any {
-    if (typeof method != "string") return;
     return (...parameters: any[]) => {
       const constructor = this.constructor as unknown as typeof Macroable;
       if (!constructor.hasMacro(method)) {

@@ -29,12 +29,17 @@ const useMagic = <T>(clazz: any, ...params: any[]): T => {
     return new Proxy(instance, instanceHandler);
   };
 
-  if (Object.getPrototypeOf(clazz)["__getStatic"]) {
+  if (
+    Object.getOwnPropertyDescriptor(clazz.prototype, "__getStatic") ||
+    Object.getPrototypeOf(clazz)["__getStatic"]
+  ) {
     classHandler.get = (target: any, name: string, receiver: any) => {
       if (name in target) {
         return target[name];
       } else {
-        return target.__getStatic.call(receiver, name, ...params);
+        if (typeof name == "string") {
+          return target.__getStatic.call(receiver, name, ...params);
+        }
       }
     };
   }

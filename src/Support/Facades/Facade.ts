@@ -35,7 +35,7 @@ abstract class Facade {
       if (target.constructor) {
         if (target.constructor[name]) {
           return target.constructor[name].call(target.constructor, ...args);
-        }       
+        }
       }
 
       throw new BadMethodCallException(

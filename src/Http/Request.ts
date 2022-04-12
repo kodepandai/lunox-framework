@@ -28,11 +28,11 @@ export class Request extends Macroable {
 
   protected data: ObjectOf<any>;
 
-  protected sessionManager?: SessionManager;
+  protected sessionManager: SessionManager | null;
 
-  protected authManager?: AuthManager & StatefulGuard;
+  protected authManager: (AuthManager & StatefulGuard) | null;
 
-  protected _cookies?: ObjectOf<any>;
+  protected _cookies: ObjectOf<any> | null;
 
   constructor(app: Application, req: ExtendedRequest) {
     super();
@@ -40,6 +40,9 @@ export class Request extends Macroable {
     this.req = req;
     const query = typeof req?.query == "object" ? req.query : {};
     this.data = { ...query, ...req?.body };
+    this.sessionManager = null;
+    this.authManager = null;
+    this._cookies = null;
   }
 
   public get(key: string, defaultValue = null) {
@@ -91,7 +94,7 @@ export class Request extends Macroable {
   }
 
   public session() {
-    if (this.sessionManager && this.sessionManager instanceof SessionManager) {
+    if (this.sessionManager) {
       return this.sessionManager;
     }
     return (this.sessionManager = new SessionManager(this.app).setRequest(
