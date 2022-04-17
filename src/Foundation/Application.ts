@@ -108,7 +108,7 @@ class Application extends Container {
   }
 
   public runingUnitTests() {
-    this.config.get("app.env") == "testing";
+    return this.config.get("app.env") == "testing";
   }
 }
 

@@ -20,7 +20,7 @@ class LoadConfiguration implements Bootstrapper {
       fs.mkdirSync(configPath);
     }
     const files = fs.readdirSync(configPath);
-    if (!files.includes("app.js")) {
+    if (!(files.includes("app.js") || files.includes("app.ts"))) {
       throw new Error('unable to load "app": configuration file');
     }
     return files;
@@ -33,7 +33,7 @@ class LoadConfiguration implements Bootstrapper {
     await Promise.all(
       files.map(async (f) => {
         repository.set(
-          f.replace(".js", ""),
+          f.replace(".js", "").replace(".ts", ""),
           (await import(path.join(configPath, f))).default || {}
         );
       })

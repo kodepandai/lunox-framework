@@ -6,4 +6,10 @@ export interface Configuration {
   database: string;
   username: string;
   password: string;
+  useNullAsDefault?: boolean;
+  pool?: {
+    min?: number;
+    max?: number;
+    idleTimeoutMillis?: number;
+  };
 }
