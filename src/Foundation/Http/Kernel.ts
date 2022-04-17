@@ -50,7 +50,7 @@ class Kernel {
     this.app = app;
   }
 
-  async start() {
+  async start(listen = true) {
     const server = polka({
       onError: async (err, req, res) => {
         this.reportException(err);
@@ -103,7 +103,11 @@ class Kernel {
     const globalMiddlewares = this.middleware.map((middleware) =>
       this.handleMiddleware(middleware)
     ) as any;
-    server.use(...globalMiddlewares);
+
+    // avoid polka break when middlewares is empty
+    if (globalMiddlewares.length > 0) {
+      server.use(...globalMiddlewares);
+    }
 
     const port = env("PORT") || 8000;
 
@@ -233,14 +237,17 @@ class Kernel {
     });
     server.use(pub);
 
-    server.listen(port, () => {
-      if (process.env.NODE_ENV != "production") {
-        return console.log(
-          "Starting development server: http://localhost:" + port
-        );
-      }
-      return console.log("Starting server: http://localhost:" + port);
-    });
+    // sometimes we don't need to listen in test mode
+    if (listen) {
+      server.listen(port, () => {
+        if (process.env.NODE_ENV != "production") {
+          return console.log(
+            "Starting development server: http://localhost:" + port
+          );
+        }
+        return console.log("Starting server: http://localhost:" + port);
+      });
+    }
   }
 
   private handleMiddleware(
