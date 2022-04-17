@@ -72,6 +72,12 @@ class DatabaseManager {
         database: config.database,
         port: config.port,
       },
+      useNullAsDefault: config.useNullAsDefault ?? false,
+      pool: {
+        min: config.pool?.min ?? 0,
+        max: config.pool?.max ?? 10,
+        idleTimeoutMillis: config.pool?.idleTimeoutMillis ?? 500,
+      },
     });
     try {
       const { Model } = (await import("objection")).default;
