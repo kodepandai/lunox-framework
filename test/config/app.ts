@@ -11,7 +11,7 @@ import type { AppConfig } from "../../src/Contracts/Config";
 
 const app: AppConfig = {
   name: "Lunox App",
-  env: env("APP_ENV", "production"),
+  env: "testing",
   key: env("APP_KEY"),
   cipher: "aes-128-cbc",
   providers: [

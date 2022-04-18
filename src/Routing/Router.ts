@@ -88,7 +88,11 @@ export class Router extends Macroable {
       this.middlewareStack.push(null);
     }
     if (typeof callback == "string") {
-      await import(callback + ".js");
+      if (app().runingUnitTests()) {
+        await import(callback);
+      } else {
+        await import(callback + ".js");
+      }
     } else {
       if (typeof callback == "function") {
         await callback();
