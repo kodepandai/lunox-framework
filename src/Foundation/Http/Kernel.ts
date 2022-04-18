@@ -50,7 +50,7 @@ class Kernel {
     this.app = app;
   }
 
-  async start(listen = true) {
+  async start() {
     const server = polka({
       onError: async (err, req, res) => {
         this.reportException(err);
@@ -205,7 +205,7 @@ class Kernel {
       })
     );
 
-    if (process.env.NODE_ENV != "production") {
+    if (process.env.NODE_ENV != "production" && !this.app.runingUnitTests()) {
       const { createServer } = (await import("vite")).default;
       const vite = await createServer({
         server: {
@@ -222,12 +222,15 @@ class Kernel {
       // use vite's connect instance as middleware
       server.use(vite.middlewares);
     } else {
-      const dir = base_path("client");
-      const serve = sirv(dir, {
-        maxAge: 31536000, // 1Y
-        immutable: true,
-      });
-      server.use(serve);
+      // dont serve client folder if testing run in framework level
+      if (env("TEST_ENV") != "framework") {
+        const dir = base_path("client");
+        const serve = sirv(dir, {
+          maxAge: 31536000, // 1Y
+          immutable: true,
+        });
+        server.use(serve);
+      }
     }
 
     // serve public directory
@@ -238,7 +241,7 @@ class Kernel {
     server.use(pub);
 
     // sometimes we don't need to listen in test mode
-    if (listen) {
+    if (!this.app.runingUnitTests()) {
       server.listen(port, () => {
         if (process.env.NODE_ENV != "production") {
           return console.log(
@@ -248,6 +251,8 @@ class Kernel {
         return console.log("Starting server: http://localhost:" + port);
       });
     }
+
+    return this.app;
   }
 
   private handleMiddleware(
