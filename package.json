@@ -1,6 +1,6 @@
 {
   "name": "lunox",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Laravel-Flavoured NodeJs framework",
   "bin": {
     "lunox": "./bin/lunox.cjs"
@@ -20,7 +20,7 @@
     "lint": "prettier --check --plugin-search-dir=. . && eslint .",
     "prettier": "prettier --write --plugin-search-dir=. .",
     "format": "npm run prettier && npm run lint",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles --forceExit"
+    "test": "TEST_ENV=framework NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles --forceExit"
   },
   "repository": {
     "type": "git",
@@ -90,7 +90,7 @@
     "ts-jest": "^27.1.4",
     "tslib": "^2.3.1",
     "typescript": "^4.5.4",
-    "vite": "^2.7.10"
+    "vite": "^2.9.5"
   },
   "type": "module"
 }
