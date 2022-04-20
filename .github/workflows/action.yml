@@ -3,10 +3,10 @@ name: test and coverage
 on:
   pull_request:
     branches:
-    - main
-    - 1.x
+      - main
+      - 1.x
   workflow_dispatch:
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
