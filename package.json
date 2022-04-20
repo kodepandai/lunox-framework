@@ -20,7 +20,7 @@
     "lint": "prettier --check --plugin-search-dir=. . && eslint .",
     "prettier": "prettier --write --plugin-search-dir=. .",
     "format": "npm run prettier && npm run lint",
-    "test": "TEST_ENV=framework NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles --forceExit"
+    "test": "TEST_ENV=framework NODE_OPTIONS=--experimental-vm-modules jest --runInBand --verbose"
   },
   "repository": {
     "type": "git",

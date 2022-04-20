@@ -3,3 +3,5 @@ dist/
 bin/
 .env
 .chglog/
+coverage/
+test/database/database.sqlite

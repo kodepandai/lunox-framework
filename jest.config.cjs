@@ -10,4 +10,6 @@ module.exports = {
       useESM: true,
     },
   },
+  "collectCoverage": true,
+  "coverageReporters": ["text-summary", "html"],
 };
