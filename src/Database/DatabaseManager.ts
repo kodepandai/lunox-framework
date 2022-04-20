@@ -70,6 +70,7 @@ class DatabaseManager {
         user: config.username,
         password: config.password,
         database: config.database,
+        filename: config.database,
         port: config.port,
       },
       useNullAsDefault: config.useNullAsDefault ?? false,
@@ -101,6 +102,10 @@ class DatabaseManager {
 
   public table(table: string) {
     return this.db.table(table);
+  }
+
+  public raw(value: Knex.Value){
+    return this.db.raw(value);
   }
 
   public getDb(): Knex {
