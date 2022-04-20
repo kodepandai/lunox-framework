@@ -8,13 +8,13 @@ class TestCase extends BaseTestCase {
   }
 
   protected async setUp() {
-    if(!this.app){
+    if (!this.app) {
       await this.refreshApplication();
       await this.refreshDatabase();
     }
   }
 
-  public async refreshDatabase(){
+  public async refreshDatabase() {
     const dbConfig = {
       tableName: "migrations",
       directory: "test/database/migrations",

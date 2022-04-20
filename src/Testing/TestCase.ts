@@ -1,18 +1,25 @@
 import { DB } from "../Database";
 import type { Application } from "../Foundation";
+import supertest, { SuperAgentTest } from "supertest";
+import type { Polka } from "polka";
 
 abstract class TestCase {
   protected app!: Application;
 
+  protected agent!: SuperAgentTest;
+
   public static make<T extends TestCase>(this: new () => T) {
     const test = new this();
-    beforeAll(() => {
-      return test.setUp();
+    beforeAll(async () => {
+      await test.setUp();
+      test.setAgent(supertest.agent(test.app.make<Polka>("server").handler));
     });
 
     afterAll(() => {
       return test.tearDown();
     });
+
+    return test;
   }
   /**
    * Setup the test environment
@@ -42,6 +49,20 @@ abstract class TestCase {
   protected tearDown() {
     // Closing the DB connection allows Jest to exit successfully.
     return DB.getDb()?.destroy();
+  }
+
+  /**
+   * set superagent instance for http testing
+   */
+  public setAgent(agent: SuperAgentTest) {
+    this.agent = agent;
+  }
+
+  /**
+   * superagent get url
+   */
+  public get(url: string) {
+    return this.agent.get(url);
   }
 }
 

@@ -104,7 +104,7 @@ class DatabaseManager {
     return this.db.table(table);
   }
 
-  public raw(value: Knex.Value){
+  public raw(value: Knex.Value) {
     return this.db.raw(value);
   }
 
