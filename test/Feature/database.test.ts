@@ -5,7 +5,7 @@ import TestCase from "../TestCase";
 TestCase.make();
 
 describe("Database Testing", () => {
-  test("can use query builder to access database", async()=>{
+  test("can use query builder to access database", async () => {
     const users = await DB.table("users").first();
     expect(users).toMatchObject({
       username: "user",
@@ -14,7 +14,7 @@ describe("Database Testing", () => {
     });
   });
 
-  test("can use Model to access database", async ()=>{
+  test("can use Model to access database", async () => {
     const users = await User.query().first();
     expect(users).toMatchObject({
       username: "user",

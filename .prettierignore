@@ -3,3 +3,5 @@ bin/
 *.md
 entry-server.ts
 *.yaml
+coverage/
+storage/

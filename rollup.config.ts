@@ -52,6 +52,7 @@ export default [
       "cookie",
       "repl",
       "util/types",
+      "supertest"
     ],
   },
   {
