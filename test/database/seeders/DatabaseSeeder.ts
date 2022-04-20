@@ -1,7 +1,7 @@
 import { DB, Seeder } from "../../../src";
 import bcrypt from "bcryptjs";
 
-class DatabaseSeeder extends Seeder{
+class DatabaseSeeder extends Seeder {
   public async run() {
     await DB.table("users").insert({
       username: "user",

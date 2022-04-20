@@ -8,6 +8,7 @@ import {
   EncryptionServiceProvider,
 } from "../../src";
 import type { AppConfig } from "../../src/Contracts/Config";
+import RouteServiceProvider from "../app/Providers/RouteServiceProvider";
 
 const app: AppConfig = {
   name: "Lunox App",
@@ -25,6 +26,7 @@ const app: AppConfig = {
     ViewServiceProvider,
 
     // app service providers
+    RouteServiceProvider,
   ],
 };
 export default app;

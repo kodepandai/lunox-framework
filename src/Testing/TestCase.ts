@@ -1,18 +1,23 @@
 import { DB } from "../Database";
 import type { Application } from "../Foundation";
+import supertest from "supertest";
+import type { Polka } from "polka";
 
 abstract class TestCase {
   protected app!: Application;
 
   public static make<T extends TestCase>(this: new () => T) {
     const test = new this();
-    beforeAll(() => {
-      return test.setUp();
+    beforeAll(async () => {
+      await test.setUp();
+      global.agent = supertest.agent(test.app.make<Polka>("server").handler);
     });
 
     afterAll(() => {
       return test.tearDown();
     });
+
+    return test;
   }
   /**
    * Setup the test environment

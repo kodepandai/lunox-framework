@@ -1,4 +1,4 @@
-name: test and coverage
+name: unit testing lunox framework
 
 on:
   pull_request:
