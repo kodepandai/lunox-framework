@@ -11,6 +11,7 @@ import View from "./Support/Facades/View";
 import crypto from "crypto";
 import fs from "fs";
 import { isProxy } from "util/types";
+import type { SuperAgentTest } from "supertest";
 
 declare global {
   interface Window {
@@ -39,6 +40,7 @@ declare global {
   ) => void;
   var is_class: (instance: any) => boolean;
   var walkDir: (path: string) => Promise<string[]>;
+  var agent: SuperAgentTest;
 }
 
 global.get_current_dir = (importMetaUrl: string) => {

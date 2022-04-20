@@ -1,5 +1,6 @@
 import TestCase from "../TestCase";
-const agent = TestCase.make();
+
+TestCase.make();
 
 describe("Router Testing", () => {
   test("can access web routes", async () => {
