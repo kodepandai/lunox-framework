@@ -1,4 +1,5 @@
 import { program } from "commander";
+import path from "path";
 import { blue, greenBright, blueBright, green, yellowBright } from "colorette";
 import {
   bundleTs,
@@ -6,8 +7,10 @@ import {
   buildClient,
   watch,
   serve,
+  copyPath,
+  deletePath,
 } from "./commands/build";
-import { tryCommand, runCommand } from "./commands/runner";
+import { tryCommand } from "./commands/runner";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const VERSION = greenBright(require("../package.json").version);
@@ -20,7 +23,7 @@ program
   .description("build lunox application for production")
   .action(() => {
     tryCommand("build production", async () => {
-      await runCommand("rm -rf dist");
+      deletePath(path.join(process.cwd(), "dist"));
       console.log(blueBright("compiling ts file..."));
       await bundleTs();
       console.log(green("ts file compiled to ./dist folder\n"));
@@ -31,7 +34,10 @@ program
       await buildClient();
       console.log(green("view are compiled to ./dist/client folder\n"));
       console.log(blueBright("copying assets..."));
-      await runCommand("cp -r ./public ./dist/public");
+      copyPath(
+        path.join(process.cwd(), "public"),
+        path.join(process.cwd(), "dist/public")
+      );
       console.log(green("done"));
     });
   });
@@ -42,7 +48,7 @@ program
   .action(() => {
     tryCommand("build development", async () => {
       console.log(blueBright("compiling ts file..."));
-      await runCommand("rm -rf node_modules/.vite");
+      deletePath(path.join(process.cwd(), "node_modules/.vite"));
       await watch();
     });
   });

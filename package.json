@@ -13,10 +13,10 @@
     "stub/*"
   ],
   "scripts": {
-    "build": "npm run clean && NODE_ENV=production rollup -c && npm run fix",
-    "clean": "rm -rf dist & rm -rf bin",
+    "build": "npm run clean && node build-fixer.mjs build && npm run fix",
+    "fix": "node build-fixer.mjs fix",
+    "clean": "node build-fixer.mjs clean",
     "dev": "rollup -cw & nodemon -q -w dist dist/index.js",
-    "fix": "rm dist/Types.js",
     "lint": "prettier --check --plugin-search-dir=. . && eslint .",
     "prettier": "prettier --write --plugin-search-dir=. .",
     "format": "npm run prettier && npm run lint",

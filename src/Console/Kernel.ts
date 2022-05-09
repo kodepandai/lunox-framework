@@ -28,6 +28,7 @@ import MakeControllerCommand from "./MakeControllerCommand";
 import { RuntimeException } from "../Foundation/Exception";
 import KeyGenerateCommand from "./KeyGenerateCommand";
 import TinkerCommand from "./TinkerCommand";
+import { pathToFileURL } from "url";
 
 class Kernel {
   protected app: Application;
@@ -114,7 +115,8 @@ class Kernel {
     // register all commands to artisan
     await Promise.all(
       files.map(async (f) => {
-        const _command = (await import(f)).default as Class<Command>;
+        const _command = (await import(pathToFileURL(f).href))
+          .default as Class<Command>;
         const commandInstance = new _command();
         this.registerCommand(commandInstance);
       })
