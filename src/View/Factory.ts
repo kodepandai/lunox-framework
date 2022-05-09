@@ -5,6 +5,7 @@ import fs from "fs";
 import Response from "../Support/Facades/Response";
 import type { ObjectOf } from "../Types";
 import type Application from "../Foundation/Application";
+import { pathToFileURL } from "url";
 
 class Factory {
   protected app: Application;
@@ -33,7 +34,9 @@ class Factory {
       render = (await vite.ssrLoadModule(base_path("entry-server.js"))).render;
     } else {
       template = fs.readFileSync(base_path("client/index.html"), "utf-8");
-      render = (await import(base_path("server/entry-server.js"))).render;
+      render = (
+        await import(pathToFileURL(base_path("server/entry-server.js")).href)
+      ).render;
     }
     let rendered = false;
     let appHtml;

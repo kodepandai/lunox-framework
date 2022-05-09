@@ -3,6 +3,7 @@ import type Application from "../Application";
 import fs from "fs";
 import Repository from "../../Config/Repository";
 import path from "path";
+import { pathToFileURL } from "url";
 
 class LoadConfiguration implements Bootstrapper {
   async bootstrap(app: Application) {
@@ -34,7 +35,8 @@ class LoadConfiguration implements Bootstrapper {
       files.map(async (f) => {
         repository.set(
           f.replace(".js", "").replace(".ts", ""),
-          (await import(path.join(configPath, f))).default || {}
+          (await import(pathToFileURL(path.join(configPath, f)).href))
+            .default || {}
         );
       })
     );

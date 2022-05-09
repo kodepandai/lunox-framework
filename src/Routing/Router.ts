@@ -5,6 +5,7 @@ import type { CallBack, ObjectOf } from "../Types";
 import type { ExtendedController } from "./Controller";
 import type { IOptions } from "./ControllerMiddlewareOptions";
 import { useMagic } from "../Support";
+import { pathToFileURL } from "url";
 
 type RouteAction = RouteCallback | [typeof ExtendedController, string];
 export class Router extends Macroable {
@@ -89,9 +90,9 @@ export class Router extends Macroable {
     }
     if (typeof callback == "string") {
       if (app().runingUnitTests()) {
-        await import(callback);
+        await import(pathToFileURL(callback).href);
       } else {
-        await import(callback + ".js");
+        await import(pathToFileURL(callback + ".js").href);
       }
     } else {
       if (typeof callback == "function") {
