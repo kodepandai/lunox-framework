@@ -1,4 +1,5 @@
 import { program } from "commander";
+import path from "path";
 import { blue, greenBright, blueBright, green, yellowBright } from "colorette";
 import {
   bundleTs,
@@ -6,6 +7,8 @@ import {
   buildClient,
   watch,
   serve,
+  copyPath,
+  deletePath,
 } from "./commands/build";
 import { tryCommand } from "./commands/runner";
 
@@ -15,14 +18,12 @@ program.version(blue("Lunox Framework ") + "version " + VERSION);
 program.description("Laravel-Flavoured NodeJs framework");
 program.showHelpAfterError(true);
 
-
-
 program
   .command("prod")
   .description("build lunox application for production")
   .action(() => {
     tryCommand("build production", async () => {
-      deleteHelper(base_path("dist"));
+      deletePath(path.join(process.cwd(), "dist"));
       console.log(blueBright("compiling ts file..."));
       await bundleTs();
       console.log(green("ts file compiled to ./dist folder\n"));
@@ -33,7 +34,10 @@ program
       await buildClient();
       console.log(green("view are compiled to ./dist/client folder\n"));
       console.log(blueBright("copying assets..."));
-      copyHelper(base_path("public"), base_path("dist/public"));
+      copyPath(
+        path.join(process.cwd(), "public"),
+        path.join(process.cwd(), "dist/public")
+      );
       console.log(green("done"));
     });
   });
@@ -44,7 +48,7 @@ program
   .action(() => {
     tryCommand("build development", async () => {
       console.log(blueBright("compiling ts file..."));
-      deleteHelper(base_path("node_modules/.vite"));
+      deletePath(path.join(process.cwd(), "node_modules/.vite"));
       await watch();
     });
   });

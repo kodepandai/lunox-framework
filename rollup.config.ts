@@ -52,7 +52,7 @@ export default [
       "cookie",
       "repl",
       "util/types",
-      "supertest"
+      "supertest",
     ],
   },
   {
@@ -66,6 +66,14 @@ export default [
       ts({ outDir: "bin", declaration: false, rootDir: "console" }),
       production && terser(),
     ],
-    external: ["commander", "colorette", "child_process", "crypto", "bcryptjs"],
+    external: [
+      "commander",
+      "colorette",
+      "child_process",
+      "crypto",
+      "bcryptjs",
+      "path",
+      "fs",
+    ],
   },
 ];
