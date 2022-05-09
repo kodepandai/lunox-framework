@@ -2,6 +2,7 @@
 ## [Unreleased]
 
 ### Bug Fixes
+- can't run on windows ([#7](https://github.com/kodepintar/lunox-framework/issues/7))
 - **macro:** compatible  magic method for facade and macroable class
 - **request:** fixing magic method and macroable usage
 
@@ -11,6 +12,7 @@
 - **macro:** give macro access to instance
 - **request:** support macro
 - **route:** support macro
+- **test:** added TestCase abstract for unit testing
 
 
 <a name="v0.9.1"></a>
