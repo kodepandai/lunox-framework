@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v1.0.0"></a>
+## [v1.0.0] - 2022-05-10
 ### Bug Fixes
 - can't run on windows ([#7](https://github.com/kodepintar/lunox-framework/issues/7))
 - **macro:** compatible  magic method for facade and macroable class
@@ -199,7 +202,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v0.9.1...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.0.0...HEAD
+[v1.0.0]: https://github.com/kodepintar/lunox-framework/compare/v0.9.1...v1.0.0
 [v0.9.1]: https://github.com/kodepintar/lunox-framework/compare/v0.9.0...v0.9.1
 [v0.9.0]: https://github.com/kodepintar/lunox-framework/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/kodepintar/lunox-framework/compare/v0.7.5...v0.8.0
