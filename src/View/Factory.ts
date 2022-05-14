@@ -6,6 +6,7 @@ import Response from "../Support/Facades/Response";
 import type { ObjectOf } from "../Types";
 import type Application from "../Foundation/Application";
 import { pathToFileURL } from "url";
+import { RuntimeException } from "../Foundation/Exception";
 
 class Factory {
   protected app: Application;
@@ -16,7 +17,7 @@ class Factory {
     this.app = app;
   }
 
-  public async make(_path: string, data: ObjectOf<any> = {}): Promise<Factory> {
+  public make(_path: string, data: ObjectOf<any> = {}) {
     this.path = _path.split(".").join(path.sep);
     this.data = data;
     return this;
@@ -54,6 +55,12 @@ class Factory {
         );
         rendered = true;
       } catch (error) {
+        if (
+          error instanceof Error &&
+          error.message.includes("reading 'render'")
+        ) {
+          throw new RuntimeException(`view [${this.path}] not found`);
+        }
         if (
           error instanceof Error &&
           error.message == "Cannot read property 'default' of null"

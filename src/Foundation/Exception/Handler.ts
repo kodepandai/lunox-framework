@@ -7,8 +7,10 @@ import Response from "../../Support/Facades/Response";
 import type { Class, ObjectOf } from "../../Types";
 import ValidationException from "../../Validation/ValidationException";
 import { TokenMismatchException } from "../../Session";
+import ViewFactory from "../../View/Factory";
+import type { Handler as ExceptionHandler } from "../../Contracts/Exception/Handler";
 
-type renderUsing<E> = (e: E, req: Request) => HttpResponse;
+type renderUsing<E> = (e: E, req: Request) => HttpResponse | ViewFactory;
 type reportUsing<E> = (e: E) => void;
 interface renderCallback<E> {
   exception: Class<E>;
@@ -18,7 +20,7 @@ interface reportCallback<E> {
   exception: Class<E>;
   reportUsing: reportUsing<E>;
 }
-class Handler {
+class Handler implements ExceptionHandler {
   protected container: Container;
   protected reportCallbacks: reportCallback<any>[] = [];
   protected renderCallbacks: renderCallback<any>[] = [];
@@ -34,19 +36,28 @@ class Handler {
     this.register();
   }
 
-  protected async render(req: Request, e: any) {
-    let response: any = null;
-    this.renderCallbacks.forEach(({ exception, renderUsing }) => {
+  public async render(req: Request, e: any) {
+    let response: HttpResponse | ViewFactory | undefined;
+
+    for (let i = 0; i < this.renderCallbacks.length; i++) {
+      const { exception, renderUsing } = this.renderCallbacks[i];
       if (e instanceof exception) {
         response = renderUsing(e, req);
+        break;
       }
-    });
+    }
+
     if (response instanceof RedirectResponse) {
       response.setRequest(req);
       // make sure all session is saved
       await req.session().save();
     }
-    if (response) return response;
+
+    if (response instanceof ViewFactory) {
+      response = await response.render(req);
+    }
+
+    if (response) return response as HttpResponse;
 
     let statusCode = 500;
     let headers: ObjectOf<string> = {};
@@ -85,7 +96,8 @@ class Handler {
       return prev;
     }, e);
   }
-  protected report(e: any) {
+
+  public report(e: any) {
     if (this.shouldntReport(e)) return;
     // TODO: make logger
     let report = (e: any) => {

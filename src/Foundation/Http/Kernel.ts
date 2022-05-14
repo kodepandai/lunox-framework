@@ -66,7 +66,7 @@ class Kernel {
         );
       },
       onNoMatch: () => {
-        throw new NotFoundHttpException("URL not found");
+        throw new NotFoundHttpException("Not Found");
       },
     });
 
