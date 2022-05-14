@@ -3,7 +3,8 @@ import fs from "fs";
 import path from "path";
 
 class MakeControllerCommand extends Command {
-  protected signature = "make:controller {name : name of controller}";
+  protected signature =
+    "make:controller {name : name of controller} {--L|lite}";
 
   protected description = "create a new controller file";
 
@@ -20,7 +21,10 @@ class MakeControllerCommand extends Command {
       return this.FAILURE;
     }
 
-    const stub = fs.readFileSync(stub_path("controller"), {
+    const controllerTemplate = this.option("lite")
+      ? "controller_lite"
+      : "controller";
+    const stub = fs.readFileSync(stub_path(controllerTemplate), {
       encoding: "utf-8",
     });
     const content = stub.replace(/#ControllerName/g, ControllerName);

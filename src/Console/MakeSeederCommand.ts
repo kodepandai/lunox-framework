@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 class MakeSeederCommand extends Command {
-  protected signature = "make:seeder {name} : class name of seeder}";
+  protected signature = "make:seeder {name : class name of seeder}";
 
   protected description = "make database seeder";
 
