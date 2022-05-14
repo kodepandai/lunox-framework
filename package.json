@@ -49,7 +49,7 @@
     "@kodepandai/hash-equals": "^0.1.0",
     "@kodepandai/node-input-validator": "^1.0.0-beta",
     "colorette": "^2.0.16",
-    "commander": "^8.3.0",
+    "commander": "^9.2.0",
     "cookie": "0.4.1",
     "dotenv": "^10.0.0",
     "express-session": "^1.17.2",
