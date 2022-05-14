@@ -168,19 +168,22 @@ class Kernel {
         desc = a.split(" : ")[1];
         a = a.split(" : ")[0];
       }
-      // if argument start with --, make it as option
+      // if argument start with -- or -, make it as option
       if (a.startsWith("--") || a.startsWith("-")) {
+        // if option has value
         if (a.split("=").length == 2) {
-          if (a.split("=")[1] == "") {
+          const [_opt, _val] = a.split("=");
+          if (_val == "") {
             // option with required value
-            return _program.option(`${a.split("=")[0]} <value>`, desc);
+            return _program.option(`${_opt} <value>`, desc);
           }
           // option with optional value
-          return _program.option(
-            `${a.split("=")[0]} <value>`,
-            desc,
-            `${a.split("=")[1]}`
-          );
+          return _program.option(`${_opt} <value>`, desc, `${_val}`);
+        }
+        // if option has shortcut
+        if (a.split("|").length == 2) {
+          const [_opt1, _opt2] = a.replace(/-/g, "").split("|");
+          return _program.option(["-" + _opt1, "--" + _opt2].join(", "), desc);
         }
         return _program.option(a, desc);
       }
