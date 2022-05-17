@@ -6,7 +6,7 @@ import Response from "../Support/Facades/Response";
 import type { ObjectOf } from "../Types";
 import type Application from "../Foundation/Application";
 import { pathToFileURL } from "url";
-import { RuntimeException } from "../Foundation/Exception";
+import RuntimeException from "../Foundation/Exception/RuntimeException";
 
 class Factory {
   protected app: Application;

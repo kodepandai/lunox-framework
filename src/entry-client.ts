@@ -1,4 +1,7 @@
-const makeView = async (modules: any, viewPath: string) => {
+const makeView = async (
+  modules: any,
+  viewPath = "/app/view/resources/view"
+) => {
   let View = null;
   await Promise.all(
     Object.keys(modules).map(async (m) => {

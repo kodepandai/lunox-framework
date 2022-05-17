@@ -1,8 +1,10 @@
 import type { Request } from "./Http/Request";
 import {readFileSync} from "fs";
+import path from "path";
+const defaultViewPath = config("view.paths")[0]||"/app/resources/view";
 
 export const makeRender =
-  (modules: any, viewPath: string) =>
+  (modules: any, viewPath=defaultViewPath) =>
     async (url: any, props: any, req: Request, cb: (props: any) => any) => {
       const manifest = process.env.NODE_ENV=="production"? JSON.parse(readFileSync(base_path("client/manifest.json"), "utf-8")):{};
       let View: any = null;
@@ -10,7 +12,7 @@ export const makeRender =
       await Promise.all(
         Object.keys(modules).map(async (m) => {
           const fullViewPath = `${viewPath}/${url}.svelte`;
-          if (m == fullViewPath) {
+          if (m == fullViewPath){
             const module = await modules[m]();
             if(module.onServer){
               const serverProps = await module.onServer(req);
@@ -18,7 +20,7 @@ export const makeRender =
             }
             View = module.default;
             if(process.env.NODE_ENV=="production"){
-              preloadLinks = renderPreloadLinks("app"+fullViewPath.split("app")[1], manifest);
+              preloadLinks = renderPreloadLinks(fullViewPath.replace(/^\//, ""), manifest);
             }
           }
         })
@@ -29,9 +31,10 @@ export const makeRender =
     };
 
 const renderPreloadLinks = (viewPath: string, manifest:any) => {
+ 
   let links = "";
   const seen = new Set();
-  const {imports, css, file} = manifest[viewPath];
+  const {imports, css, file} = manifest[path.join(viewPath)];
   if(file && !seen.has(file)){
     if(!seen.has(file)){
       seen.add(file);
