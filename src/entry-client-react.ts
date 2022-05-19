@@ -1,4 +1,6 @@
 import ViewException from "./View/ViewException";
+import { createRoot } from "react-dom/client";
+import { createElement } from "react";
 
 const makeView = async (modules: any, viewPath = "/app/resources/view") => {
   await Promise.all(
@@ -14,8 +16,6 @@ const makeView = async (modules: any, viewPath = "/app/resources/view") => {
 const transformView = async (view: string, component: any, props: any) => {
   try {
     const target = document.getElementById("app");
-    const { createRoot } = await import("react-dom/client");
-    const { createElement } = await import("react");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const root = createRoot(target!);
     return root.render(createElement(component, props, null));
