@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v1.2.1"></a>
+## [v1.2.1] - 2022-05-20
+### Bug Fixes
+- **view:** cannot resolve react and react-dom on dev mode
+
+
 <a name="v1.2.0"></a>
 ## [v1.2.0] - 2022-05-20
 ### Features
@@ -222,7 +228,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.2.1...HEAD
+[v1.2.1]: https://github.com/kodepintar/lunox-framework/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://github.com/kodepintar/lunox-framework/compare/v1.1.1...v1.2.0
 [v1.1.1]: https://github.com/kodepintar/lunox-framework/compare/v1.1.0...v1.1.1
 [v1.1.0]: https://github.com/kodepintar/lunox-framework/compare/v1.0.0...v1.1.0
