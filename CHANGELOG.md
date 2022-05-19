@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v1.2.0"></a>
+## [v1.2.0] - 2022-05-20
+### Features
+- **view:** add react as template engine ([#13](https://github.com/kodepintar/lunox-framework/issues/13))
+
+
 <a name="v1.1.1"></a>
 ## [v1.1.1] - 2022-05-17
 ### Bug Fixes
@@ -216,7 +222,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.2.0...HEAD
+[v1.2.0]: https://github.com/kodepintar/lunox-framework/compare/v1.1.1...v1.2.0
 [v1.1.1]: https://github.com/kodepintar/lunox-framework/compare/v1.1.0...v1.1.1
 [v1.1.0]: https://github.com/kodepintar/lunox-framework/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/kodepintar/lunox-framework/compare/v0.9.1...v1.0.0
