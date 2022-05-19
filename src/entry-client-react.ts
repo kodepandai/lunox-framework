@@ -14,13 +14,14 @@ const makeView = async (modules: any, viewPath = "/app/resources/view") => {
 const transformView = async (view: string, component: any, props: any) => {
   try {
     const target = document.getElementById("app");
-    return new component({
-      target,
-      hydrate: true,
-      props,
-    });
+    const { createRoot } = await import("react-dom/client");
+    const { createElement } = await import("react");
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const root = createRoot(target!);
+    return root.render(createElement(component, props, null));
   } catch (error) {
     throw new ViewException(view);
   }
 };
+
 export { makeView };

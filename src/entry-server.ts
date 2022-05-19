@@ -1,7 +1,8 @@
 import type { Request } from "./Http/Request";
 import {readFileSync} from "fs";
 import path from "path";
-const defaultViewPath = config("view.paths")[0]||"/app/resources/view";
+import ViewException from "./View/ViewException";
+const defaultViewPath = config("view.paths", ["/app/resources/view"])[0];
 
 export const makeRender =
   (modules: any, viewPath=defaultViewPath) =>
@@ -11,7 +12,7 @@ export const makeRender =
       let preloadLinks = "";
       await Promise.all(
         Object.keys(modules).map(async (m) => {
-          const fullViewPath = `${viewPath}/${url}.svelte`;
+          const fullViewPath = `${viewPath}/${url}.${m.split(".").pop()}`;
           if (m == fullViewPath){
             const module = await modules[m]();
             if(module.onServer){
@@ -26,12 +27,11 @@ export const makeRender =
         })
       );
       cb(props);
-      const html =  await View.render(props) as string;
+      const html = await transformView(url, View, props, config("view.engine", "svelte"));
       return [html, preloadLinks];
     };
 
 const renderPreloadLinks = (viewPath: string, manifest:any) => {
- 
   let links = "";
   const seen = new Set();
   const {imports, css, file} = manifest[path.join(viewPath)];
@@ -80,3 +80,34 @@ function renderPreloadLink(file: string) {
   }
 }
 
+
+const transformView = async (url: string, View: any, props: any, engine: "react"|"svelte")=>{
+  // eslint-disable-next-line no-useless-catch
+  try {
+    if(engine=="react"){
+      const {Helmet} = (await import("react-helmet")) as any;
+      const ReactDomServer = (await import("react-dom/server")).default;
+      const JsxRuntime = (await import("react/jsx-runtime")).default;
+      const html =  ReactDomServer.renderToString((JsxRuntime as any).jsx(View||"", props)) as string;
+      const {style, title, meta, link, script} = Helmet.renderStatic();
+      return {
+        html,
+        head: `<head>
+        ${title.toString()}
+        ${meta.toString()}
+        ${link.toString()}
+        ${script.toString()}
+        </head>
+        `,
+        css: {
+          code: style.toString()
+        }
+      };
+    }
+    if(engine == "svelte"){
+      return await View.render(props) as {html: string, head: string, css: {code: string}};
+    }
+  } catch (error) {
+    throw new ViewException(url);
+  }
+};
