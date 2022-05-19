@@ -12,6 +12,7 @@ export default [
       "src/helpers.ts",
       "src/entry-server.ts",
       "src/entry-client.ts",
+      "src/entry-client-react.ts",
       "src/Types.ts",
     ],
     output: {
@@ -53,6 +54,11 @@ export default [
       "repl",
       "util/types",
       "supertest",
+      "react",
+      "react-dom/client",
+      "react-dom/server",
+      "react/jsx-runtime",
+      "react-helmet",
     ],
   },
   {
