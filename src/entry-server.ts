@@ -1,6 +1,5 @@
 import type { Request } from "./Http/Request";
 import {readFileSync} from "fs";
-import path from "path";
 import ViewException from "./View/ViewException";
 const defaultViewPath = config("view.paths", ["/app/resources/view"])[0];
 
@@ -34,7 +33,7 @@ export const makeRender =
 const renderPreloadLinks = (viewPath: string, manifest:any) => {
   let links = "";
   const seen = new Set();
-  const {imports, css, file} = manifest[path.join(viewPath)];
+  const {imports, css, file} = manifest[viewPath];
   if(file && !seen.has(file)){
     if(!seen.has(file)){
       seen.add(file);
