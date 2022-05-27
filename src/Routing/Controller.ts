@@ -52,6 +52,4 @@ abstract class Controller {
   }
 }
 
-export class ExtendedController extends Controller {}
-
 export default Controller;

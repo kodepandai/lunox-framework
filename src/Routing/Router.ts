@@ -1,13 +1,15 @@
 import Macroable, { Macro } from "../Support/Traits/Macroable";
 import type { Middleware, MiddlewareStack } from "../Contracts/Http/Middleware";
 import type { Method, RouteCallback, Routes } from "../Contracts/Routing/Route";
-import type { CallBack, ObjectOf } from "../Types";
-import type { ExtendedController } from "./Controller";
+import type { CallBack, Class, ObjectOf } from "../Types";
 import type { IOptions } from "./ControllerMiddlewareOptions";
 import { useMagic } from "../Support";
 import { pathToFileURL } from "url";
+import type Controller from "./Controller";
 
-type RouteAction = RouteCallback | [typeof ExtendedController, string];
+type RouteAction<T> =
+  | RouteCallback
+  | [Class<T>, Exclude<keyof T, keyof Controller>];
 export class Router extends Macroable {
   protected routes: Routes[];
   protected prefixStack: string[];
@@ -28,17 +30,22 @@ export class Router extends Macroable {
   }
 
   private addRoutes =
-    (method: Method) => (uri: string, action: RouteAction) => {
+    (method: Method) =>
+    <T>(uri: string, action: RouteAction<T>) => {
       let controllerMiddlewares: (string | Middleware)[] = [];
       if (Array.isArray(action)) {
         const [ControllerClass, controllerMethod] = action;
-        const controller = new ControllerClass();
+        const controller =
+          new ControllerClass() as unknown as Controller;
         action = (req, ...params) =>
-          controller.callAction(controllerMethod, [req, ...params]);
+          controller.callAction(controllerMethod as string, [req, ...params]);
         controllerMiddlewares = controller
           .getMiddleware()
           .filter((m) => {
-            return this.methodIncludedByOptions(controllerMethod, m.options);
+            return this.methodIncludedByOptions(
+              controllerMethod as string,
+              m.options
+            );
           })
           .map((m) => m.middleware);
       }
