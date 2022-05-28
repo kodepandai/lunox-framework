@@ -35,8 +35,7 @@ export class Router extends Macroable {
       let controllerMiddlewares: (string | Middleware)[] = [];
       if (Array.isArray(action)) {
         const [ControllerClass, controllerMethod] = action;
-        const controller =
-          new ControllerClass() as unknown as Controller;
+        const controller = new ControllerClass() as unknown as Controller;
         action = (req, ...params) =>
           controller.callAction(controllerMethod as string, [req, ...params]);
         controllerMiddlewares = controller

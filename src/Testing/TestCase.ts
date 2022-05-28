@@ -1,6 +1,5 @@
 import { DB } from "../Database";
 import type { Application } from "../Foundation";
-import supertest from "supertest";
 import type { Polka } from "polka";
 
 abstract class TestCase {
@@ -10,7 +9,8 @@ abstract class TestCase {
     const test = new this();
     beforeAll(async () => {
       await test.setUp();
-      global.agent = supertest.agent(test.app.make<Polka>("server").handler);
+      const { agent } = await import("supertest");
+      global.agent = agent(test.app.make<Polka>("server").handler);
     });
 
     afterAll(() => {
