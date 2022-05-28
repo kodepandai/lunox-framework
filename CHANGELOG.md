@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Features
+- **router:** auto suggest controller method when using class based controller
+
 
 <a name="v1.2.2"></a>
 ## [v1.2.2] - 2022-05-20
