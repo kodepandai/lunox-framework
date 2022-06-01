@@ -77,6 +77,7 @@ class Response {
   }
 
   public mergeResponse(res: Response) {
+    this.status = res.status;
     this._headers = {
       ...this._headers,
       ...res.headers,
