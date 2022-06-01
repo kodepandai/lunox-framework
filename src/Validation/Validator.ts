@@ -24,9 +24,13 @@ class Validator extends V {
   }
 
   public async validate(inputs?: ObjectOf<any>): Promise<any> {
-    inputs = inputs || this._inputs;
+    const _inputs = inputs || this._inputs;
     if (await super.validate(inputs)) {
-      return inputs;
+      // return only validated input
+      return Object.keys(_inputs).reduce((prev, key) =>{
+        prev[key] = _inputs[key];
+        return prev;
+      }, {} as ObjectOf<any>);
     }
     throw new ValidationException(this);
   }
