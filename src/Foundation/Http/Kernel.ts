@@ -140,7 +140,7 @@ class Kernel {
           path.join(route.uri),
           ...routeMiddlewares,
           async (req, res) => {
-            const httpRequest = (req as any)._httpRequest as Request;
+            let httpRequest = (req as any)._httpRequest as Request;
             let httpResponse = (res as any)._httpResponse as HttpResponse;
             let response = await route.action(
               httpRequest,
@@ -152,7 +152,8 @@ class Kernel {
             }
 
             if (response instanceof RedirectResponse) {
-              response.setRequest(httpRequest);
+              // set request to response and return back current request
+              httpRequest = response.setRequest(httpRequest);
             }
 
             const afterMiddlewares = route.middleware
