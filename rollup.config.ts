@@ -11,6 +11,7 @@ export default [
       "src/**/index.ts",
       "src/helpers.ts",
       "src/entry-server.ts",
+      "src/entry-server-react.ts",
       "src/entry-client.ts",
       "src/entry-client-react.ts",
       "src/Types.ts",
