@@ -39,16 +39,18 @@ class SessionManager {
   public get(key: string) {
     const keys = key.split(".");
     return (
-      keys.reduce((prev: any, x) => prev?.[x], this.all(true, true)) || null
+      keys.reduce((prev: any, x) => prev?.[x], this.all(true, true, true)) || null
     );
   }
 
-  public old(key: string) {
+  public old(key?: string) {
+    delete this.session.__old?._token;
+    if(!key) return this.session.__old;
     const keys = key.split(".");
     return keys.reduce((prev, x) => prev?.[x], this.session?.__old) || null;
   }
 
-  public all(withFlashed = false, withAuth = false) {
+  public all(withFlashed = false, withAuth = false, withToken = false) {
     let session = { ...this.session };
     delete session.cookie;
     delete session.__lastAccess;
@@ -56,6 +58,9 @@ class SessionManager {
     delete session.__session;
     if (!withAuth && (this.request.auth().guard() as any)?.getName()) {
       delete session[(this.request.auth().guard() as any)?.getName()];
+    }
+    if(!withToken){
+      delete session._token;
     }
     if (!withFlashed) return session;
     session = {
