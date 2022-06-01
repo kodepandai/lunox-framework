@@ -6,7 +6,7 @@ specifiers:
   '@kodepandai/hash-equals': ^0.1.0
   '@kodepandai/node-input-validator': ^1.0.0-beta
   '@rollup/plugin-json': ^4.1.0
-  '@rollup/plugin-typescript': ^8.3.0
+  '@rollup/plugin-typescript': ^8.3.2
   '@types/bcryptjs': ^2.4.2
   '@types/cookie': ^0.4.1
   '@types/cors': ^2.8.12
@@ -69,7 +69,7 @@ dependencies:
 devDependencies:
   '@kodepandai/flydrive-s3': 2.1.1_@kodepandai+flydrive@2.0.1
   '@rollup/plugin-json': 4.1.0_rollup@2.61.1
-  '@rollup/plugin-typescript': 8.3.0_3bb347879280457c0420527ae9f527b5
+  '@rollup/plugin-typescript': 8.3.2_3bb347879280457c0420527ae9f527b5
   '@types/bcryptjs': 2.4.2
   '@types/cookie': 0.4.1
   '@types/cors': 2.8.12
@@ -809,8 +809,8 @@ packages:
       rollup: 2.61.1
     dev: true
 
-  /@rollup/plugin-typescript/8.3.0_3bb347879280457c0420527ae9f527b5:
-    resolution: {integrity: sha512-I5FpSvLbtAdwJ+naznv+B4sjXZUcIvLLceYpITAn7wAP8W0wqc5noLdGIp9HGVntNhRWXctwPYrSSFQxtl0FPA==}
+  /@rollup/plugin-typescript/8.3.2_3bb347879280457c0420527ae9f527b5:
+    resolution: {integrity: sha512-MtgyR5LNHZr3GyN0tM7gNO9D0CS+Y+vflS4v/PHmrX17JCkHUYKvQ5jN5o3cz1YKllM3duXUqu3yOHwMPUxhDg==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       rollup: ^2.14.0
@@ -818,7 +818,7 @@ packages:
       typescript: '>=3.7.0'
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.61.1
-      resolve: 1.20.0
+      resolve: 1.22.0
       rollup: 2.61.1
       tslib: 2.3.1
       typescript: 4.5.4
@@ -3021,12 +3021,6 @@ packages:
       ci-info: 2.0.0
     dev: true
 
-  /is-core-module/2.8.0:
-    resolution: {integrity: sha512-vd15qHsaqrRL7dtH6QNuy0ndJmRDrS9HAM1CAiSifNUFv4x1a0CCVsj18hJ1mShxIG6T2i1sO78MkP56r0nYRw==}
-    dependencies:
-      has: 1.0.3
-    dev: true
-
   /is-core-module/2.8.1:
     resolution: {integrity: sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA==}
     dependencies:
@@ -4709,13 +4703,6 @@ packages:
   /resolve.exports/1.1.0:
     resolution: {integrity: sha512-J1l+Zxxp4XK3LUDZ9m60LRJF/mAe4z6a4xyabPHk7pvK5t35dACV32iIjJDFeWZFfZlO29w6SZ67knR0tHzJtQ==}
     engines: {node: '>=10'}
-    dev: true
-
-  /resolve/1.20.0:
-    resolution: {integrity: sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==}
-    dependencies:
-      is-core-module: 2.8.0
-      path-parse: 1.0.7
     dev: true
 
   /resolve/1.22.0:

@@ -14,13 +14,6 @@ import { isProxy } from "util/types";
 import type { SuperAgentTest } from "supertest";
 
 declare global {
-  interface Window {
-    _ctx: {
-      csrf_token: string;
-      view: string;
-      data: any;
-    };
-  }
   var app: <T extends string | null | any = null>(
     abstract?: T | string | null,
     params?: any

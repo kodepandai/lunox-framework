@@ -1,4 +1,5 @@
 dist/
+client/
 bin/
 *.md
 src/View/Vite*.ts

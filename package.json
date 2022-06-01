@@ -10,7 +10,8 @@
   "files": [
     "dist/*",
     "global.d.ts",
-    "stub/*"
+    "stub/*",
+    "client/*"
   ],
   "scripts": {
     "build": "npm run clean && node build-fixer.mjs build && npm run fix",
@@ -61,7 +62,7 @@
   "devDependencies": {
     "@kodepandai/flydrive-s3": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-typescript": "^8.3.0",
+    "@rollup/plugin-typescript": "^8.3.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie": "^0.4.1",
     "@types/cors": "^2.8.12",
