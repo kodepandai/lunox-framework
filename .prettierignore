@@ -1,8 +1,7 @@
 dist/
 bin/
 *.md
-entry-server.ts
-src/View/Vite.ts
+src/View/Vite*.ts
 *.yaml
 coverage/
 storage/

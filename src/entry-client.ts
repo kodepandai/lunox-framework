@@ -1,26 +1,18 @@
-import ViewException from "./View/ViewException";
+import { makeViewTransform } from "./View/ViteClient";
 
-const makeView = async (modules: any, viewPath = "/app/resources/view") => {
-  await Promise.all(
-    Object.keys(modules).map(async (m) => {
-      if (m == `${viewPath}/${window._view}.${m.split(".").pop()}`) {
-        const component = (await modules[m]()).default;
-        transformView(window._view, component, window._data);
-      }
-    })
-  );
-};
-
+/**
+ * transform view with svelte engine
+ */
 const transformView = async (view: string, component: any, props: any) => {
-  try {
-    const target = document.getElementById("app");
-    return new component({
-      target,
-      hydrate: true,
-      props,
-    });
-  } catch (error) {
-    throw new ViewException(view);
-  }
+  const target = document.getElementById("app");
+  return new component({
+    target,
+    hydrate: true,
+    props,
+  });
 };
-export { makeView };
+
+/**
+ * render view on client
+ */
+export const makeView = makeViewTransform(transformView);

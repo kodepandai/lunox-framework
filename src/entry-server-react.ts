@@ -1,4 +1,4 @@
-import { makeRenderTransform } from "./View/Vite";
+import { makeRenderTransform } from "./View/ViteServer";
 import { Helmet } from "react-helmet";
 import ReactDomServer from "react-dom/server";
 import JsxRuntime from "react/jsx-runtime";

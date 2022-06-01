@@ -3,7 +3,7 @@ import ViewException from "./ViewException";
 
 const defaultViewPath = config("view.paths", ["/app/resources/view"])[0];
 
-type TransformView = (
+type TransformViewServer = (
   url: string,
   View: any,
   props: any
@@ -13,7 +13,7 @@ type TransformView = (
  * make render method using specific transformView
  */
 export const makeRenderTransform =
-  (transformView: TransformView) =>
+  (transformView: TransformViewServer) =>
     (modules: any, viewPath = defaultViewPath) =>
       async (url: any, props: any, req: Request, cb: (props: any) => any) => {
         const manifest =
@@ -46,7 +46,7 @@ export const makeRenderTransform =
         try {
           html = await transformView(url, View, props);
         } catch (error) {
-          throw new ViewException(url);
+          throw new ViewException(url, error as Error);
         }
         return [html, preloadLinks];
       };

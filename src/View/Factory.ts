@@ -73,16 +73,20 @@ class Factory {
         template = template.replace(".css", ".css?v=" + v);
       }
     }
+    const head = `
+      <script>
+        window._ctx = {
+          csrf_token: "${req.session().token()}",
+          data: ${JSON.stringify(this.data).replace(/\$\$/g, "$$$$$$")}, 
+          view: "${this.path}"
+        }
+      </script>
+    `;
     const html = template
       .replace("<!--preload-links-->", preloadLinks)
       .replace("<!--app-html-->", appHtml.html)
-      .replace("<!--app-head-->", appHtml.head)
-      .replace("/*style*/", appHtml.css.code)
-      .replace("$$view", this.path)
-      .replace(
-        "$$data",
-        JSON.stringify(this.data).replace(/\$\$/g, "$$$$$$") //this to prevent "$$" replaced to "$" when render latex
-      );
+      .replace("<!--app-head-->", head + appHtml.head)
+      .replace("/*style*/", appHtml.css.code);
     req.session().remove("__old");
     req.session().remove("__session");
 

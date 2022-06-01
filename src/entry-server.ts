@@ -1,4 +1,4 @@
-import { makeRenderTransform } from "./View/Vite";
+import { makeRenderTransform } from "./View/ViteServer";
 
 /**
  * transform view with svelte engine
