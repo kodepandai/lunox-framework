@@ -5,6 +5,7 @@ import Response from "./Response";
 class RedirectResponse extends Response {
   protected request!: Request;
   protected isWithInput = false;
+  protected inputExcept: string[] = [];
   protected session: ObjectOf<any> = {};
   protected url: string;
 
@@ -24,12 +25,27 @@ class RedirectResponse extends Response {
     }
 
     if (this.isWithInput) {
-      req.session().put("__old", req.all());
+      const inputs = req.all();
+      // remove except key from old input
+      Object.keys(inputs).forEach((key)=>{
+        if(this.inputExcept.includes(key)){
+          delete inputs[key];
+        }
+      });
+      req.session().put("__old", inputs);
     }
     req.session().put("__session", this.session);
+    return req;
   }
 
-  public withInput() {
+  public withInput(options: ({except: string|string[]}) ={except:[]}) {
+    if(options.except.length>0){
+      if(typeof options.except == "string"){
+        this.inputExcept.push(options.except);
+      }else {
+        this.inputExcept = [...this.inputExcept, ...options.except];
+      }
+    }
     this.isWithInput = true;
     return this;
   }
