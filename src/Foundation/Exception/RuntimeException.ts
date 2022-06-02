@@ -1,6 +1,2 @@
-class RuntimeException extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
+class RuntimeException extends Error {}
 export default RuntimeException;

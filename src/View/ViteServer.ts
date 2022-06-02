@@ -1,6 +1,4 @@
 import { readFileSync } from "fs";
-import ViewException from "./ViewException";
-
 const defaultViewPath = config("view.paths", ["/app/resources/view"])[0];
 
 type TransformViewServer = (
@@ -16,10 +14,9 @@ export const makeRenderTransform =
   (transformView: TransformViewServer) =>
     (modules: any, viewPath = defaultViewPath) =>
       async (url: any, props: any, req: Request, cb: (props: any) => any) => {
-        const manifest =
-      process.env.NODE_ENV == "production"
-        ? JSON.parse(readFileSync(base_path("client/manifest.json"), "utf-8"))
-        : {};
+        const manifest = process.env.NODE_ENV == "production"
+          ? JSON.parse(readFileSync(base_path("client/manifest.json"), "utf-8"))
+          : {};
         let View: any = null;
         let preloadLinks = "";
         await Promise.all(
@@ -42,12 +39,7 @@ export const makeRenderTransform =
           })
         );
         cb(props);
-        let html = null;
-        try {
-          html = await transformView(url, View, props);
-        } catch (error) {
-          throw new ViewException(url, error as Error);
-        }
+        const html = await transformView(url, View, props);
         return [html, preloadLinks];
       };
 

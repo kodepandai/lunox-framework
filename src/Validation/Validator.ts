@@ -27,7 +27,7 @@ class Validator extends V {
     const _inputs = inputs || this._inputs;
     if (await super.validate(inputs)) {
       // return only validated input
-      return Object.keys(_inputs).reduce((prev, key) =>{
+      return Object.keys(_inputs).reduce((prev, key) => {
         prev[key] = _inputs[key];
         return prev;
       }, {} as ObjectOf<any>);

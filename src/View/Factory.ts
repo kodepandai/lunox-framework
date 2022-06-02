@@ -6,6 +6,7 @@ import Response from "../Support/Facades/Response";
 import type { ObjectOf } from "../Types";
 import type Application from "../Foundation/Application";
 import { pathToFileURL } from "url";
+import ViewException from "./ViewException";
 
 class Factory {
   protected app: Application;
@@ -60,7 +61,7 @@ class Factory {
         ) {
           // I don't know, just rerender and it will be fine
         } else {
-          throw error;
+          throw new ViewException(this.path, error as Error);
         }
       }
     }

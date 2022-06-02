@@ -24,7 +24,10 @@ export default [
       json(),
       ts({ declaration: true, rootDir: "src" }),
       multi(),
-      production && terser(),
+      production &&
+        terser({
+          keep_classnames: true,
+        }),
     ],
     external: [
       "bcryptjs",

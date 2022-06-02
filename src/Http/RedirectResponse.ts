@@ -27,8 +27,8 @@ class RedirectResponse extends Response {
     if (this.isWithInput) {
       const inputs = req.all();
       // remove except key from old input
-      Object.keys(inputs).forEach((key)=>{
-        if(this.inputExcept.includes(key)){
+      Object.keys(inputs).forEach((key) => {
+        if (this.inputExcept.includes(key)) {
           delete inputs[key];
         }
       });
@@ -38,11 +38,11 @@ class RedirectResponse extends Response {
     return req;
   }
 
-  public withInput(options: ({except: string|string[]}) ={except:[]}) {
-    if(options.except.length>0){
-      if(typeof options.except == "string"){
+  public withInput(options: { except: string | string[] } = { except: [] }) {
+    if (options.except.length > 0) {
+      if (typeof options.except == "string") {
         this.inputExcept.push(options.except);
-      }else {
+      } else {
         this.inputExcept = [...this.inputExcept, ...options.except];
       }
     }

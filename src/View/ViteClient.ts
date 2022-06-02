@@ -1,5 +1,3 @@
-import ViewException from "./ViewException";
-
 type TransformViewClient = (
   view: string,
   component: any,
@@ -13,11 +11,7 @@ export const makeViewTransform =
         Object.keys(modules).map(async (m) => {
           if (m == `${viewPath}/${window._ctx.view}.${m.split(".").pop()}`) {
             const component = (await modules[m]()).default;
-            try {
-              transformView(window._ctx.view, component, window._ctx.data);
-            } catch (error) {
-              throw new ViewException(window._ctx.view, error as Error);
-            }
+            transformView(window._ctx.view, component, window._ctx.data);
           }
         })
       );
