@@ -75,6 +75,7 @@ class Factory {
       }
     }
     const head = `
+      <meta name="csrf-token" content="${req.session().token()}">
       <script>
         window._ctx = {
           sessions: ${JSON.stringify(req.session().all(true))},
