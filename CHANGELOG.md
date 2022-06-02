@@ -1,8 +1,23 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- **exception:** ViewException not sent errors detail
+- **response:** redirect response send wrong http status code
+- **session:** session not synchronized on redirect response
+- **session:** hide csrf_token from all and old method
+
+### Code Refactoring
+- **view:** server data now exported to window._ctx
+- **view:** separate entry-server per engine
+
 ### Features
+- **response:** redirect response with input except some key
 - **router:** auto suggest controller method when using class based controller
+- **validation:** validate method now return only validated inputs
+- **view:** add csrf-token to html meta
+- **view:** added client helper to get old input, sessions, and errors validation
+- **view:** initialize client helpers
 
 
 <a name="v1.2.2"></a>
