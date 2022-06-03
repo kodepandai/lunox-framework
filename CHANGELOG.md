@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v1.3.0"></a>
+## [v1.3.0] - 2022-06-03
 ### Bug Fixes
 - **exception:** ViewException not sent errors detail
 - **response:** redirect response send wrong http status code
@@ -252,7 +255,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.2.2...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.3.0...HEAD
+[v1.3.0]: https://github.com/kodepintar/lunox-framework/compare/v1.2.2...v1.3.0
 [v1.2.2]: https://github.com/kodepintar/lunox-framework/compare/v1.2.1...v1.2.2
 [v1.2.1]: https://github.com/kodepintar/lunox-framework/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://github.com/kodepintar/lunox-framework/compare/v1.1.1...v1.2.0
