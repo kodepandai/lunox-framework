@@ -86,15 +86,4 @@ export default [
       "fs",
     ],
   },
-  {
-    input: "src_client/index.ts",
-    output: {
-      dir: "client",
-      format: "esm",
-    },
-    plugins: [
-      ts({ declaration: true, rootDir: "src_client", outDir: "client" }),
-      production && terser(),
-    ],
-  },
 ];

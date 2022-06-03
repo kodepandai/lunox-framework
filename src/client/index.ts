@@ -1,4 +1,4 @@
-const SSR = import.meta.env.SSR;
+const SSR = typeof window == "undefined";
 /**
  * get csrf token for current session
  */

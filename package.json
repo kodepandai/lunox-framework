@@ -5,13 +5,17 @@
   "bin": {
     "lunox": "./bin/lunox.cjs"
   },
-  "types": "dist/index.d.ts",
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./dist/*": "./dist/*",
+    "./client": "./dist/client/index.js"
+  },
   "files": [
     "dist/*",
     "global.d.ts",
-    "stub/*",
-    "client/*"
+    "client.d.ts",
+    "stub/*"
   ],
   "scripts": {
     "build": "npm run clean && node build-fixer.mjs build && npm run fix",
