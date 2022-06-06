@@ -31,6 +31,8 @@ class Macroable {
    * Dynamically handle call to the class
    */
   protected static __getStatic(method: string): any {
+    // avoid Symbol get called
+    if (typeof method != "string") return;
     return (...parameters: any[]) => {
       if (!this.hasMacro(method)) {
         throw new BadMethodCallException(
@@ -45,6 +47,8 @@ class Macroable {
    * Dynamically handle call to the class
    */
   protected __get(method: string): any {
+    // avoid Symbol get called
+    if (typeof method != "string") return;
     return (...parameters: any[]) => {
       const constructor = this.constructor as unknown as typeof Macroable;
       if (!constructor.hasMacro(method)) {
