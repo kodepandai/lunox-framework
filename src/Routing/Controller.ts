@@ -14,11 +14,9 @@ abstract class Controller {
   /**
    * Execute an action on the controller.
    */
-  public callAction(method: string, parameters: any[]) {
+  public callAction(this: any, method: string, parameters: any[]) {
     // handle calls to missing methods
-    if (
-      !Object.getOwnPropertyNames(Object.getPrototypeOf(this)).includes(method)
-    ) {
+    if (!(this[method] instanceof Function)) {
       throw new BadMethodCallException(
         `Method ${this.constructor.name}.${method} does not exist.`
       );
