@@ -117,7 +117,7 @@ class Encrypter {
     }
 
     if (!this.isValidMac(json as JsonPayload)) {
-      throw new Error("Mac is not valid !");
+      throw new DecryptException("Mac is not valid !");
     }
 
     return json as JsonPayload;
