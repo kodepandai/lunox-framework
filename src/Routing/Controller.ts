@@ -16,7 +16,7 @@ abstract class Controller {
    */
   public callAction(this: any, method: string, parameters: any[]) {
     // handle calls to missing methods
-    if (!(this[method] instanceof Function)) {
+    if (!get_class_methods(this).includes(method)) {
       throw new BadMethodCallException(
         `Method ${this.constructor.name}.${method} does not exist.`
       );

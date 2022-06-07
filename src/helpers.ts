@@ -37,6 +37,7 @@ declare global {
   var is_class: (instance: any) => boolean;
   var walkDir: (path: string) => Promise<string[]>;
   var agent: SuperAgentTest;
+  var get_class_methods: (instance: any) => string[];
 }
 
 global.get_current_dir = (importMetaUrl: string) => {
@@ -84,4 +85,14 @@ global.walkDir = async (_path: string) => {
     })
   );
   return files;
+};
+
+global.get_class_methods = (instance: any) => {
+  const classMethods = Object.getOwnPropertyNames(
+    Object.getPrototypeOf(instance.constructor.prototype)
+  );
+  const abstractMethods = Object.getOwnPropertyNames(
+    Object.getPrototypeOf(instance)
+  );
+  return [...classMethods, ...abstractMethods];
 };
