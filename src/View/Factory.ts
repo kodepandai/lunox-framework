@@ -12,6 +12,7 @@ class Factory {
   protected app: Application;
   protected path!: string;
   protected data: ObjectOf<any> = {};
+  protected ctx: ObjectOf<any> = {};
 
   constructor(app: Application) {
     this.app = app;
@@ -20,6 +21,11 @@ class Factory {
   public make(_path: string, data: ObjectOf<any> = {}) {
     this.path = _path.split(".").join(path.sep);
     this.data = data;
+    return this;
+  }
+
+  public withContext(ctx: ObjectOf<any>) {
+    this.ctx = ctx;
     return this;
   }
 
@@ -48,6 +54,7 @@ class Factory {
           this.path,
           this.data,
           req,
+          this.ctx,
           (serverProps: any) => {
             // merge server props with view props
             this.data = { ...this.data, ...serverProps };

@@ -10,4 +10,4 @@ export type Class<I, Args extends any[] = any[]> = new (...args: Args) => I;
 
 export type Server = Polka;
 
-export type OnServer = (req: Request) => Promise<ObjectOf<any>>;
+export type OnServer = (req: Request, ctx: any) => Promise<ObjectOf<any>>;

@@ -1,4 +1,5 @@
 import { readFileSync } from "fs";
+import type { ObjectOf } from "../Types";
 const defaultViewPath = config("view.paths", ["/app/resources/view"])[0];
 
 type TransformViewServer = (
@@ -13,7 +14,7 @@ type TransformViewServer = (
 export const makeRenderTransform =
   (transformView: TransformViewServer) =>
     (modules: any, viewPath = defaultViewPath) =>
-      async (url: any, props: any, req: Request, cb: (props: any) => any) => {
+      async (url: any, props: any, req: Request, ctx: ObjectOf<any>, cb: (props: any) => any) => {
         const manifest = process.env.NODE_ENV == "production"
           ? JSON.parse(readFileSync(base_path("client/manifest.json"), "utf-8"))
           : {};
@@ -25,7 +26,7 @@ export const makeRenderTransform =
             if (m == fullViewPath) {
               const module = await modules[m]();
               if (module.onServer) {
-                const serverProps = await module.onServer(req);
+                const serverProps = await module.onServer(req, ctx);
                 props = { ...props, ...serverProps };
               }
               View = module.default;
