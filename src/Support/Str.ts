@@ -1,7 +1,10 @@
 import Pluralize from "pluralize";
 import Arr from "./Collection/Arr";
 import crypto from "crypto";
+import type { ObjectOf } from "../Types";
 class Str {
+  protected static studlyCache: ObjectOf<string> = {};
+
   public static plural(value: string, count = 2) {
     return Pluralize(value, count);
   }
@@ -44,6 +47,20 @@ class Str {
       .toString("base64")
       .replace(/(\/|\+|=)/g, "")
       .slice(0, length);
+  }
+
+  /**
+   * Convert a value to studly caps case.
+   */
+  public static studly(value: string) {
+    if (Str.studlyCache[value]) {
+      return Str.studlyCache[value];
+    }
+    const words = value
+      .replace(/-|_/g, " ")
+      .split(" ")
+      .map((w) => Str.ucfirst(w));
+    return (Str.studlyCache[value] = words.join(""));
   }
 }
 
