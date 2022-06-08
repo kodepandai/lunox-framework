@@ -2,6 +2,22 @@
 ## [Unreleased]
 
 
+<a name="v1.4.0"></a>
+## [v1.4.0] - 2022-06-08
+### Bug Fixes
+- **encryption:** wrong Exception is thrown when Mac invalid
+- **macro:** avoid Symbol get called
+
+### Code Refactoring
+- **controller:** callAction method check for better macro support
+
+### Features
+- **config:** read config files from nested folder
+- **helpers:** added global get_class_methods helper
+- **helpers:** added Str.studly method
+- **view:** added method withContext to expose data to onServer context
+
+
 <a name="v1.3.0"></a>
 ## [v1.3.0] - 2022-06-03
 ### Bug Fixes
@@ -255,7 +271,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.4.0...HEAD
+[v1.4.0]: https://github.com/kodepintar/lunox-framework/compare/v1.3.0...v1.4.0
 [v1.3.0]: https://github.com/kodepintar/lunox-framework/compare/v1.2.2...v1.3.0
 [v1.2.2]: https://github.com/kodepintar/lunox-framework/compare/v1.2.1...v1.2.2
 [v1.2.1]: https://github.com/kodepintar/lunox-framework/compare/v1.2.0...v1.2.1
