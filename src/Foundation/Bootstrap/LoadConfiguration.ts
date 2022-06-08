@@ -14,13 +14,15 @@ class LoadConfiguration implements Bootstrapper {
     await this.loadConfigurations(app, Config);
   }
 
-  getConfigurationFiles(app: Application) {
+  async getConfigurationFiles(app: Application) {
     const configPath = app.make("path.configPath");
 
     if (!fs.existsSync(configPath)) {
       fs.mkdirSync(configPath);
     }
-    const files = fs.readdirSync(configPath);
+    const files = (await walkDir(configPath)).map((x) =>
+      x.replace(configPath + path.sep, "")
+    );
     if (!(files.includes("app.js") || files.includes("app.ts"))) {
       throw new Error('unable to load "app": configuration file');
     }
@@ -30,11 +32,11 @@ class LoadConfiguration implements Bootstrapper {
   async loadConfigurations(app: Application, repository: Repository) {
     const configPath = app.make("path.configPath");
 
-    const files = this.getConfigurationFiles(app);
+    const files = await this.getConfigurationFiles(app);
     await Promise.all(
       files.map(async (f) => {
         repository.set(
-          f.replace(".js", "").replace(".ts", ""),
+          f.replace(".js", "").replace(".ts", "").replace(path.sep, "."),
           (await import(pathToFileURL(path.join(configPath, f)).href))
             .default || {}
         );
