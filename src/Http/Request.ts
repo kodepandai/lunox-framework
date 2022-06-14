@@ -12,10 +12,12 @@ import cookie from "cookie";
 import type { Macro } from "../Support/Traits/Macroable";
 import Macroable from "../Support/Traits/Macroable";
 import { useMagic } from "../Support";
+import CookieJar from "../Cookie/CookieJar";
 
 interface RequestCookies {
   [key: string]: any;
   set: (key: string, value: any) => void;
+  get: (key: string) => any;
 }
 export class Request extends Macroable {
   // redeclare static macros to avoid all macros being merged
@@ -34,15 +36,20 @@ export class Request extends Macroable {
 
   protected _cookies: ObjectOf<any> | null;
 
+  protected _cookieJar: CookieJar | null;
+
   constructor(app: Application, req: ExtendedRequest) {
     super();
     this.app = app;
     this.req = req;
     const query = typeof req?.query == "object" ? req.query : {};
     this.data = { ...query, ...req?.body };
+
+    // every properties in macroable class should have initial value
     this.sessionManager = null;
     this.authManager = null;
     this._cookies = null;
+    this._cookieJar = null;
   }
 
   public get(key: string, defaultValue = null) {
@@ -108,15 +115,32 @@ export class Request extends Macroable {
       Object.defineProperty(this._cookies, "set", {
         value: this.setCookie.bind(this),
       });
+      Object.defineProperty(this._cookies, "get", {
+        value: this.getCookie.bind(this),
+      });
     }
     return this._cookies as RequestCookies;
   }
 
-  public setCookie(key: string, value: any) {
+  public get cookieJar() {
+    if (!this._cookieJar) {
+      this._cookieJar = new CookieJar();
+    }
+    return this._cookieJar;
+  }
+
+  protected setCookie(key: string, value: any) {
     if (!this._cookies) {
       this._cookies = {};
     }
     this._cookies[key] = value;
+  }
+
+  protected getCookie(key: string) {
+    if (!this._cookies) {
+      this._cookies = {};
+    }
+    return this._cookies[key];
   }
 
   public auth() {
