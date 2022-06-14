@@ -18,6 +18,12 @@ abstract class Model extends ObjectionModel {
     return this.primaryKey;
   }
 
+  $beforeInsert() {
+    if ((this.constructor as any).timestamps) {
+      this.created_at = new Date();
+    }
+  }
+
   $beforeUpdate() {
     if ((this.constructor as any).timestamps) {
       this.updated_at = new Date();

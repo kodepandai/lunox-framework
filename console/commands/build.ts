@@ -20,11 +20,12 @@ const buildClient = () =>
     `${setEnv("NODE_ENV", "production")} vite build --outDir dist/client`
   );
 
-const watch = () =>
-  Promise.all([
-    runCommand("rollup -cw", true),
-    runCommand("nodemon -q -w dist dist/index.js", true),
-  ]);
+const watch = () => {
+  runCommand("rollup -cw", true);
+  setTimeout(() => {
+    runCommand("nodemon -q -w dist dist/index.js", true);
+  }, 3000);
+};
 
 const serve = () =>
   runCommand(`${setEnv("NODE_ENV", "production")} node dist/index.js`, true);
