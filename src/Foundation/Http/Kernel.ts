@@ -176,11 +176,13 @@ class Kernel {
                 }
                 return collect;
               }, [] as any[])
-              .filter((m) => m != undefined);
+              .filter((m) => m != undefined)
+              // reverse excecution order of after middleware
+              .reverse();
             for (let i = 0; i <= afterMiddlewares.length; i++) {
               const afterMiddleware = afterMiddlewares[i];
               if (typeof afterMiddleware == "function") {
-                httpResponse = await afterMiddleware(httpResponse);
+                httpResponse = await afterMiddleware(httpResponse, httpRequest);
               }
             }
 
