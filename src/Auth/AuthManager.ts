@@ -59,7 +59,16 @@ export class AuthManager {
 
   protected createSessionDriver(name: string, config: ObjectOf<any>) {
     const provider = this.createUserProvider(config["provider"]);
-    return new SessionGuard(name, provider, this.request.session());
+    const guard = new SessionGuard(
+      name,
+      provider,
+      this.request.session(),
+      this.request
+    );
+    if (config.remember) {
+      guard.setRememberDuration(config.remember);
+    }
+    return guard;
   }
 
   public createUserProvider(provider: string): UserProvider {
