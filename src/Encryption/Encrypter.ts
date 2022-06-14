@@ -6,7 +6,7 @@ import { RuntimeException } from "../Foundation/Exception";
 import type { CipherTypes, JsonPayload } from "../Contracts/Encryption";
 import DecryptException from "./DecryptException";
 import type { ObjectOf } from "../Types";
-import hashEquals from "@kodepandai/hash-equals";
+import hashEquals from "hash-equals";
 
 class Encrypter {
   protected key!: Buffer;

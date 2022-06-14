@@ -44,7 +44,7 @@ export default [
       "@kodepandai/flydrive",
       "@kodepandai/flydrive-s3",
       "@kodepandai/node-input-validator",
-      "@kodepandai/hash-equals",
+      "hash-equals",
       "formidable",
       "commander",
       "colorette",
