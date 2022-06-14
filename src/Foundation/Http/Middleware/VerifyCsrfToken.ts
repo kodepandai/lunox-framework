@@ -43,7 +43,7 @@ class VerifyCsrfToken implements Middleware {
   }
 
   protected runningUnitTests() {
-    this.app.runningInConsole() && this.app.runingUnitTests();
+    return this.app.runningInConsole() && this.app.runingUnitTests();
   }
 
   protected inExceptArray(req: Request) {
