@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v1.5.0"></a>
+## [v1.5.0] - 2022-06-14
+### Features
+- **auth:** login via remember token ([#14](https://github.com/kodepintar/lunox-framework/issues/14))
+
+
 <a name="v1.4.0"></a>
 ## [v1.4.0] - 2022-06-08
 ### Bug Fixes
@@ -271,7 +277,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.5.0...HEAD
+[v1.5.0]: https://github.com/kodepintar/lunox-framework/compare/v1.4.0...v1.5.0
 [v1.4.0]: https://github.com/kodepintar/lunox-framework/compare/v1.3.0...v1.4.0
 [v1.3.0]: https://github.com/kodepintar/lunox-framework/compare/v1.2.2...v1.3.0
 [v1.2.2]: https://github.com/kodepintar/lunox-framework/compare/v1.2.1...v1.2.2
