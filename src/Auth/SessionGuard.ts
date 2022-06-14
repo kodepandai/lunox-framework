@@ -84,7 +84,7 @@ class SessionGuard extends GuardHelper implements StatefulGuard {
     // queue a permanent cookie that contains the encrypted copy of the user
     // identifier. We will then decrypt this later to retrieve the users.
     if (remember) {
-      this.ensureRememberTokenIsSet(user);
+      await this.ensureRememberTokenIsSet(user);
 
       this.queueRecallerCookie(user);
     }
@@ -134,9 +134,9 @@ class SessionGuard extends GuardHelper implements StatefulGuard {
   /**
    * Create a new "remember me" token for the user if one doesn't already exist.
    */
-  protected ensureRememberTokenIsSet(user: Authenticatable) {
+  protected async ensureRememberTokenIsSet(user: Authenticatable) {
     if (!user.getRememberToken()) {
-      this.cycleRememberToken(user);
+      await this.cycleRememberToken(user);
     }
   }
 
@@ -201,7 +201,7 @@ class SessionGuard extends GuardHelper implements StatefulGuard {
       this._user = await this.userFromRecaller(recaller);
 
       if (this._user) {
-        this.updateSession(this._user.getAuthIdentifier());
+        await this.updateSession(this._user.getAuthIdentifier());
         //TODO: fire login event
       }
     }
