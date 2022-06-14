@@ -16,6 +16,6 @@ export interface Middleware {
     next: NextFunction,
     ...args: any[]
   ) => Promise<Response>;
-  handleAfter?: (res: Response) => Promise<Response>;
+  handleAfter?: (res: Response, req: Request) => Promise<Response>;
   handleNative?: NativeMiddleware;
 }
