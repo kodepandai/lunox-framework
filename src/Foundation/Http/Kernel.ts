@@ -114,6 +114,10 @@ class Kernel {
     const routes = Route.getRoutes();
     await Promise.all(
       routes.map((route) => {
+        // append controller middlewares to router middlewares
+        // this to make sure controller middlewares run after router middlewares
+        route.middleware = [...route.middleware, ...route.controllerMiddleware];
+
         // run route middlewares
         const routeMiddlewares = route.middleware.reduce(
           (collect, middleware) => {

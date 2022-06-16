@@ -8,6 +8,7 @@ export interface Routes {
   method: Method;
   action: RouteCallback;
   middleware: (string | Middleware)[];
+  controllerMiddleware: (string | Middleware)[];
 }
 
 export type RouteCallback = (req: Request, ...params: any) => any;

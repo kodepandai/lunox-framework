@@ -52,11 +52,11 @@ export class Request extends Macroable {
     this._cookieJar = null;
   }
 
-  public get(key: string, defaultValue = null) {
+  public get(key: string, defaultValue: any = null) {
     return this.data[key] || defaultValue;
   }
 
-  public input(key: string, defaultValue = null) {
+  public input(key: string, defaultValue: any = null) {
     return this.get(key, defaultValue);
   }
 

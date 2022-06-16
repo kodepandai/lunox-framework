@@ -52,10 +52,8 @@ export class Router extends Macroable {
         uri: this.prefixStack.join("") + uri,
         method,
         action,
-        middleware: this.flattenMiddleware([
-          ...this.middlewareStack,
-          ...controllerMiddlewares,
-        ]),
+        middleware: this.flattenMiddleware(this.middlewareStack),
+        controllerMiddleware: this.flattenMiddleware(controllerMiddlewares),
       });
       this.calledAction = "addRoutes";
       return this;
@@ -124,6 +122,11 @@ export class Router extends Macroable {
       []
     );
   }
+
+  /**
+   * This method just to reset calledAction when Route facade called
+   * See implementation in Support/Facade class
+   */
   protected facadeCalled() {
     this.calledAction = "";
   }
