@@ -52,8 +52,11 @@ export class Request extends Macroable {
     this._cookieJar = null;
   }
 
-  public get(key: string, defaultValue: any = null) {
-    return this.data[key] || defaultValue;
+  public get<T = any>(key: string, defaultValue: any = null): T {
+    const keys = key.split(".");
+    return (
+      keys.reduce((prev, x) => prev?.[x], this.data as any) || defaultValue
+    );
   }
 
   public input(key: string, defaultValue: any = null) {
