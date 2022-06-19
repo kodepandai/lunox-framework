@@ -88,11 +88,18 @@ global.walkDir = async (_path: string) => {
 };
 
 global.get_class_methods = (instance: any) => {
-  const classMethods = Object.getOwnPropertyNames(
-    Object.getPrototypeOf(instance.constructor.prototype)
-  );
-  const abstractMethods = Object.getOwnPropertyNames(
-    Object.getPrototypeOf(instance)
-  );
-  return [...classMethods, ...abstractMethods];
+  let target = instance;
+  let classMethods: string[] = [];
+  let run = true;
+  // loop through parent class to collect all methods
+  while (run) {
+    const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(target));
+    run = !methods.includes("__proto__");
+    if (run) {
+      classMethods = [...classMethods, ...methods];
+      target = Object.getPrototypeOf(target);
+    }
+  }
+  return [...new Set(classMethods)] //avoid duplicate values
+    .filter((x) => x != "constructor"); // remove "constructor" from result
 };
