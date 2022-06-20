@@ -31,7 +31,7 @@ export class Router extends Macroable {
 
   private addRoutes =
     (method: Method) =>
-    <T>(uri: string, action: RouteAction<T>) => {
+    <T>(uri: string, action: RouteAction<T>, ctx: ObjectOf<any> = {}) => {
       let controllerMiddlewares: (string | Middleware)[] = [];
       if (Array.isArray(action)) {
         const [ControllerClass, controllerMethod] = action;
@@ -49,11 +49,13 @@ export class Router extends Macroable {
           .map((m) => m.middleware);
       }
       this.routes.push({
+        prefix: this.prefixStack.join(""),
         uri: this.prefixStack.join("") + uri,
         method,
         action,
         middleware: this.flattenMiddleware(this.middlewareStack),
         controllerMiddleware: this.flattenMiddleware(controllerMiddlewares),
+        ...ctx,
       });
       this.calledAction = "addRoutes";
       return this;
