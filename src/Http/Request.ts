@@ -13,6 +13,7 @@ import type { Macro } from "../Support/Traits/Macroable";
 import Macroable from "../Support/Traits/Macroable";
 import { useMagic } from "../Support";
 import CookieJar from "../Cookie/CookieJar";
+import type { Routes } from "../Contracts/Routing/Route";
 
 interface RequestCookies {
   [key: string]: any;
@@ -37,6 +38,7 @@ export class Request extends Macroable {
   protected _cookies: ObjectOf<any> | null;
 
   protected _cookieJar: CookieJar | null;
+  protected router: Partial<Routes> = {};
 
   constructor(app: Application, req: ExtendedRequest) {
     super();
@@ -173,6 +175,20 @@ export class Request extends Macroable {
 
   public is(...patterns: any[]) {
     return Str.is(patterns, this.req.url.replace("/", ""));
+  }
+
+  /**
+   * Set router data to request instance
+   */
+  public setRouter(router: Routes) {
+    this.router = router;
+  }
+
+  /**
+   * Get router data from current route
+   */
+  public getRouter() {
+    return this.router;
   }
 }
 

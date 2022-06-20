@@ -142,6 +142,10 @@ class Kernel {
 
         server[route.method](
           path.join(route.uri),
+          (req, res, next) => {
+            ((req as any)._httpRequest as Request).setRouter(route);
+            return next();
+          },
           ...routeMiddlewares,
           async (req, res) => {
             let httpRequest = (req as any)._httpRequest as Request;
