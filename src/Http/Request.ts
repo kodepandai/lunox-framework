@@ -14,6 +14,7 @@ import Macroable from "../Support/Traits/Macroable";
 import { useMagic } from "../Support";
 import CookieJar from "../Cookie/CookieJar";
 import type { Routes } from "../Contracts/Routing/Route";
+import type FormRequest from "../Foundation/Http/FormRequest";
 
 interface RequestCookies {
   [key: string]: any;
@@ -160,6 +161,9 @@ export class Request extends Macroable {
     return Str.contains(acceptable, ["/json", "+json"]);
   }
 
+  /**
+   * Validate request inputs.
+   */
   public async validate(
     rules: ObjectOf<string>,
     messages: ObjectOf<string> = {},
@@ -171,6 +175,14 @@ export class Request extends Macroable {
       messages,
       customAttributes
     ).validate();
+  }
+
+  /**
+   * Validate using FormRequest
+   */
+  public validateUsingForm(formRequest: typeof FormRequest) {
+    const form = new formRequest(this.app, this.req);
+    return form.validateForm();
   }
 
   public is(...patterns: any[]) {
