@@ -8,11 +8,10 @@ class Validator extends V {
     data: ObjectOf<any>,
     rules: ObjectOf<any>,
     messages: ObjectOf<any>,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     customAttributes: ObjectOf<any> = {}
   ) {
-    // TODO: implement validation with customAtributes like in laravel
     super(data, rules, messages);
+    this.niceNames(customAttributes);
     this._inputs = Object.keys(rules).reduce((inputs, key) => {
       inputs[key] = data[key];
       return inputs;
