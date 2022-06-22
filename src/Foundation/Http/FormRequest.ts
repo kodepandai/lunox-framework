@@ -7,7 +7,7 @@ class FormRequest extends Request {
   /**
    * validator instance.
    */
-  protected validator!: Validator;
+  protected validator: Validator | null = null;
   /**
    * Get rules for validator.
    */
@@ -63,8 +63,9 @@ class FormRequest extends Request {
     if (this.validator) return this.validator;
     const factory = this.app.make<Factory>("validator");
     const validator = this.createDefaultValidator(factory);
+
     this.setValidator(validator);
-    return this.validator;
+    return this.validator as unknown as Validator;
   }
 }
 

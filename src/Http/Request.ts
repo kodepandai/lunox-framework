@@ -40,6 +40,7 @@ export class Request extends Macroable {
 
   protected _cookieJar: CookieJar | null;
   protected router: Partial<Routes> = {};
+  protected formRequest: FormRequest | null;
 
   constructor(app: Application, req: ExtendedRequest) {
     super();
@@ -53,6 +54,7 @@ export class Request extends Macroable {
     this.authManager = null;
     this._cookies = null;
     this._cookieJar = null;
+    this.formRequest = null;
   }
 
   public get<T = any>(key: string, defaultValue: any = null): T {
@@ -178,11 +180,17 @@ export class Request extends Macroable {
   }
 
   /**
-   * Validate using FormRequest
+   * set Form Request for validation.
    */
-  public validateUsingForm(formRequest: typeof FormRequest) {
-    const form = new formRequest(this.app, this.req);
-    return form.validateForm();
+  public setFormRequest(formRequest: typeof FormRequest) {
+    return (this.formRequest = new formRequest(this.app, this.req));
+  }
+
+  /**
+   * Get Form Request instance
+   */
+  public getFormRequest() {
+    return this.formRequest;
   }
 
   public is(...patterns: any[]) {
