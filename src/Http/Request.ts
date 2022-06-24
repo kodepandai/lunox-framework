@@ -183,7 +183,9 @@ export class Request extends Macroable {
    * set Form Request for validation.
    */
   public setFormRequest(formRequest: typeof FormRequest) {
-    return (this.formRequest = new formRequest(this.app, this.req)).merge(this.data);
+    return (this.formRequest = new formRequest(this.app, this.req)).merge(
+      this.data
+    );
   }
 
   /**
