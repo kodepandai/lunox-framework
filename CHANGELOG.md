@@ -1,6 +1,20 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- **helpers:** get_class_methods cannot collect methods from multiple traits
+- **middleware:** make sure controller middlewares are excecuted after route middlewares
+- **request:** merge data to formRequest
+
+### Features
+- **model:** added fillable and guarded attributes
+- **request:** introduce FormRequest
+- **request:** validate input using FormRequest
+- **request:** get routes data via request sing getRouter method
+- **request:** get nested input value via dot notation
+- **router:** support additional route context to 3rd params of addRoute method
+- **validation:** validate with custom attributes
+
 
 <a name="v1.5.0"></a>
 ## [v1.5.0] - 2022-06-14
