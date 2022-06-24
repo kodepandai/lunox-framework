@@ -48,7 +48,6 @@ program
   .action(() => {
     tryCommand("build development", async () => {
       console.log(blueBright("compiling ts file..."));
-      deletePath(path.join(process.cwd(), "node_modules/.vite"));
       watch();
     });
   });
