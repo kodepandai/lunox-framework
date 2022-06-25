@@ -1,4 +1,11 @@
-import { Model as ObjectionModel, StaticHookArguments } from "objection";
+import {
+  Model as ObjectionModel,
+  ModelOptions,
+  Pojo,
+  StaticHookArguments,
+} from "objection";
+import { Str } from "../../Support";
+import type { ObjectOf } from "../../Types";
 abstract class Model extends ObjectionModel {
   id?: number;
   created_at?: Date;
@@ -13,6 +20,8 @@ abstract class Model extends ObjectionModel {
   protected static table = "";
 
   protected static primaryKey = "id";
+
+  protected attributes: ObjectOf<any> = {};
 
   static get tableName() {
     return this.table;
@@ -38,6 +47,45 @@ abstract class Model extends ObjectionModel {
     }
 
     this.filterFillableAndGuardedInput(args.inputItems);
+  }
+
+  /**
+   * Parse external data to Model instance
+   * we can set custom attribute here by running setXxxAttribute methods.
+   */
+  $parseJson(json: Pojo, opt?: ModelOptions | undefined): Pojo {
+    json = super.$parseJson(json, opt);
+    get_class_methods(this)
+      .join(";")
+      .match(/(?<=(set))(.*?)(?=Attribute)/g)
+      ?.forEach((attribute) => {
+        const snakeAttribute = Str.snake(attribute);
+        (this as any)["set" + attribute + "Attribute"](json[snakeAttribute]);
+      });
+    json = { ...json, ...this.attributes };
+    return json;
+  }
+
+  /**
+   * Parse data from database to Model instance.
+   * We can get custom attribute here by running getXxxAttribute methods.
+   */
+  $parseDatabaseJson(json: Pojo): Pojo {
+    json = super.$parseDatabaseJson(json);
+    const jsonKeys = Object.keys(json);
+    get_class_methods(this)
+      .join(";")
+      .match(/(?<=(get))(.*?)(?=Attribute)/g)
+      ?.forEach((attribute) => {
+        const snakeAttribute = Str.snake(attribute);
+        // only run getXxxAtribute for selected columns.
+        if (jsonKeys.includes(snakeAttribute)) {
+          json[snakeAttribute] = (this as any)[
+            "get" + attribute + "Attribute"
+          ]();
+        }
+      });
+    return json;
   }
 
   protected static touchTimeStamps(inputItems: any[], key: string) {
