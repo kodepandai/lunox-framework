@@ -7,6 +7,7 @@
 - **request:** merge data to formRequest
 
 ### Features
+- **model:** handle get and set attributes
 - **model:** added fillable and guarded attributes
 - **request:** introduce FormRequest
 - **request:** validate input using FormRequest
@@ -14,6 +15,9 @@
 - **request:** get nested input value via dot notation
 - **router:** support additional route context to 3rd params of addRoute method
 - **validation:** validate with custom attributes
+
+### Performance Improvements
+- **view:** avoid errors data exposed twice on window._ctx
 
 
 <a name="v1.5.0"></a>
