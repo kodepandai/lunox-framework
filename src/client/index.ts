@@ -16,8 +16,7 @@ export const old = (key: string) => {
  * get errors validation
  */
 export const errors = (key?: string) => {
-  if (SSR) return key ? null : {};
-  return getValue(key, window._ctx?.errors);
+  return session('errors.'+key)
 };
 
 /**

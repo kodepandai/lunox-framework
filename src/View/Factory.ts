@@ -87,7 +87,6 @@ class Factory {
         window._ctx = {
           sessions: ${JSON.stringify(req.session().all(true))},
           old: ${JSON.stringify(req.session().old())},
-          errors: ${JSON.stringify(req.session().get("errors"))},
           csrf_token: "${req.session().token()}",
           data: ${JSON.stringify(this.data).replace(/\$\$/g, "$$$$$$")}, 
           view: "${this.path}"
