@@ -15,7 +15,6 @@ describe("Database Testing", () => {
 
   test("can use Model to access database", async () => {
     const users = await User.query().first();
-    console.log(JSON.stringify(users, null, 2));
     expect(users).toMatchObject({
       username: "user",
       email: "user@example.mail",
