@@ -111,6 +111,9 @@ abstract class Model extends ObjectionModel {
         set(v) {
           json[snakeAttribute] = v;
         },
+        
+        // this is necessary to make this property editable.
+        configurable: true 
       });
     });
     return json;

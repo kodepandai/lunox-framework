@@ -7,6 +7,7 @@
 - **request:** merge data to formRequest
 
 ### Features
+- **model:** added append attribute for appending custom attribute to external data
 - **model:** handle get and set attributes
 - **model:** added fillable and guarded attributes
 - **request:** introduce FormRequest
