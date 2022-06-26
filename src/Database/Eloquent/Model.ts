@@ -10,10 +10,16 @@ abstract class Model extends ObjectionModel {
   id?: number;
   created_at?: Date;
   updated_at?: Date;
+  [key: string]: any;
 
   protected static fillable: string[] = [];
 
   protected static guarded: string[] = [];
+
+  /**
+   * Append custom attributes to external data
+   */
+  protected static append: string[] = [];
 
   protected static timestamps = true;
 
@@ -21,7 +27,28 @@ abstract class Model extends ObjectionModel {
 
   protected static primaryKey = "id";
 
+  /**
+   * this to hold setter and getter methods
+   * eg: setXXXAttribute, getXXXAttribute
+   */
+  protected setters: string[] = [];
+  protected getters: string[] = [];
+
   protected attributes: ObjectOf<any> = {};
+
+  constructor() {
+    super();
+
+    // collect getter and setter methods.
+    this.setters =
+      get_class_methods(this)
+        .join(";")
+        .match(/(?<=(set))(.*?)(?=Attribute)/g) || [];
+    this.getters =
+      get_class_methods(this)
+        .join(";")
+        .match(/(?<=(get))(.*?)(?=Attribute)/g) || [];
+  }
 
   static get tableName() {
     return this.table;
@@ -55,13 +82,11 @@ abstract class Model extends ObjectionModel {
    */
   $parseJson(json: Pojo, opt?: ModelOptions | undefined): Pojo {
     json = super.$parseJson(json, opt);
-    get_class_methods(this)
-      .join(";")
-      .match(/(?<=(set))(.*?)(?=Attribute)/g)
-      ?.forEach((attribute) => {
-        const snakeAttribute = Str.snake(attribute);
-        (this as any)["set" + attribute + "Attribute"](json[snakeAttribute]);
-      });
+
+    this.setters.forEach((attribute) => {
+      const snakeAttribute = Str.snake(attribute);
+      this["set" + attribute + "Attribute"](json[snakeAttribute]);
+    });
     json = { ...json, ...this.attributes };
     return json;
   }
@@ -72,19 +97,50 @@ abstract class Model extends ObjectionModel {
    */
   $parseDatabaseJson(json: Pojo): Pojo {
     json = super.$parseDatabaseJson(json);
-    const jsonKeys = Object.keys(json);
-    get_class_methods(this)
-      .join(";")
-      .match(/(?<=(get))(.*?)(?=Attribute)/g)
-      ?.forEach((attribute) => {
-        const snakeAttribute = Str.snake(attribute);
-        // only run getXxxAtribute for selected columns.
-        if (jsonKeys.includes(snakeAttribute)) {
-          json[snakeAttribute] = (this as any)[
-            "get" + attribute + "Attribute"
-          ]();
-        }
+
+    // attach json to attributes, so it can be modified by user.
+    this.attributes = json;
+
+    this.getters.forEach((attribute) => {
+      const snakeAttribute = Str.snake(attribute);
+      // attach getter and setter to internal attribute
+      Object.defineProperty(this, snakeAttribute, {
+        // set getter using getXXXAttribute.
+        get: this["get" + attribute + "Attribute"],
+        // set setter to direct modify on attribute.
+        set(v) {
+          json[snakeAttribute] = v;
+        },
       });
+    });
+    return json;
+  }
+
+  /**
+   * Format data from internal to external
+   * this will run on when toJson method is called.
+   */
+  $formatJson(json: Pojo): Pojo {
+    json = super.$formatJson(json);
+    this.getters.forEach((attribute) => {
+      const jsonKeys = Object.keys(json);
+      const snakeAttribute = Str.snake(attribute);
+
+      // if attribute listed in append or attributes is real,
+      // just update attribute directly by run getXxxAttribute()
+      if (
+        (this.constructor as any).append.includes(snakeAttribute) ||
+        jsonKeys.includes(snakeAttribute)
+      ) {
+        json[snakeAttribute] = this["get" + attribute + "Attribute"]();
+      }
+    });
+
+    // delete attributes, getter and setter so not exposed to external data
+    delete json.attributes;
+    delete json.setters;
+    delete json.getters;
+
     return json;
   }
 

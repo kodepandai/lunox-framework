@@ -6,7 +6,8 @@ class DatabaseSeeder extends Seeder {
     await DB.table("users").insert({
       username: "user",
       email: "user@example.mail",
-      fullname: "John Doe",
+      firstname: "John",
+      lastname: "Doe",
       password: bcrypt.hashSync("password", bcrypt.genSaltSync(10)),
     });
   }

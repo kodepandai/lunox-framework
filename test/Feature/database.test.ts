@@ -10,16 +10,16 @@ describe("Database Testing", () => {
     expect(users).toMatchObject({
       username: "user",
       email: "user@example.mail",
-      fullname: "John Doe",
     });
   });
 
   test("can use Model to access database", async () => {
     const users = await User.query().first();
+    console.log(JSON.stringify(users, null, 2));
     expect(users).toMatchObject({
       username: "user",
       email: "user@example.mail",
-      fullname: "John Doe",
+      full_name: "John Doe", //custom attribute
     });
   });
 });

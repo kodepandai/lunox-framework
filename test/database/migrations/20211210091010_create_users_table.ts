@@ -11,7 +11,8 @@ export const up = function (db: Knex) {
     t.string("email").unique().notNullable();
     t.string("username").notNullable();
     t.string("password").notNullable();
-    t.string("fullname").nullable();
+    t.string("firstname").nullable();
+    t.string("lastname").nullable();
     t.string("phone").nullable();
     t.boolean("active").defaultTo(true);
     t.timestamps(true, true);
