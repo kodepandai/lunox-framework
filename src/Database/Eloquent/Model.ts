@@ -19,7 +19,7 @@ abstract class Model extends ObjectionModel {
   /**
    * Append custom attributes to external data
    */
-  protected static append: string[] = [];
+  protected static appends: string[] = [];
 
   protected static timestamps = true;
 
@@ -111,9 +111,9 @@ abstract class Model extends ObjectionModel {
         set(v) {
           json[snakeAttribute] = v;
         },
-        
+
         // this is necessary to make this property editable.
-        configurable: true 
+        configurable: true,
       });
     });
     return json;
@@ -126,16 +126,18 @@ abstract class Model extends ObjectionModel {
   $formatJson(json: Pojo): Pojo {
     json = super.$formatJson(json);
     this.getters.forEach((attribute) => {
-      const jsonKeys = Object.keys(json);
+      // get original database keys from json.attributes
+      const attributeKeys = Object.keys(json.attributes);
+
       const snakeAttribute = Str.snake(attribute);
 
-      // if attribute listed in append or attributes is real,
-      // just update attribute directly by run getXxxAttribute()
+      // if attribute listed in append or attribute is real,
+      // just update attribute directly by run getter
       if (
-        (this.constructor as any).append.includes(snakeAttribute) ||
-        jsonKeys.includes(snakeAttribute)
+        (this.constructor as any).appends.includes(snakeAttribute) ||
+        attributeKeys.includes(snakeAttribute)
       ) {
-        json[snakeAttribute] = this["get" + attribute + "Attribute"]();
+        json[snakeAttribute] = this[snakeAttribute];
       }
     });
 

@@ -4,12 +4,16 @@ class User extends Traitable(Model).use(Authenticatable) {
   firstname!: string;
   lastname!: string;
 
-  protected static append = ["full_name"];
+  protected static appends = ["full_name"];
 
   protected static table = "users";
 
   public getFullNameAttribute() {
     return this.firstname + " " + this.lastname;
+  }
+
+  public getFirstnameAttribute() {
+    return "Foo";
   }
 }
 

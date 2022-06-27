@@ -6,19 +6,28 @@ TestCase.make();
 
 describe("Database Testing", () => {
   test("can use query builder to access database", async () => {
-    const users = await DB.table("users").first();
-    expect(users).toMatchObject({
+    const user = await DB.table("users").first();
+    expect(user).toMatchObject({
       username: "user",
       email: "user@example.mail",
     });
   });
 
   test("can use Model to access database", async () => {
-    const users = await User.query().first();
-    expect(users).toMatchObject({
+    const user = (await User.query().first()) || {};
+
+    // appended attributes should available on json.
+    expect(Object.keys(JSON.parse(JSON.stringify(user)))).toContain(
+      "full_name"
+    );
+    // but not in user instance
+    expect(user).not.toContain("full_name");
+
+    expect(user).toMatchObject({
       username: "user",
       email: "user@example.mail",
-      full_name: "John Doe", //custom attribute
+      firstname: "Foo", //firstname is overided by getter
+      full_name: "Foo Doe", //custom attribute
     });
   });
 });
