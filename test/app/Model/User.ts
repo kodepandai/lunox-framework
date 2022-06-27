@@ -8,6 +8,8 @@ class User extends Traitable(Model).use(Authenticatable) {
 
   protected static table = "users";
 
+  protected static hidden = ["password"];
+
   public getFullNameAttribute() {
     return this.firstname + " " + this.lastname;
   }

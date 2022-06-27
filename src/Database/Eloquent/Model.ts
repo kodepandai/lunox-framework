@@ -21,6 +21,11 @@ abstract class Model extends ObjectionModel {
    */
   protected static appends: string[] = [];
 
+  /**
+   * Hide attributes from external data.
+   */
+  protected static hidden: string[] = [];
+
   protected static timestamps = true;
 
   protected static table = "";
@@ -145,6 +150,12 @@ abstract class Model extends ObjectionModel {
     delete json.attributes;
     delete json.setters;
     delete json.getters;
+
+    // delete hidden attributes from external json.
+    // but still available on Model instance.
+    (this.constructor as any).hidden.forEach((h: string) => {
+      delete json[h];
+    });
 
     return json;
   }

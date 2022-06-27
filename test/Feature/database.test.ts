@@ -23,6 +23,13 @@ describe("Database Testing", () => {
     // but not in user instance
     expect(user).not.toContain("full_name");
 
+    // hidden attributes should hidden on json.
+    expect(Object.keys(JSON.parse(JSON.stringify(user)))).not.toContain(
+      "password"
+    );
+    // but still available in user instance.
+    expect(Object.keys(user)).toContain("password");
+
     expect(user).toMatchObject({
       username: "user",
       email: "user@example.mail",
