@@ -25,7 +25,7 @@ program
     tryCommand("build production", async () => {
       deletePath(path.join(process.cwd(), "dist"));
       console.log(blueBright("compiling ts file..."));
-      await bundleTs();
+      await bundleTs(false);
       console.log(green("ts file compiled to ./dist folder\n"));
       console.log(blueBright("building server side view components..."));
       await buildServer();
@@ -53,12 +53,24 @@ program
   });
 
 program
+  .command("dev")
+  .description("build lunox application for development")
+  .action(async () => {
+    tryCommand("build development", async () => {
+      deletePath(path.join(process.cwd(), "dist"));
+      console.log(blueBright("compiling ts file..."));
+      await bundleTs(true);
+    });
+  });
+
+program
   .command("serve")
   .description("serve lunox application for production")
-  .action(async () => {
+  .option("--dev", "serve in development mode")
+  .action(async (options) => {
     try {
       console.log(blueBright("serving application..."));
-      await serve();
+      await serve(options.dev);
     } catch (error) {
       if ((error as unknown as string).includes("ENOENT")) {
         console.log(

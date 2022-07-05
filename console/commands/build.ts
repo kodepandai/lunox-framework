@@ -4,8 +4,12 @@ import { runCommand } from "./runner";
 const setEnv = (key: string, value: string) =>
   process.platform == "win32" ? `set ${key}=${value}&&` : `${key}=${value}`;
 
-const bundleTs = () =>
-  runCommand(`${setEnv("NODE_ENV", "production")} rollup -c`);
+const bundleTs = (dev: boolean) => {
+  if (dev) {
+    return runCommand("rollup -cw");
+  }
+  return runCommand(`${setEnv("NODE_ENV", "production")} rollup -c`);
+};
 
 const buildServer = () =>
   runCommand(
@@ -21,14 +25,18 @@ const buildClient = () =>
   );
 
 const watch = () => {
-  runCommand("rollup -cw", true);
+  runCommand("rollup -cw");
   setTimeout(() => {
-    runCommand("nodemon -q -w dist dist/index.js", true);
+    runCommand("nodemon -q -w dist dist/index.js");
   }, 3000);
 };
 
-const serve = () =>
-  runCommand(`${setEnv("NODE_ENV", "production")} node dist/index.js`, true);
+const serve = (dev: boolean) => {
+  if (dev) {
+    return runCommand("nodemon -q -w dist dist/index.js");
+  }
+  return runCommand(`${setEnv("NODE_ENV", "production")} node dist/index.js`);
+};
 
 const deletePath = (path: string) => {
   if (fs.existsSync(path)) {
