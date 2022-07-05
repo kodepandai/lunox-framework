@@ -16,6 +16,7 @@
     "dist/*",
     "global.d.ts",
     "client.d.ts",
+    "build.d.ts",
     "stub/*"
   ],
   "scripts": {
