@@ -86,4 +86,16 @@ export default [
       "fs",
     ],
   },
+  {
+    input: "src/build/index.ts",
+    output: {
+      file: "dist/build/index.cjs",
+      format: "cjs",
+    },
+    plugins: [
+      ts({ outDir: "build", declaration: true, rootDir: "src/build" }),
+      production && terser(),
+    ],
+    external: [],
+  },
 ];

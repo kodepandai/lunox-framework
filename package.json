@@ -9,7 +9,8 @@
   "exports": {
     ".": "./dist/index.js",
     "./dist/*": "./dist/*",
-    "./client": "./dist/client/index.js"
+    "./client": "./dist/client/index.js",
+    "./build": "./dist/build/index.cjs"
   },
   "files": [
     "dist/*",

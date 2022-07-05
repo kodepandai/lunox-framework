@@ -9,7 +9,7 @@ if (!command) {
   process.exit(1);
 }
 
-function deleteHelper(path) {
+function deletePath(path) {
   if (fs.existsSync(path)) {
     const lstat = fs.lstatSync(path);
     if (lstat.isFile()) {
@@ -17,7 +17,7 @@ function deleteHelper(path) {
     } else {
       const files = fs.readdirSync(path);
       files.forEach((file) => {
-        deleteHelper(`${path}/${file}`);
+        deletePath(`${path}/${file}`);
       });
       fs.rmdirSync(path);
     }
@@ -28,7 +28,7 @@ let commandResult;
 
 switch (command) {
   case "clean":
-    deleteHelper("dist");
+    deletePath("dist");
     break;
   case "build":
     switch (process.platform) {
@@ -55,7 +55,8 @@ switch (command) {
 
     break;
   case "fix":
-    deleteHelper("dist/Types.js");
+    deletePath("dist/Types.js");
+    deletePath("dist/build/index.js");
     break;
   default:
     console.log("Unknown command");
