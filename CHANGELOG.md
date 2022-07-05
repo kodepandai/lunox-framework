@@ -1,12 +1,21 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v1.6.0"></a>
+## [v1.6.0] - 2022-07-05
 ### Bug Fixes
 - **helpers:** get_class_methods cannot collect methods from multiple traits
 - **middleware:** make sure controller middlewares are excecuted after route middlewares
 - **request:** merge data to formRequest
 
+### Code Refactoring
+- **model:** rename append to appends
+
 ### Features
+- **build:** `serve` method for serving application after rollup build finished
+- **cli:** `dev` command for build application for development without watch
+- **model:** added hidden attribute for hide attributes from json
 - **model:** added append attribute for appending custom attribute to external data
 - **model:** handle get and set attributes
 - **model:** added fillable and guarded attributes
@@ -296,7 +305,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.6.0...HEAD
+[v1.6.0]: https://github.com/kodepintar/lunox-framework/compare/v1.5.0...v1.6.0
 [v1.5.0]: https://github.com/kodepintar/lunox-framework/compare/v1.4.0...v1.5.0
 [v1.4.0]: https://github.com/kodepintar/lunox-framework/compare/v1.3.0...v1.4.0
 [v1.3.0]: https://github.com/kodepintar/lunox-framework/compare/v1.2.2...v1.3.0
