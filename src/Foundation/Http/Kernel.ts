@@ -70,6 +70,21 @@ class Kernel {
       },
     });
 
+    // override server parser
+    const originalParser = server.parse;
+    server.parse = (req) => {
+      const parsedReq = originalParser(req);
+
+      // just return parsed request if method is get
+      if (req.method?.toLocaleLowerCase() == "get") return parsedReq;
+
+      // handle method override if provided by client.
+      if (parsedReq.query?._method) {
+        req.method = (parsedReq.query._method as string).toUpperCase();
+      }
+      return parsedReq;
+    };
+
     this.app.instance("server", server);
 
     await this.app.bootstrapWith(this.bootstrappers);

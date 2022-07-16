@@ -96,6 +96,6 @@ export default [
       ts({ outDir: "build", declaration: true, rootDir: "src/build" }),
       production && terser(),
     ],
-    external: [],
+    external: ["child_process"],
   },
 ];
