@@ -1,6 +1,6 @@
 {
   "name": "lunox",
-  "version": "1.6.0",
+  "version": "1.7.0-beta",
   "description": "Laravel-Flavoured NodeJs framework",
   "bin": {
     "lunox": "./bin/lunox.cjs"
