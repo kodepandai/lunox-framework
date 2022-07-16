@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Features
+- **kernel:** added route method override via query
+
 
 <a name="v1.6.0"></a>
 ## [v1.6.0] - 2022-07-05
