@@ -64,21 +64,33 @@ abstract class Model extends ObjectionModel {
   }
 
   static beforeInsert(args: StaticHookArguments<any, any>) {
+    this.filterFillableAndGuardedInput(args.inputItems);
+
     // if timestamps is true, set created_at of all input to current date.
+    // this is must be done after input filtered.
     if (this.timestamps) {
       this.touchTimeStamps(args.inputItems, "created_at");
     }
-
-    this.filterFillableAndGuardedInput(args.inputItems);
   }
 
   static beforeUpdate(args: StaticHookArguments<any, any>) {
+    this.filterFillableAndGuardedInput(args.inputItems);
+
     // if timestamps is true, set updated_at of all input to current date.
+    // this is must be done after input filtered.
     if (this.timestamps) {
       this.touchTimeStamps(args.inputItems, "updated_at");
     }
 
-    this.filterFillableAndGuardedInput(args.inputItems);
+    console.log(args.inputItems);
+  }
+
+  /**
+   * get fillable attributes.
+   * This is usefull when client want to override this via Trait
+   */
+  static getFillableAttributes() {
+    return this.fillable;
   }
 
   /**
@@ -176,7 +188,7 @@ abstract class Model extends ObjectionModel {
     if (this.fillable.length > 0) {
       inputItems.map((input) => {
         Object.keys(input).forEach((key) => {
-          if (!this.fillable.includes(key)) {
+          if (!this.getFillableAttributes().includes(key)) {
             delete input[key];
           }
         });
