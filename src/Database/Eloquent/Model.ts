@@ -81,8 +81,6 @@ abstract class Model extends ObjectionModel {
     if (this.timestamps) {
       this.touchTimeStamps(args.inputItems, "updated_at");
     }
-
-    console.log(args.inputItems);
   }
 
   /**

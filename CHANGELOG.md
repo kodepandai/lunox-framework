@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- **database:** model cannot update timestamps if fillable array is set
+
 ### Features
 - **kernel:** added route method override via query
 
