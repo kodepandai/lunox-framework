@@ -1,10 +1,10 @@
 import { Authenticatable, Model, Traitable } from "../../../src";
+import bcrypt from "bcryptjs";
 
 class User extends Traitable(Model).use(Authenticatable) {
   firstname!: string;
   lastname!: string;
-
-  protected static appends = ["full_name"];
+  password!: string;
 
   protected static table = "users";
 
@@ -15,7 +15,17 @@ class User extends Traitable(Model).use(Authenticatable) {
   }
 
   public getFirstnameAttribute() {
-    return "Foo";
+    return "Mr. " + this.attributes["firstname"];
+  }
+
+  public setPasswordAttribute(val: string) {
+    if (!val) return;
+    this.attributes["password"] = bcrypt.hashSync(val, bcrypt.genSaltSync(10));
+  }
+
+  // this is for override appends on testing
+  public static setAppends(val: string[]) {
+    this.appends = val;
   }
 }
 

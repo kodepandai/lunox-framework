@@ -1,5 +1,4 @@
 import { DB, Seeder } from "../../../src";
-import bcrypt from "bcryptjs";
 
 class DatabaseSeeder extends Seeder {
   public async run() {
@@ -8,7 +7,7 @@ class DatabaseSeeder extends Seeder {
       email: "user@example.mail",
       firstname: "John",
       lastname: "Doe",
-      password: bcrypt.hashSync("password", bcrypt.genSaltSync(10)),
+      password: "password",
     });
   }
 }
