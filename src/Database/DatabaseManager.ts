@@ -100,12 +100,16 @@ class DatabaseManager {
     );
   }
 
-  public table(table: string) {
-    return this.db.table(table);
+  public get table() {
+    return this.db.table.bind(this.db);
   }
 
-  public raw(value: Knex.Value) {
-    return this.db.raw(value);
+  public get raw() {
+    return this.db.raw.bind(this.db);
+  }
+
+  public get transaction() {
+    return this.db.transaction.bind(this.db);
   }
 
   public getDb(): Knex {
