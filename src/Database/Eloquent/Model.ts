@@ -1,13 +1,13 @@
 import {
+  MaybeCompositeId,
   Model as ObjectionModel,
-  ModelOptions,
   Pojo,
   StaticHookArguments,
 } from "objection";
 import { Str } from "../../Support";
 import type { ObjectOf } from "../../Types";
 abstract class Model extends ObjectionModel {
-  id?: number;
+  id!: MaybeCompositeId;
   created_at?: Date;
   updated_at?: Date;
   [key: string]: any;
@@ -36,23 +36,50 @@ abstract class Model extends ObjectionModel {
    * this to hold setter and getter methods
    * eg: setXXXAttribute, getXXXAttribute
    */
-  protected setters: string[] = [];
-  protected getters: string[] = [];
+  #setters: string[] = [];
+  #getters: string[] = [];
 
   protected attributes: ObjectOf<any> = {};
+
+  // indicates that instance is from DB.
+  #fromDb = false;
+
+  // to store original attributes from db.
+  #original: ObjectOf<any> = {};
 
   constructor() {
     super();
 
     // collect getter and setter methods.
-    this.setters =
+    this.#setters =
       get_class_methods(this)
         .join(";")
         .match(/(?<=(set))(.*?)(?=Attribute)/g) || [];
-    this.getters =
+    this.#getters =
       get_class_methods(this)
         .join(";")
         .match(/(?<=(get))(.*?)(?=Attribute)/g) || [];
+
+    // apply getters and setters to attributes
+    [...this.#getters, ...this.#setters].forEach((attribute) => {
+      const snakeAttribute = Str.snake(attribute);
+      Object.defineProperty(this, snakeAttribute, {
+        get: () => {
+          if (this.#getters.includes(attribute)) {
+            return this[`get${attribute}Attribute`]();
+          }
+          return this.attributes[snakeAttribute];
+        },
+        set: (val) => {
+          if (this.#setters.includes(attribute)) {
+            return this[`set${attribute}Attribute`](val);
+          }
+          this.attributes[snakeAttribute] = val;
+        },
+        enumerable: (this.constructor as any).appends.includes(snakeAttribute),
+        configurable: true,
+      });
+    });
   }
 
   static get tableName() {
@@ -64,7 +91,7 @@ abstract class Model extends ObjectionModel {
   }
 
   static beforeInsert(args: StaticHookArguments<any, any>) {
-    this.filterFillableAndGuardedInput(args.inputItems);
+    this.filterInput(args.inputItems);
 
     // if timestamps is true, set created_at of all input to current date.
     // this is must be done after input filtered.
@@ -74,7 +101,7 @@ abstract class Model extends ObjectionModel {
   }
 
   static beforeUpdate(args: StaticHookArguments<any, any>) {
-    this.filterFillableAndGuardedInput(args.inputItems);
+    this.filterInput(args.inputItems);
 
     // if timestamps is true, set updated_at of all input to current date.
     // this is must be done after input filtered.
@@ -92,46 +119,33 @@ abstract class Model extends ObjectionModel {
   }
 
   /**
-   * Parse external data to Model instance
-   * we can set custom attribute here by running setXxxAttribute methods.
-   */
-  $parseJson(json: Pojo, opt?: ModelOptions | undefined): Pojo {
-    json = super.$parseJson(json, opt);
-
-    this.setters.forEach((attribute) => {
-      const snakeAttribute = Str.snake(attribute);
-      this["set" + attribute + "Attribute"](json[snakeAttribute]);
-    });
-    json = { ...json, ...this.attributes };
-    return json;
-  }
-
-  /**
    * Parse data from database to Model instance.
    * We can get custom attribute here by running getXxxAttribute methods.
    */
   $parseDatabaseJson(json: Pojo): Pojo {
     json = super.$parseDatabaseJson(json);
 
+    this.#fromDb = true;
+    // set original json, so we can remove non original later.
+    this.#original = { ...json };
     // attach json to attributes, so it can be modified by user.
-    this.attributes = json;
+    this.attributes = { ...json };
 
-    this.getters.forEach((attribute) => {
-      const snakeAttribute = Str.snake(attribute);
-      // attach getter and setter to internal attribute
-      Object.defineProperty(this, snakeAttribute, {
-        // set getter using getXXXAttribute.
-        get: this["get" + attribute + "Attribute"],
-        // set setter to direct modify on attribute.
-        set(v) {
-          json[snakeAttribute] = v;
-        },
-
-        // this is necessary to make this property editable.
-        configurable: true,
+    // set enumerable true if getter or setter keys includes in attributes.
+    [...this.#getters, ...this.#setters]
+      .map((key) => Str.snake(key))
+      .forEach((attribute) => {
+        if (
+          Object.keys(this.attributes).includes(attribute) &&
+          !(this.constructor as any).hidden.includes(attribute)
+        ) {
+          Object.defineProperty(this, attribute, {
+            enumerable: true,
+          });
+        }
       });
-    });
-    return json;
+
+    return this.attributes;
   }
 
   /**
@@ -140,13 +154,13 @@ abstract class Model extends ObjectionModel {
    */
   $formatJson(json: Pojo): Pojo {
     json = super.$formatJson(json);
-    this.getters.forEach((attribute) => {
+    this.#getters.forEach((attribute) => {
       // get original database keys from json.attributes
       const attributeKeys = Object.keys(json.attributes);
 
       const snakeAttribute = Str.snake(attribute);
 
-      // if attribute listed in append or attribute is real,
+      // if attribute listed in appends or attribute is real,
       // just update attribute directly by run getter
       if (
         (this.constructor as any).appends.includes(snakeAttribute) ||
@@ -156,16 +170,28 @@ abstract class Model extends ObjectionModel {
       }
     });
 
-    // delete attributes, getter and setter so not exposed to external data
+    // delete attributes, so not exposed to external data
     delete json.attributes;
-    delete json.setters;
-    delete json.getters;
 
-    // delete hidden attributes from external json.
-    // but still available on Model instance.
-    (this.constructor as any).hidden.forEach((h: string) => {
-      delete json[h];
-    });
+    return json;
+  }
+
+  /**
+   * Format json from internal to database.
+   */
+  $formatDatabaseJson(json: Pojo): Pojo {
+    json = super.$formatDatabaseJson(json);
+    json = { ...json, ...json.attributes };
+
+    //remove non original attributes.
+    const originalKeys = Object.keys(this.#original);
+    if (originalKeys.length > 0) {
+      for (const key in json) {
+        if (!originalKeys.includes(key)) {
+          delete json[key];
+        }
+      }
+    }
 
     return json;
   }
@@ -180,10 +206,22 @@ abstract class Model extends ObjectionModel {
   /**
    * filter input from fillable and guarded value.
    */
-  protected static filterFillableAndGuardedInput(inputItems: any[]) {
+  protected static filterInput(inputItems: any[]) {
+    let isSaveAction = false;
+    inputItems.map((input: Model) => {
+      if (Object.keys(input).includes("_isSaveAction")) {
+        isSaveAction = input._isSaveAction;
+        delete input._isSaveAction;
+      }
+      if (Object.keys(input).includes("_original")) {
+        input.setOriginal(input._original);
+        delete input._original;
+      }
+    });
+
     // if fillable array is set,
     // reject input that not listed in fillable array
-    if (this.fillable.length > 0) {
+    if (this.fillable.length > 0 && !isSaveAction) {
       inputItems.map((input) => {
         Object.keys(input).forEach((key) => {
           if (!this.getFillableAttributes().includes(key)) {
@@ -196,7 +234,7 @@ abstract class Model extends ObjectionModel {
 
     // if guarded array is set,
     // reject all input that listed in guarded array.
-    if (this.guarded.length > 0) {
+    if (this.guarded.length > 0 && !isSaveAction) {
       inputItems.map((input) => {
         this.guarded.forEach((key) => {
           delete input[key];
@@ -204,6 +242,42 @@ abstract class Model extends ObjectionModel {
         return input;
       });
     }
+  }
+
+  public async save() {
+    let data: ObjectOf<any> = {};
+    const mode = this.#fromDb ? "patch" : "insert";
+
+    if (mode == "patch") {
+      Object.keys(this.attributes).forEach((key) => {
+        if (this.#getters.includes(Str.studly(key))) {
+          data[key] = this.attributes[key];
+        } else {
+          data[key] = this[key];
+        }
+      });
+    } else {
+      data = { ...this };
+      Object.keys(data).forEach((key) => {
+        if (this.#getters.includes(Str.studly(key))) {
+          delete data[key];
+        }
+      });
+      data = { ...data, ...this.attributes };
+      this.#original = data;
+      delete this.#original.attributes;
+    }
+    data._original = this.#original;
+    data._isSaveAction = true;
+    return await this.$query()[mode](data);
+  }
+
+  public getOriginal() {
+    return this.#original;
+  }
+
+  public setOriginal(original: any) {
+    this.#original = original;
   }
 }
 

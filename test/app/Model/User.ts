@@ -18,6 +18,10 @@ class User extends Traitable(Model).use(Authenticatable) {
     return "Mr. " + this.attributes["firstname"];
   }
 
+  public setLastnameAttribute(val: string) {
+    this.attributes["lastname"] = val;
+  }
+
   public setPasswordAttribute(val: string) {
     if (!val) return;
     this.attributes["password"] = bcrypt.hashSync(val, bcrypt.genSaltSync(10));

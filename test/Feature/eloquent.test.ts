@@ -47,4 +47,29 @@ describe("eloquent model feature test", () => {
     }
   });
 
+  it("can update model via save method", async () => {
+    const user = await User.query().first();
+    if (user) {
+      user.firstname = "Akhmad";
+      user.lastname = "Salafudin";
+      await user.save();
+      expect(user.full_name).toBe("Mr. Akhmad Salafudin");
+      const updatedUser = await User.query().findById(user.id);
+      expect(updatedUser?.full_name).toBe("Mr. Akhmad Salafudin");
+    }
+  });
+
+  it("can insert model via save method", async () => {
+    const user = new User();
+    user.firstname = "Kode";
+    user.lastname = "Pandai";
+    user.email = "kodepandaiofficial@gmail.com";
+    user.username = "kodepandai";
+    user.password = "pandai";
+    expect(user.full_name).toBe("Mr. Kode Pandai");
+    await user.save();
+    expect(user.id).toBe(2);
+    const latestUser = await User.query().orderBy("id", "DESC").first();
+    expect(latestUser?.id).toBe(2);
+  });
 });
