@@ -22,7 +22,7 @@ export const errors = (key?: string) => {
 /**
  * get sessions
  */
-export const session = (key: string) => {
+export const session = (key?: string) => {
   if (SSR) return null;
   return getValue(key, window._ctx?.sessions);
 };
