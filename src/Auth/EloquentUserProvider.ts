@@ -23,7 +23,8 @@ class EloquentUserProvider implements UserProvider {
     const timestamps = (user.constructor as any).timestamps;
     (user.constructor as any).timestamps = false;
 
-    await user.$query().patch({ [user.getRememberTokenName()]: token });
+    user[user.getRememberTokenName()] = token;
+    await user.save();
 
     // restore timestamps to default value
     (user.constructor as any).timestamps = timestamps;
