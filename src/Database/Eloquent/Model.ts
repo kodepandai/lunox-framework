@@ -71,7 +71,11 @@ abstract class Model extends ObjectionModel {
           return this.attributes[snakeAttribute];
         },
         set: (val) => {
-          if (this.#setters.includes(attribute)) {
+          // avoid same value is reassigned to same attributes.
+          if (
+            this.#setters.includes(attribute) &&
+            val !== this.attributes[Str.snake(attribute)]
+          ) {
             return this[`set${attribute}Attribute`](val);
           }
           this.attributes[snakeAttribute] = val;
@@ -97,6 +101,7 @@ abstract class Model extends ObjectionModel {
     // this is must be done after input filtered.
     if (this.timestamps) {
       this.touchTimeStamps(args.inputItems, "created_at");
+      this.touchTimeStamps(args.inputItems, "updated_at");
     }
   }
 
@@ -108,14 +113,6 @@ abstract class Model extends ObjectionModel {
     if (this.timestamps) {
       this.touchTimeStamps(args.inputItems, "updated_at");
     }
-  }
-
-  /**
-   * get fillable attributes.
-   * This is usefull when client want to override this via Trait
-   */
-  static getFillableAttributes() {
-    return this.fillable;
   }
 
   /**
@@ -193,6 +190,9 @@ abstract class Model extends ObjectionModel {
       }
     }
 
+    // this is necessary for insert action
+    delete json.attributes;
+
     return json;
   }
 
@@ -217,6 +217,7 @@ abstract class Model extends ObjectionModel {
         input.setOriginal(input._original);
         delete input._original;
       }
+      return input;
     });
 
     // if fillable array is set,
@@ -224,7 +225,8 @@ abstract class Model extends ObjectionModel {
     if (this.fillable.length > 0 && !isSaveAction) {
       inputItems.map((input) => {
         Object.keys(input).forEach((key) => {
-          if (!this.getFillableAttributes().includes(key)) {
+          if (key == "attributes") return input;
+          if (!this.fillable.includes(key)) {
             delete input[key];
           }
         });
@@ -264,7 +266,7 @@ abstract class Model extends ObjectionModel {
         }
       });
       data = { ...data, ...this.attributes };
-      this.#original = data;
+      this.#original = { ...data };
       delete this.#original.attributes;
     }
     data._original = this.#original;

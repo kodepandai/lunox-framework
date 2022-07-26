@@ -1,8 +1,9 @@
-import { DB, Seeder } from "../../../src";
+import { Seeder } from "../../../src";
+import User from "../../app/Model/User";
 
 class DatabaseSeeder extends Seeder {
   public async run() {
-    await DB.table("users").insert({
+    await User.query().insert({
       username: "user",
       email: "user@example.mail",
       firstname: "John",

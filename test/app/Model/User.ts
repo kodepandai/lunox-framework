@@ -10,6 +10,14 @@ class User extends Traitable(Model).use(Authenticatable) {
 
   protected static hidden = ["password"];
 
+  protected static fillable = [
+    "firstname",
+    "lastname",
+    "username",
+    "email",
+    "password",
+  ];
+
   public getFullNameAttribute() {
     return this.firstname + " " + this.lastname;
   }

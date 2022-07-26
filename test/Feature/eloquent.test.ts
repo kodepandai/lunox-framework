@@ -1,5 +1,6 @@
 import User from "../app/Model/User";
 import TestCase from "../TestCase";
+import bcrypt from "bcryptjs";
 
 TestCase.make();
 
@@ -66,10 +67,32 @@ describe("eloquent model feature test", () => {
     user.email = "kodepandaiofficial@gmail.com";
     user.username = "kodepandai";
     user.password = "pandai";
+    expect(bcrypt.compareSync("pandai", user.password)).toBeTruthy();
     expect(user.full_name).toBe("Mr. Kode Pandai");
     await user.save();
     expect(user.id).toBe(2);
     const latestUser = await User.query().orderBy("id", "DESC").first();
     expect(latestUser?.id).toBe(2);
+    expect(bcrypt.compareSync("pandai", latestUser?.password as string));
+  });
+
+  it("can insert model to database", async () => {
+    const inserted = await User.query().insert({
+      username: "user2",
+      email: "user2@example.mail",
+      firstname: "John",
+      lastname: "Wick",
+      password: "password",
+    });
+
+    expect(inserted.id).toBe(3);
+    expect(
+      bcrypt.compareSync("password", inserted.password as string)
+    ).toBeTruthy();
+    const latestUser = await User.query().orderBy("id", "DESC").first();
+    expect(latestUser?.id).toBe(3);
+    expect(
+      bcrypt.compareSync("password", latestUser?.password as string)
+    ).toBeTruthy();
   });
 });

@@ -6,11 +6,6 @@ const Authenticatable: Trait<typeof Model> = (s) =>
     protected static rememberTokenName = "remember_token";
     password!: string;
 
-    public static getFillableAttributes(): string[] {
-      // add rememberToken to fillable attributes.
-      return [...this.fillable, this.prototype.getRememberTokenName()];
-    }
-
     public getAuthPassword() {
       return this.password;
     }
