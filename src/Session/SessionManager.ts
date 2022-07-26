@@ -44,6 +44,13 @@ class SessionManager {
     );
   }
 
+  /**
+   * get flashed session.
+   */
+  public getFlashed() {
+    return this.session.__session || {};
+  }
+
   public old(key?: string) {
     delete this.session.__old?._token;
     if (!key) return this.session.__old;
@@ -73,6 +80,14 @@ class SessionManager {
 
   public put(key: string, value: any) {
     this.session[key] = value;
+  }
+
+  /**
+   * flash session to view. Will be removed on next request.
+   */
+  public flash(key: string, value: any) {
+    const __session = this.getFlashed();
+    return this.put("__session", { ...__session, [key]: value });
   }
 
   public has(key: string): boolean {

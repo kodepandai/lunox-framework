@@ -34,7 +34,9 @@ class RedirectResponse extends Response {
       });
       req.session().put("__old", inputs);
     }
-    req.session().put("__session", this.session);
+    // merge flashed session and withInput session
+    const __session = req.session().getFlashed();
+    req.session().put("__session", { ...__session, ...this.session });
     return req;
   }
 
