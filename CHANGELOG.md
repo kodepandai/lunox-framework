@@ -1,11 +1,22 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v1.7.0"></a>
+## [v1.7.0] - 2022-08-03
 ### Bug Fixes
+- **database:** model setter run accidentally when read from database
 - **database:** model cannot update timestamps if fillable array is set
 
+### Code Refactoring
+- **auth:** use Model.save method instead of patch when update remember token
+
 ### Features
+- **client:** `session` helper without params will get all session
+- **database:** added eloquent model `save` method
+- **database:** expose knex transaction to `DatabaseManager`
 - **kernel:** added route method override via query
+- **session:** added `flash` method to flash data to view
 
 
 <a name="v1.6.0"></a>
@@ -311,7 +322,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.7.0...HEAD
+[v1.7.0]: https://github.com/kodepintar/lunox-framework/compare/v1.6.0...v1.7.0
 [v1.6.0]: https://github.com/kodepintar/lunox-framework/compare/v1.5.0...v1.6.0
 [v1.5.0]: https://github.com/kodepintar/lunox-framework/compare/v1.4.0...v1.5.0
 [v1.4.0]: https://github.com/kodepintar/lunox-framework/compare/v1.3.0...v1.4.0
