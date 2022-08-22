@@ -156,7 +156,7 @@ class Kernel {
         );
 
         server[route.method](
-          path.join(route.uri),
+          route.uri,
           (req, res, next) => {
             ((req as any)._httpRequest as Request).setRouter(route);
             return next();
