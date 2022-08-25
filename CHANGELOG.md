@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v1.7.1"></a>
+## [v1.7.1] - 2022-08-22
+### Bug Fixes
+- **router:** dynamic route not working on windows
+
+
 <a name="v1.7.0"></a>
 ## [v1.7.0] - 2022-08-03
 ### Bug Fixes
@@ -322,7 +328,8 @@
 - initialize lunox package
 
 
-[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/kodepintar/lunox-framework/compare/v1.7.1...HEAD
+[v1.7.1]: https://github.com/kodepintar/lunox-framework/compare/v1.7.0...v1.7.1
 [v1.7.0]: https://github.com/kodepintar/lunox-framework/compare/v1.6.0...v1.7.0
 [v1.6.0]: https://github.com/kodepintar/lunox-framework/compare/v1.5.0...v1.6.0
 [v1.5.0]: https://github.com/kodepintar/lunox-framework/compare/v1.4.0...v1.5.0
