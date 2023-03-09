@@ -1,6 +1,1 @@
 node_modules/
-dist/
-bin/
-.chglog/
-coverage/
-test/database/database.sqlite

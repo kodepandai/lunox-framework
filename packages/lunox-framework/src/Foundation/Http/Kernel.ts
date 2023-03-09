@@ -1,6 +1,5 @@
 import { STATUS_CODES } from "http";
 import sirv from "sirv";
-import path from "path";
 import polka, {
   Request as ServerRequest,
   NextHandler,

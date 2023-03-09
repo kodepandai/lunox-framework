@@ -6,9 +6,9 @@ import type { ObjectOf } from "../Types";
 class Command {
   protected lunox!: Application;
 
-  SUCCESS: 0 = 0;
-  FAILURE: 1 = 1;
-  INVALID: 2 = 2;
+  SUCCESS = 0 as const;
+  FAILURE = 1 as const;
+  INVALID = 2 as const;
 
   protected signature = "";
   protected description = "";

@@ -5,7 +5,7 @@ export interface AppConfig {
   env: string;
   key: string;
   cipher: CipherTypes;
-  providers: typeof ServiceProvider[];
+  providers: (typeof ServiceProvider)[];
 }
 
 export interface SessionConfig {
